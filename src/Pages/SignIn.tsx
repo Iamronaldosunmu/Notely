@@ -1,5 +1,6 @@
 import React from 'react';
 import InputGroup from '../Components/InputGroup';
+import SubmitButton from '../Components/SubmitButton';
 import Book from '../images/notebook-iso-color.png';
 
 const SignIn : React.FC = () => {
@@ -11,10 +12,13 @@ const SignIn : React.FC = () => {
             <aside className="hidden items-center justify-center bg-[#8329BE] h-screen rounded-tr-[100px] rounded-br-[100px] lg:flex">
                 <img className="max-w-[607px]" src={Book} alt="purple book"/>
             </aside>
-            <main className="h-screen">
-                <form className="mx-auto max-w-[450px]">
-                    <h1 className="font-black text-[72px] font-['Lato'] mb-[40px]">Sign In</h1>
+            <main className="h-screen flex items-center justify-center">
+                <form className="mx-auto max-w-[500px] flex flex-col w-full px-[30px]">
+                    <h1 className="font-black text-[72px] font-['Lato'] mb-[25px]">Sign In</h1>
                     <InputGroup id="email" placeholder="Enter your email address" label="Email address"/>
+                    <InputGroup id="password" placeholder="Enter your password" label="Password" type="password"/>
+                    <SubmitButton text="Sign In"/>
+                    <p className="text-center text-[18px] mt-[25px]">Don't have an account? <span className="font-bold">Sign Up</span></p>
                 </form>
             </main>
         </div>
