@@ -1,12 +1,19 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-
-function App() {
+import {Route, Switch} from 'react-router-dom';
+import SignUp from './Pages/SignUp';
+import SignIn from './Pages/SignIn';
+import Home from './Pages/Home';
+const App : React.FC = () => {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <>
+      <Switch>
+        <Route path="/signUp" component={SignUp} />
+        <Route path="/signIn" component={SignIn} />
+        <Route path="/home" component={Home} />
+      </Switch>
+    </>
   );
 }
 
