@@ -1,4 +1,5 @@
 import React from 'react';
+import InputGroup from '../Components/InputGroup';
 import Book from '../images/notebook-iso-color.png';
 
 const SignIn : React.FC = () => {
@@ -13,6 +14,7 @@ const SignIn : React.FC = () => {
             <main className="h-screen">
                 <form className="mx-auto max-w-[450px]">
                     <h1 className="font-black text-[72px] font-['Lato'] mb-[40px]">Sign In</h1>
+                    <InputGroup id="email" placeholder="Enter your email address" label="Email address"/>
                 </form>
             </main>
         </div>
