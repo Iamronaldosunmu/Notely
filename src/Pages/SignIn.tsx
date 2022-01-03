@@ -1,9 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 import InputGroup from '../Components/InputGroup';
 import SubmitButton from '../Components/SubmitButton';
 import Book from '../images/notebook-iso-color.png';
 
 const SignIn : React.FC = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const handleSubmit = (e: React.FormEvent<any>) => {
+        e.preventDefault();
+        console.log({email, password})
+    };
+    const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value);
+    }
+    const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value);
+    }
     return (
         // When creating animations with framer motion, let the purple and the yellow asides slide in from left to right then the image fill fade in up and so will the form
         // Make the position of the aside to be fixed to the left so that even if the form is larger than the screenheight, it won't be affected by scrolling
@@ -13,10 +25,10 @@ const SignIn : React.FC = () => {
                 <img className="max-w-[607px]" src={Book} alt="purple book"/>
             </aside>
             <main className="h-screen flex items-center justify-center">
-                <form className="mx-auto max-w-[500px] flex flex-col w-full px-[30px]">
+                <form className="mx-auto max-w-[500px] flex flex-col w-full px-[30px]" onSubmit={handleSubmit}>
                     <h1 className="font-black text-[72px] font-['Lato'] mb-[25px]">Sign In</h1>
-                    <InputGroup id="email" placeholder="Enter your email address" label="Email address"/>
-                    <InputGroup id="password" placeholder="Enter your password" label="Password" type="password"/>
+                    <InputGroup id="email" placeholder="Enter your email address" label="Email address" value={email} onChange={onEmailChange}/>
+                    <InputGroup id="password" placeholder="Enter your password" label="Password" type="password" value={password} onChange={onPasswordChange}/>
                     <SubmitButton text="Sign In"/>
                     <p className="text-center text-[18px] mt-[25px]">Don't have an account? <span className="font-bold">Sign Up</span></p>
                 </form>
