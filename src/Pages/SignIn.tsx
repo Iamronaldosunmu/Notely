@@ -6,7 +6,12 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Joi from 'joi';
 
-const SignIn : React.FC = () => {
+interface SignInProps {
+    history: {push : (routeName: string) => void};
+}
+
+
+const SignIn : React.FC <SignInProps> = ({history}) => {
     const [errors, setErrors] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,16 +19,24 @@ const SignIn : React.FC = () => {
         email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required().min(3).label('Email'), 
         password: Joi.string().required().min(3).pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).label('Password')
     });
-    const handleSubmit = (e: React.FormEvent<any>) => {
+    const handleSubmit = async (e: React.FormEvent<any>) => {
         e.preventDefault();
         const {error} = schema.validate({email, password});
         if (error) setErrors(error.details[0].message);
         else setErrors('');
 
         if (!errors) {
-            console.log({email, password});
             // If no error, make async post request
             // While the request is being made, display a loader in the submit button
+            try {
+                const {data: token} = await axios.post('http://localhost:4000/api/v1/login', {email, password});
+                localStorage.setItem('token', token);
+                history.push('/welcome');
+            }catch (error: any) {
+                if (error.response) {
+                    setErrors(error.response.data.msg);
+                }
+            }
         }
     };
     const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,12 +55,12 @@ const SignIn : React.FC = () => {
             </aside>
             <main className="h-screen flex items-center justify-center">
                 <form className="mx-auto max-w-[500px] flex flex-col w-full px-[30px]" onSubmit={handleSubmit}>
-                    <h1 className="font-black text-[72px] font-['Lato'] mb-[25px]">Sign In</h1>
-                    <InputGroup id="email" placeholder="Enter your email address" label="Email address" value={email} onChange={onEmailChange}/>
-                    <InputGroup id="password" placeholder="Enter your password" label="Password" type="password" value={password} onChange={onPasswordChange}/>
+                    <h1 className="font-black text-[48px] font-['Lato'] mb-[15px]">Sign In</h1>
+                    <InputGroup small={true} id="email" placeholder="Enter your email address" label="Email address" value={email} onChange={onEmailChange}/>
+                    <InputGroup small={true} id="password" placeholder="Enter your password" label="Password" type="password" value={password} onChange={onPasswordChange}/>
                     {errors && <p className="text-center py-[10px] font-bold rounded-[10px] text-[#ff0033]">{errors}</p>}
-                    <SubmitButton text="Sign In"/>
-                    <p className="text-center text-[23px] mt-[25px]">Don't have an account? <span className="font-bold"><Link to="/signUp">Sign In</Link></span></p>
+                    <SubmitButton small={true} text="Sign In"/>
+                    <p className="text-center text-[18px] sm:text-[23px] mt-[25px]">Don't have an account? <span className="font-bold"><Link to="/signUp">Sign Up</Link></span></p>
                 </form>
             </main>
         </div>
