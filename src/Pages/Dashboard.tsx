@@ -10,9 +10,13 @@ interface DashboardProps {
 const Dashboard : React.FC<DashboardProps> = ({history}) => {
     const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
     const [user, setUser] = useState<{_id?: string, firstName?: string}>({});
-    const darkModeButtonClasses = "w-[93px] h-[45px] rounded-[22.5px] bg-[#000000] mr-[15px] darkModeButton ";
+    const darkModeButtonClasses = "w-[93px] h-[45px] rounded-[22.5px] bg-[#BFBFBF] dark:bg-[#000000] mr-[15px] darkModeButton ";
     const onDarkModeButtonClick = () => {
         setIsDarkTheme(!isDarkTheme);
+        const htmlElement = document.querySelector('html');
+        if (htmlElement){
+            htmlElement.classList.toggle('dark');
+        }
     }
     useEffect(() => {
         try {
@@ -32,9 +36,9 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
         }
     }, [])
     return (
-        <div className="dark:bg-[#0E121A] h-screen w-screen">
+        <div className="dark:bg-[#0E121A] h-screen w-screen transition-all">
             <section className="flex justify-between pt-[15px]">
-                <p className="text-[32px] dark:text-white pl-[25px]"><span className="font-bold">Note</span>ly</p>
+                <p className="text-[32px] dark:text-white pl-[25px] transition-all"><span className="font-bold">Note</span>ly</p>
                 <div className="flex items-center pr-[25px]">
                     <button className={isDarkTheme? darkModeButtonClasses : darkModeButtonClasses + 'active'} onClick={onDarkModeButtonClick}>
                         <div className="w-[35px] h-[35px] bg-[white] rounded-full ml-[7.5px] flex items-center justify-center">
@@ -47,7 +51,7 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
                     </div>
                 </div>
             </section>
-            <p className="text-[32px] pl-[25px] dark:text-white">Hi {user.firstName} <span className="text-[45px]">👋</span></p>
+            <p className="text-[32px] pl-[25px] dark:text-white transition-all">Hi {user.firstName} <span className="text-[45px]">👋</span></p>
             <div className="mx-[28px] w-[100%]"></div>
         </div>
     );
