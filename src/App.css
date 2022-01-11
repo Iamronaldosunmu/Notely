@@ -14,3 +14,21 @@
 .darkModeButton.active div .lightModeIcon {
   display: none;
 }
+.searchIcon {
+  fill: white;
+}
+html.dark .searchIcon {
+  fill: #5C426C;
+}
+.contentButton.selected p {
+  color: #E1917E;
+}
+.contentButton div {
+  width: 105px;
+  height: 8px;
+  border-radius: 8px;
+  background-color: transparent;
+}
+.contentButton.selected div {
+  background-color: #E1917E;
+}
