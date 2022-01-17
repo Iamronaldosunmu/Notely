@@ -32,3 +32,18 @@ html.dark .searchIcon {
 .contentButton.selected div {
   background-color: #E1917E;
 }
+.addButton {
+  box-shadow: 0px 4px 31px 10px rgba(0, 0, 0, 0.25);
+}
+.searchInputGroup {
+  box-shadow: 0px 4px 43px rgba(0, 0, 0, 0.2);
+}
+.noteContent {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 9;
+  -webkit-box-orient: vertical; 
+}
+.noteTextArea {
+  height: calc(100vh - 200px);
+}

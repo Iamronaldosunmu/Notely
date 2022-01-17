@@ -7,6 +7,7 @@ import SignIn from './Pages/SignIn';
 import Home from './Pages/Home';
 import WelcomePage from './Pages/WelcomePage';
 import Dashboard from './Pages/Dashboard';
+import NewNote from './Pages/NewNote';
 const App : React.FC = () => {
   return (
     <>
@@ -16,6 +17,7 @@ const App : React.FC = () => {
         <Route path="/welcome" component={WelcomePage} />
         <Route path="/home" component={Home} />
         <Route path="/dashboard" component={Dashboard} />
+        <Route path="/newNote" component={NewNote} />
       </Switch>
     </>
   );
