@@ -83,6 +83,7 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
             } else{
                 const user = jwtDecode(token) as {};
                 setUser(user);
+                console.log(user);
             }
         } catch(error: any) {
             if (error.message) {

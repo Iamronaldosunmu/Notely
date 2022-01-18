@@ -3,12 +3,15 @@ import whiteBackIcon from '../images/whiteBackIcon.svg';
 import whiteTickIcon from '../images/whiteTickIcon.svg';
 import blackBackIcon from '../images/blackBackIcon.svg';
 import blackTickIcon from '../images/blackTickIcon.svg';
+import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 
 interface NewNoteProps {
     history: {push : (routeName: string) => void, goBack : () => {}}
 }
 
 const NewNote : React.FC<NewNoteProps> = ({history}) => {
+    const [user, setUser] = useState<{_id?: string, firstName?: string}>({});
     const [title, setTitle] = useState('');
     const [noteContent, setNoteContent] = useState('');
     const [dateCreated, setDateCreated] = useState('');
@@ -16,6 +19,22 @@ const NewNote : React.FC<NewNoteProps> = ({history}) => {
         const date = new Date();
         if (!dateCreated) {
             setDateCreated(`${date.toLocaleString('en-us', {  weekday: 'long' }).slice(0, 3)} ${date.toLocaleString('en-us', {  month: 'long' }).slice(0, 3)} ${date.getDate()}, ${date.getHours()}:${date.getMinutes()}`);
+        }
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                history.push('/signIn');
+            } else{
+                const user = jwtDecode(token) as {};
+                setUser(user);
+                console.log(user);
+            }
+        } catch(error: any) {
+            if (error.message) {
+                console.log(error.message);
+                history.push('/signIn');
+
+            }
         }
     }, [])
     const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,11 +45,18 @@ const NewNote : React.FC<NewNoteProps> = ({history}) => {
         const input = e.currentTarget.value;
         setNoteContent(input);
     }
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const payload = {title, noteContent, currentDate: dateCreated};
+        const apiEndpoint = `http://localhost:4000/api/v1/notes/${user._id}`;
+        try {
+            const result = await axios.post(apiEndpoint, payload);
+            console.log(result);
+            history.push('/dashboard');
+        } catch (error) {
+            console.log(error);
+        }
         console.log(payload);
         // Send the payload to the backend to save to the database
-        history.push('/dashboard')
     }
     return (
         <div className="dark:bg-[#0E121A] h-screen w-screen transition-all overflow-y-auto">
