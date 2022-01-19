@@ -46,7 +46,7 @@ const NewNote : React.FC<NewNoteProps> = ({history}) => {
         setNoteContent(input);
     }
     const handleSubmit = async () => {
-        const payload = {title, noteContent, currentDate: dateCreated};
+        const payload = {title, noteContent, dateCreated};
         const apiEndpoint = `http://localhost:4000/api/v1/notes/${user._id}`;
         try {
             const result = await axios.post(apiEndpoint, payload);

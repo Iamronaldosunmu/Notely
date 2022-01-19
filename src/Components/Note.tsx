@@ -1,6 +1,8 @@
 import React from 'react';
 
 interface NoteProps {
+    _id: string;
+    userId: string;
     color?: string;
     title: string;
     noteContent: string;
@@ -20,11 +22,8 @@ const Note : React.FC<NoteProps> = ({color, title, noteContent, dateCreated, ima
                     <div className="w-[7px] h-[7px] rounded-full bg-[#77787F]"></div>
                 </button>
             </header>
-                {
-                imageUrl && 
-                <img className="w-full" src={imageUrl} />
-                }
-            <h1 className="tranisition-all text-[22px] dark:text-white font-bold mb-[16px] truncate ...">{title}</h1>
+                <img className={imageUrl ? "w-full rounded-[25px] max-h-[150px] cover my-[10px]" : "w-full rounded-[25px] max-h-[150px] cover" } src={imageUrl || ''} />
+            <h1 className="tranisition-all text-[20px] dark:text-white font-bold mb-[12px] truncate ...">{title}</h1>
             <p className="tranisition-all text-[14px] font-light dark:text-[#A1A2A7] mb-[20px] noteContent">{noteContent}</p>
             <p className="tranisition-all text-[10px] mb-[6px] font-bold dark:text-[white]" >{dateCreated}</p>
         </div>

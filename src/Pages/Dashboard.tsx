@@ -8,11 +8,16 @@ import ContentButton from '../Components/ContentButton';
 import noNotesImage from '../images/noNotes.svg';
 import addIcon from '../images/addIcon.svg';
 import Note from '../Components/Note';
+import axios from 'axios';
+import Loader from '../Components/Loader';
 interface DashboardProps {
     history: {push : (routeName: string) => void}
 }
 interface Note {
-    color: string;
+    _id: string;
+    userId: string;
+    _v?: number;
+    color?: string;
     title: string;
     noteContent: string;
     dateCreated: string;
@@ -20,38 +25,14 @@ interface Note {
 }
 
 const Dashboard : React.FC<DashboardProps> = ({history}) => {
-    const [notes, setNotes] = useState<Note[]>([
-        {
-        color: '#3A81C2', 
-        title: 'Note Title', 
-        noteContent: 'This ishat I decided to write for the notely design during my freetime, it could have been much longer than this, but we thank God', 
-        dateCreated: "Thu Jan 21, 18:24", 
-        imageUrl: "https://media-exp1.licdn.com/dms/image/C4D03AQHrZzvVSGQaHA/profile-displayphoto-shrink_100_100/0/1636403300127?e=1647475200&v=beta&t=GGDZGlPhIOvLgqtsMWBPnMQShKzVxsqLjw8vpO3XUiY"
-        }, 
-        {
-        color: '#3A81C2', 
-        title: 'Note Title', 
-        noteContent: 'This is an example of a random note that I decided to write for the notely design during my freetime, it could have been much longer than this, but we thank God', 
-        dateCreated: "Thu Jan 21, 18:24"
-        }, 
-        {
-        color: '#3A81C2', 
-        title: 'Note Title', 
-        noteContent: 'This is an example of a random note that I decided to write for the notely design during my freetime, it could have been much longer than this, but we thank God', 
-        dateCreated: "Thu Jan 21, 18:24"
-        }, 
-        {
-        color: '#3A81C2', 
-        title: 'Note Title', 
-        noteContent: 'This is an example of a random note that I decided to write for the notely design during my freetime, it could have been much longer than this, but we thank God', 
-        dateCreated: "Thu Jan 21, 18:24"
-        } 
-]);
+    const [notes, setNotes] = useState<Note[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+
     const [filteredNotes, setFilteredNotes] = useState(notes);
     const [searchValue, setSearchValue] = useState<string>('');
     const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
     const [selectedContentButton, setSelectedContentButton] = useState<string>("All notes")
-    const [user, setUser] = useState<{_id?: string, firstName?: string}>({});
+    const [user, setUser] = useState<{_id?: string, firstName?: string}>({_id: '', firstName: ''});
     const darkModeButtonClasses = "w-[93px] h-[45px] rounded-[22.5px] bg-[#BFBFBF] dark:bg-[#000000] mr-[15px] darkModeButton ";
     const onDarkModeButtonClick = () => {
         setIsDarkTheme(!isDarkTheme);
@@ -76,13 +57,30 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
         }
     }
     useEffect(() => {
+        const fetchAllNotes = async (userObject: {_id: string, firstName: string}) => {
+            try {
+                setLoading(true);
+                const apiEndpoint = `http://localhost:4000/api/v1/notes/${userObject._id}`;
+                const {data} = await axios.get(apiEndpoint);
+                setNotes(data);
+                setFilteredNotes(data.reverse());
+                console.log(data)
+            } catch (error) {
+                
+            }finally {
+                setLoading(false);
+            }
+
+        }
+
         try {
             const token = localStorage.getItem('token');
             if (!token) {
                 history.push('/signIn');
             } else{
-                const user = jwtDecode(token) as {};
+                const user = jwtDecode(token) as {_id: string, firstName: string};
                 setUser(user);
+                fetchAllNotes(user);
                 console.log(user);
             }
         } catch(error: any) {
@@ -92,6 +90,8 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
 
             }
         }
+        
+        
     }, [])
     return (
         <div className="dark:bg-[#0E121A] h-screen w-screen transition-all overflow-y-auto">
@@ -101,40 +101,41 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
                     <div className="flex items-center pr-[25px]">
                         <button className={isDarkTheme? darkModeButtonClasses : darkModeButtonClasses + 'active'} onClick={onDarkModeButtonClick}>
                             <div className="w-[35px] h-[35px] bg-[white] rounded-full ml-[7.5px] flex items-center justify-center">
-                                <img className="darkModeIcon" src={darkIcon} /> 
-                                <img className="lightModeIcon" src={lightIcon} /> 
+                                <img alt="icon" className="darkModeIcon" src={darkIcon} /> 
+                                <img alt="icon" className="lightModeIcon" src={lightIcon} /> 
                             </div>
                         </button>
                         <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
-                            <img className="w-full h-full" src={profilePic}/>
+                            <img alt="icon" className="w-full h-full" src={profilePic}/>
                         </div>
                     </div>
                 </section>
                 <p className="text-[32px] pl-[25px] dark:text-white transition-all">Hi {user.firstName} <span className="text-[45px]">👋</span></p>
                 <div className="mx-[28px] w-[calc(100% - 56px)] bg-[white] dark:bg-[#1E1D2C] h-[54px] rounded-[15px] mt-[18px] px-[18px] flex items-center searchInputGroup">
-                    <img className="w-[30px] h-[30px] mr-[17px] fill-[white]" src={searchIcon} />
+                    <img alt="icon" className="w-[30px] h-[30px] mr-[17px] fill-[white]" src={searchIcon} />
                     <input className="transition-all w-full h-[39px] bg-transparent focus:outline-[0] text-[22px] text-[#5c426c] dark:text-[#48485D] placeholder:text-[grey] dark:placeholder:text-[#48485D] font-bold" placeholder="Search your notes" onChange={onSearchChange} value={searchValue}/>
                 </div>
                 <section className="w-full px-[28px] flex flex-row justify-around mt-[14px] contentButtonContainer">
-                    <ContentButton selected={selectedContentButton == "All notes" ? true : false} title="All notes" onClick={() => setSelectedContentButton("All notes")}/>
-                    <ContentButton selected={selectedContentButton == "Folders" ? true : false} title="Folders" onClick={() => setSelectedContentButton("Folders")}/>
+                    <ContentButton selected={selectedContentButton === "All notes" ? true : false} title="All notes" onClick={() => setSelectedContentButton("All notes")}/>
+                    <ContentButton selected={selectedContentButton === "Folders" ? true : false} title="Folders" onClick={() => setSelectedContentButton("Folders")}/>
                 </section>
                 {!notes.length && <section className="flex flex-col items-center">
-                    <img src={noNotesImage} className="max-w-[250px] mt-[30px]" />
+                    <img alt="icon" src={noNotesImage} className="max-w-[250px] mt-[30px]" />
                     <p className="text-[18px] mt-[20px] font-bold dark:text-white">Create your first note</p>
                 </section>}
-                <section className="px-[28px] grid grid-cols-2 sm:hidden gap-[15px] pb-[20px]">
+                {loading && <Loader />}
+                {!loading && <> <section className="px-[28px] grid grid-cols-2 sm:hidden gap-[15px] pb-[20px]">
                     <div className="flex flex-col">
                         {filteredNotes.map(note => {
-                            if (filteredNotes.indexOf(note) % 2 == 0){
-                                return <Note color={note.color} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)}/> 
+                            if (filteredNotes.indexOf(note) % 2 === 0){
+                                return note.imageUrl ? <Note color={note.color} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note color={note.color} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> 
                             }
                         })}
                     </div>
                     <div className="flex flex-col">
                         {filteredNotes.map(note => {
-                            if (filteredNotes.indexOf(note) % 2 == 1){
-                                return <Note color={note.color} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)}/> 
+                            if (filteredNotes.indexOf(note) % 2 === 1){
+                                return note.imageUrl ? <Note color={note.color} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note color={note.color} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> 
                             }
                         })}
                     </div>
@@ -142,29 +143,29 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
                 <section className="px-[28px] hidden sm:grid sm:grid-cols-3 gap-[15px] pb-[20px]">
                     <div className="flex flex-col">
                         {filteredNotes.map(note => {
-                            if (filteredNotes.indexOf(note) % 3 == 0){
-                                return <Note color={note.color} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)}/> 
+                            if (filteredNotes.indexOf(note) % 3 === 0){
+                                return note.imageUrl ? <Note color={note.color} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note color={note.color} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> 
                             }
                         })}
                     </div>
                     <div className="flex flex-col">
                         {filteredNotes.map(note => {
-                            if (filteredNotes.indexOf(note) % 3 == 1){
-                                return <Note color={note.color} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)}/> 
+                            if (filteredNotes.indexOf(note) % 3 === 1){
+                                return note.imageUrl ? <Note color={note.color} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note color={note.color} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> 
                             }
                         })}
                     </div>
                     <div className="flex flex-col">
                         {filteredNotes.map(note => {
-                            if (filteredNotes.indexOf(note) % 3 == 2){
-                                return <Note color={note.color} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} imageUrl={note.imageUrl ? note.imageUrl : ''}/> 
+                            if (filteredNotes.indexOf(note) % 3 === 2){
+                                return <Note color={note.color} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId} imageUrl={note.imageUrl ? note.imageUrl : ''}/> 
                             }
                         })}
                     </div>
-                </section>
+                </section> </>}
             </div>
                 <button className="absolute w-[84px] h-[84px] rounded-full bg-[white] dark:bg-[#1E1D2C] flex items-center justify-center bottom-[42px] right-[42px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)]" onClick={onNewNoteButtonClick}>
-                    <img src={addIcon}/>
+                    <img alt="icon" src={addIcon}/>
                 </button>
         </div>
     );
