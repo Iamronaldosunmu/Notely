@@ -68,3 +68,6 @@ html.dark .searchIcon {
     transform: translateY(-10px);
   }
 }
+.colorCircleContainer::-webkit-scrollbar {
+  display: none;
+}

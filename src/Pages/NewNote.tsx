@@ -5,6 +5,7 @@ import blackBackIcon from '../images/blackBackIcon.svg';
 import blackTickIcon from '../images/blackTickIcon.svg';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import OptionsMenu from '../Components/OptionsMenu';
 
 interface NewNoteProps {
     history: {push : (routeName: string) => void, goBack : () => {}}
@@ -66,14 +67,13 @@ const NewNote : React.FC<NewNoteProps> = ({history}) => {
                 </button>
                 <p className="dark:text-white text-[24px] font-bold">New note</p>
                 <button onClick={handleSubmit}>
-                    {document.querySelector('html')?.classList.contains('dark') ? <img className="h-[28px] w-[35px]" src={whiteTickIcon} alt="tick Icon"/> : <img className="h-[28px] w-[35px]" src={blackTickIcon} alt="tick Icon"/>}                    
-                    
-                    
+                    {document.querySelector('html')?.classList.contains('dark') ? <img className="h-[28px] w-[35px]" src={whiteTickIcon} alt="tick Icon"/> : <img className="h-[28px] w-[35px]" src={blackTickIcon} alt="tick Icon"/>}                                       
                 </button>
             </div>
             <input className="text-[34px] dark:text-white font-bold bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px]" placeholder="Add a title..." value={title} onChange={onTitleChange}/>
             <p className="px-[20px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words</p>
             <textarea className="text-[24px] dark:text-white bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full noteTextArea" placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>
+            <OptionsMenu />
         </div>
     );
 }

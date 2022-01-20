@@ -119,7 +119,7 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
                     <ContentButton selected={selectedContentButton === "All notes" ? true : false} title="All notes" onClick={() => setSelectedContentButton("All notes")}/>
                     <ContentButton selected={selectedContentButton === "Folders" ? true : false} title="Folders" onClick={() => setSelectedContentButton("Folders")}/>
                 </section>
-                {!notes.length && <section className="flex flex-col items-center">
+                {(!loading && !notes.length) && <section className="flex flex-col items-center">
                     <img alt="icon" src={noNotesImage} className="max-w-[250px] mt-[30px]" />
                     <p className="text-[18px] mt-[20px] font-bold dark:text-white">Create your first note</p>
                 </section>}
