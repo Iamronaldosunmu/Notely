@@ -77,3 +77,9 @@ html.dark .searchIcon {
 .colorCircleContainer::-webkit-scrollbar {
   display: none;
 }
+.optionsContainer {
+  transition: all 0.4s;
+}
+.optionsContainer.expanded {
+  transform: translateY(-110px);
+}

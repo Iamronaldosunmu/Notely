@@ -20,7 +20,7 @@ const NewNote : React.FC<NewNoteProps> = ({history}) => {
     useEffect(() => {
         const date = new Date();
         if (!dateCreated) {
-            setDateCreated(`${date.toLocaleString('en-us', {  weekday: 'long' }).slice(0, 3)} ${date.toLocaleString('en-us', {  month: 'long' }).slice(0, 3)} ${date.getDate()}, ${date.getHours()}:${date.getMinutes()}`);
+            setDateCreated(`${date.toLocaleString('en-us', {  weekday: 'long' }).slice(0, 3)} ${date.toLocaleString('en-us', {  month: 'long' }).slice(0, 3)} ${date.getDate()}, ${date.getHours()}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`);
         }
         try {
             const token = localStorage.getItem('token');
@@ -48,17 +48,19 @@ const NewNote : React.FC<NewNoteProps> = ({history}) => {
         setNoteContent(input);
     }
     const handleSubmit = async () => {
-        const payload = {title, noteContent, dateCreated, selectedColor};
-        const apiEndpoint = `http://localhost:4000/api/v1/notes/${user._id}`;
-        try {
-            const result = await axios.post(apiEndpoint, payload);
-            console.log(result);
-            history.push('/dashboard');
-        } catch (error) {
-            console.log(error);
+        if (title && noteContent) {
+            const payload = {title, noteContent, dateCreated, selectedColor};
+            const apiEndpoint = `http://localhost:4000/api/v1/notes/${user._id}`;
+            try {
+                const result = await axios.post(apiEndpoint, payload);
+                console.log(result);
+                history.push('/dashboard');
+            } catch (error) {
+                console.log(error);
+            }
+            console.log(payload);
+            // Send the payload to the backend to save to the database
         }
-        console.log(payload);
-        // Send the payload to the backend to save to the database
     }
     return (
         <div className="dark:bg-[#0E121A] h-screen w-screen transition-all overflow-y-auto">
