@@ -16,6 +16,7 @@ const NewNote : React.FC<NewNoteProps> = ({history}) => {
     const [title, setTitle] = useState('');
     const [noteContent, setNoteContent] = useState('');
     const [dateCreated, setDateCreated] = useState('');
+    const [selectedColor, setSelectedColor] = useState<string>('#3269ff');
     useEffect(() => {
         const date = new Date();
         if (!dateCreated) {
@@ -47,7 +48,7 @@ const NewNote : React.FC<NewNoteProps> = ({history}) => {
         setNoteContent(input);
     }
     const handleSubmit = async () => {
-        const payload = {title, noteContent, dateCreated};
+        const payload = {title, noteContent, dateCreated, selectedColor};
         const apiEndpoint = `http://localhost:4000/api/v1/notes/${user._id}`;
         try {
             const result = await axios.post(apiEndpoint, payload);
@@ -73,7 +74,7 @@ const NewNote : React.FC<NewNoteProps> = ({history}) => {
             <input className="text-[34px] dark:text-white font-bold bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px]" placeholder="Add a title..." value={title} onChange={onTitleChange}/>
             <p className="px-[20px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words</p>
             <textarea className="text-[24px] dark:text-white bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full noteTextArea" placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>
-            <OptionsMenu />
+            <OptionsMenu selectedColor={selectedColor} setSelectedColor={setSelectedColor}/>
         </div>
     );
 }

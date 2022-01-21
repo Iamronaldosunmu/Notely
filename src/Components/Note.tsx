@@ -3,7 +3,7 @@ import React from 'react';
 interface NoteProps {
     _id: string;
     userId: string;
-    color?: string;
+    color: string;
     title: string;
     noteContent: string;
     dateCreated: string;
@@ -15,7 +15,7 @@ const Note : React.FC<NoteProps> = ({color, title, noteContent, dateCreated, ima
     return (
         <div className="transition-all w-[100%] mx-auto mb-[12px] max-w-[200px] p-[18px]  dark:bg-[#151722] rounded-[25px] mt-[10px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)]">
             <header className="px-18px flex justify-between items-center mb-[8px]">
-                <div className={color ? 'w-[12px] h-[12px] rounded-full ' + colorString : 'w-[12px] h-[12px] rounded-full bg-[#3A81C2]'}></div>
+                <div className={'w-[12px] h-[12px] rounded-full bg-[#3A81C2]'} style={color ? {backgroundColor: color} : {}}></div>
                 <button className="flex">
                     <div className="w-[7px] h-[7px] mr-[2px] rounded-full bg-[#77787F]"></div>
                     <div className="w-[7px] h-[7px] mr-[2px] rounded-full bg-[#77787F]"></div>

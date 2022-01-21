@@ -68,6 +68,12 @@ html.dark .searchIcon {
     transform: translateY(-10px);
   }
 }
+.expandIcon {
+  transition: all 0.4s;
+}
+.expandIcon.expanded {
+  transform: rotateZ(180deg);
+}
 .colorCircleContainer::-webkit-scrollbar {
   display: none;
 }
