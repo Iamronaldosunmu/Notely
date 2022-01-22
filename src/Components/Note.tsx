@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 
 interface NoteProps {
     _id: string;
@@ -8,15 +8,21 @@ interface NoteProps {
     noteContent: string;
     dateCreated: string;
     imageUrl?: string;
+    setNoteOptionsIsShowing: Dispatch<SetStateAction<boolean>>;
+    setCurrentNoteId: Dispatch<SetStateAction<string>>;
 }
 
-const Note : React.FC<NoteProps> = ({color, title, noteContent, dateCreated, imageUrl}) => {
+const Note : React.FC<NoteProps> = ({_id, color, title, noteContent, dateCreated, imageUrl, setNoteOptionsIsShowing, setCurrentNoteId}) => {
     const colorString = `bg-[${color}]`;
+    const onNoteOptionsButtonClick = () => {
+        setNoteOptionsIsShowing(true);
+        setCurrentNoteId(_id);
+    }
     return (
         <div className="transition-all w-[100%] mx-auto mb-[12px] max-w-[200px] p-[18px]  dark:bg-[#151722] rounded-[25px] mt-[10px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)]">
             <header className="px-18px flex justify-between items-center mb-[8px]">
                 <div className={'w-[12px] h-[12px] rounded-full bg-[#3A81C2]'} style={color ? {backgroundColor: color} : {}}></div>
-                <button className="flex">
+                <button className="flex" onClick ={onNoteOptionsButtonClick}>
                     <div className="w-[7px] h-[7px] mr-[2px] rounded-full bg-[#77787F]"></div>
                     <div className="w-[7px] h-[7px] mr-[2px] rounded-full bg-[#77787F]"></div>
                     <div className="w-[7px] h-[7px] rounded-full bg-[#77787F]"></div>

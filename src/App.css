@@ -83,3 +83,21 @@ html.dark .searchIcon {
 .optionsContainer.expanded {
   transform: translateY(-110px);
 }
+.closeNoteOptions {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+.dongle {
+  background-color: rgba(50, 53, 60, 0.7)
+}
+.noteOptionsContainer {
+  transition: all 0.3s ease-in-out;
+}
+.noteOptionsContainer.invisible {
+  transform: translateY(180px);
+}
+.closeNoteOptions{
+  transition: all 0.3s ease-in-out;
+}
+.closeNoteOptions.invisible {
+  opacity: 0;
+}

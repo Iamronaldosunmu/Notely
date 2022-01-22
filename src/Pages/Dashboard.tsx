@@ -10,6 +10,7 @@ import addIcon from '../images/addIcon.svg';
 import Note from '../Components/Note';
 import axios from 'axios';
 import Loader from '../Components/Loader';
+import NoteOptions from '../Components/NoteOptions';
 interface DashboardProps {
     history: {push : (routeName: string) => void}
 }
@@ -26,8 +27,9 @@ interface Note {
 
 const Dashboard : React.FC<DashboardProps> = ({history}) => {
     const [notes, setNotes] = useState<Note[]>([]);
+    const [currentNoteId, setCurrentNoteId] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
-
+    const [noteOptionsIsShowing, setNoteOptionsIsShowing] = useState<boolean>(false);
     const [filteredNotes, setFilteredNotes] = useState(notes);
     const [searchValue, setSearchValue] = useState<string>('');
     const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
@@ -128,14 +130,14 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
                     <div className="flex flex-col">
                         {filteredNotes.map(note => {
                             if (filteredNotes.indexOf(note) % 2 === 0){
-                                return note.imageUrl ? <Note color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> 
+                                return note.imageUrl ? <Note setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> 
                             }
                         })}
                     </div>
                     <div className="flex flex-col">
                         {filteredNotes.map(note => {
                             if (filteredNotes.indexOf(note) % 2 === 1){
-                                return note.imageUrl ? <Note color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> 
+                                return note.imageUrl ? <Note setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> 
                             }
                         })}
                     </div>
@@ -144,21 +146,21 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
                     <div className="flex flex-col">
                         {filteredNotes.map(note => {
                             if (filteredNotes.indexOf(note) % 3 === 0){
-                                return note.imageUrl ? <Note color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> 
+                                return note.imageUrl ? <Note setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> 
                             }
                         })}
                     </div>
                     <div className="flex flex-col">
                         {filteredNotes.map(note => {
                             if (filteredNotes.indexOf(note) % 3 === 1){
-                                return note.imageUrl ? <Note color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> 
+                                return note.imageUrl ? <Note setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> 
                             }
                         })}
                     </div>
                     <div className="flex flex-col">
                         {filteredNotes.map(note => {
                             if (filteredNotes.indexOf(note) % 3 === 2){
-                                return <Note color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId} imageUrl={note.imageUrl ? note.imageUrl : ''}/> 
+                                return <Note setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId} imageUrl={note.imageUrl ? note.imageUrl : ''}/> 
                             }
                         })}
                     </div>
@@ -167,6 +169,7 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
                 <button className="absolute w-[84px] h-[84px] rounded-full bg-[white] dark:bg-[#1E1D2C] flex items-center justify-center bottom-[42px] right-[42px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)]" onClick={onNewNoteButtonClick}>
                     <img alt="icon" src={addIcon}/>
                 </button>
+                <NoteOptions currentNoteId={currentNoteId} noteOptionsIsShowing={noteOptionsIsShowing} setNoteOptionsIsShowing={setNoteOptionsIsShowing}/>
         </div>
     );
 }

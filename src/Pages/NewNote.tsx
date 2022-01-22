@@ -8,7 +8,7 @@ import jwtDecode from 'jwt-decode';
 import OptionsMenu from '../Components/OptionsMenu';
 
 interface NewNoteProps {
-    history: {push : (routeName: string) => void, goBack : () => {}}
+    history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void}
 }
 
 const NewNote : React.FC<NewNoteProps> = ({history}) => {
@@ -76,7 +76,7 @@ const NewNote : React.FC<NewNoteProps> = ({history}) => {
             <input className="text-[34px] dark:text-white font-bold bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px]" placeholder="Add a title..." value={title} onChange={onTitleChange}/>
             <p className="px-[20px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words</p>
             <textarea className="text-[24px] dark:text-white bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full noteTextArea" placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>
-            <OptionsMenu selectedColor={selectedColor} setSelectedColor={setSelectedColor}/>
+            <OptionsMenu selectedColor={selectedColor} setSelectedColor={setSelectedColor} history={history}/>
         </div>
     );
 }

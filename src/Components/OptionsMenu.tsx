@@ -9,12 +9,17 @@ import uploadImageIcon from '../images/upload-image.svg';
 interface OptionsMenuProps {
     selectedColor: string;
     setSelectedColor: Dispatch<SetStateAction<string>>;
+    history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
 }
 
-const OptionsMenu : React.FC<OptionsMenuProps> = ({selectedColor, setSelectedColor}) => {
+const OptionsMenu : React.FC<OptionsMenuProps> = ({selectedColor, setSelectedColor, history}) => {
     const [isCollapsed, setIsCollapsed] = useState(true);
     const optionsContainerClasses = "fixed w-full bottom-[-115px] p-[10px] pl-[15px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)] bg-[#f5ecec00] dark:bg-[#151722] rounded-t-[25px] optionsContainer";
-
+    const onDiscardButtonClick = () => {
+        alert("Note successfully discarded!");
+        history.replace('/dashboard');
+        
+    }
     return (
         <div className={isCollapsed ? optionsContainerClasses : optionsContainerClasses + ' expanded'} >
             <div className=" flex justify-between mb-[10px]">
@@ -33,15 +38,16 @@ const OptionsMenu : React.FC<OptionsMenuProps> = ({selectedColor, setSelectedCol
                 </button>
             </div>
             <div>
-                <button className="flex mb-[20px]">
+                <button className="flex items-center mb-[20px] w-full" onClick={onDiscardButtonClick} >
                     {document.querySelector('html')?.classList.contains('dark') ? <img className="mr-[30px] w-[30px] " src={whiteTrashIcon}/> : <img className="mr-[30px] w-[30px] " src={trashIcon}/> }
 
-                    <p className="dark:text-[#86888C] text-[18px] font-bold">Delete Note</p>
+                    <p className="dark:text-[#86888C] text-[18px] font-bold">Discard Note</p>
                 </button>
-                <button className="flex items-center mb-[20px]">
+                <button className="flex items-center mb-[20px] w-full">
                     {document.querySelector('html')?.classList.contains('dark') ? <img className="mr-[30px] w-[30px] " src={whiteUploadImageIcon}/> : <img className="mr-[30px] w-[30px] " src={uploadImageIcon}/> }
                     
                     <p className="dark:text-[#86888C] text-[18px] font-bold">Upload an Image</p>
+                    {/* <input type="file" placeholder="" value=""/> */}
                 </button>
             </div>
         </div>
