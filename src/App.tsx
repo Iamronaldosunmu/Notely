@@ -8,10 +8,12 @@ import Home from './Pages/Home';
 import WelcomePage from './Pages/WelcomePage';
 import Dashboard from './Pages/Dashboard';
 import NewNote from './Pages/NewNote';
+import EditNote from './Pages/EditNote';
 const App : React.FC = () => {
   return (
     <>
       <Switch>
+        <Route path="/editNote" component={EditNote} />
         <Route path="/signUp" component={SignUp} />
         <Route path="/signIn" component={SignIn} />
         <Route path="/welcome" component={WelcomePage} />

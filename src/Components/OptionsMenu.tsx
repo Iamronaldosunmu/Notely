@@ -10,16 +10,12 @@ interface OptionsMenuProps {
     selectedColor: string;
     setSelectedColor: Dispatch<SetStateAction<string>>;
     history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
+    onDiscardButtonClick: () => void;
 }
 
-const OptionsMenu : React.FC<OptionsMenuProps> = ({selectedColor, setSelectedColor, history}) => {
+const OptionsMenu : React.FC<OptionsMenuProps> = ({selectedColor, setSelectedColor, history, onDiscardButtonClick}) => {
     const [isCollapsed, setIsCollapsed] = useState(true);
     const optionsContainerClasses = "fixed w-full bottom-[-115px] p-[10px] pl-[15px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)] bg-[#f5ecec00] dark:bg-[#151722] rounded-t-[25px] optionsContainer";
-    const onDiscardButtonClick = () => {
-        alert("Note successfully discarded!");
-        history.replace('/dashboard');
-        
-    }
     return (
         <div className={isCollapsed ? optionsContainerClasses : optionsContainerClasses + ' expanded'} >
             <div className=" flex justify-between mb-[10px]">

@@ -93,7 +93,7 @@ html.dark .searchIcon {
   transition: all 0.3s ease-in-out;
 }
 .noteOptionsContainer.invisible {
-  transform: translateY(180px);
+  transform: translateY(230px);
 }
 .closeNoteOptions{
   transition: all 0.3s ease-in-out;

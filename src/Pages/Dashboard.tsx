@@ -12,7 +12,7 @@ import axios from 'axios';
 import Loader from '../Components/Loader';
 import NoteOptions from '../Components/NoteOptions';
 interface DashboardProps {
-    history: {push : (routeName: string) => void}
+    history: {push : (routeName: string) => void,  replace : (routeName: string) => void}
 }
 interface Note {
     _id: string;
@@ -57,6 +57,10 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
             })
             setFilteredNotes(filtered)
         }
+    }
+    const removeNote = (id: string) => {
+        const newArray = filteredNotes.filter(note => note._id !== id);
+        setFilteredNotes(newArray);
     }
     useEffect(() => {
         const fetchAllNotes = async (userObject: {_id: string, firstName: string}) => {
@@ -121,7 +125,7 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
                     <ContentButton selected={selectedContentButton === "All notes" ? true : false} title="All notes" onClick={() => setSelectedContentButton("All notes")}/>
                     <ContentButton selected={selectedContentButton === "Folders" ? true : false} title="Folders" onClick={() => setSelectedContentButton("Folders")}/>
                 </section>
-                {(!loading && !notes.length) && <section className="flex flex-col items-center">
+                {(!loading && !filteredNotes.length) && <section className="flex flex-col items-center">
                     <img alt="icon" src={noNotesImage} className="max-w-[250px] mt-[30px]" />
                     <p className="text-[18px] mt-[20px] font-bold dark:text-white">Create your first note</p>
                 </section>}
@@ -169,7 +173,7 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
                 <button className="absolute w-[84px] h-[84px] rounded-full bg-[white] dark:bg-[#1E1D2C] flex items-center justify-center bottom-[42px] right-[42px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)]" onClick={onNewNoteButtonClick}>
                     <img alt="icon" src={addIcon}/>
                 </button>
-                <NoteOptions currentNoteId={currentNoteId} noteOptionsIsShowing={noteOptionsIsShowing} setNoteOptionsIsShowing={setNoteOptionsIsShowing}/>
+                <NoteOptions history={history} removeNote={removeNote} userId={user._id} currentNoteId={currentNoteId} noteOptionsIsShowing={noteOptionsIsShowing} setNoteOptionsIsShowing={setNoteOptionsIsShowing}/>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import whiteBackIcon from '../images/whiteBackIcon.svg';
 import whiteTickIcon from '../images/whiteTickIcon.svg';
 import blackBackIcon from '../images/blackBackIcon.svg';
@@ -7,11 +7,11 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import OptionsMenu from '../Components/OptionsMenu';
 
-interface NewNoteProps {
+interface EditNoteProps {
     history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void}
 }
 
-const NewNote : React.FC<NewNoteProps> = ({history}) => {
+const EditNote : React.FC<EditNoteProps> = ({history}) => {
     const [user, setUser] = useState<{_id?: string, firstName?: string}>({});
     const [title, setTitle] = useState('');
     const [noteContent, setNoteContent] = useState('');
@@ -73,7 +73,6 @@ const NewNote : React.FC<NewNoteProps> = ({history}) => {
                 <button onClick={onDiscardNoteButtonClick}>
                     {document.querySelector('html')?.classList.contains('dark') ? <img className="h-[28px]" src={whiteBackIcon} alt="back Icon"/> : <img className="h-[28px]" src={blackBackIcon} alt="back Icon"/>}                    
                 </button>
-                <p className="dark:text-white text-[24px] font-bold">New note</p>
                 <button onClick={handleSubmit}>
                     {document.querySelector('html')?.classList.contains('dark') ? <img className="h-[28px] w-[35px]" src={whiteTickIcon} alt="tick Icon"/> : <img className="h-[28px] w-[35px]" src={blackTickIcon} alt="tick Icon"/>}                                       
                 </button>
@@ -85,4 +84,4 @@ const NewNote : React.FC<NewNoteProps> = ({history}) => {
         </div>
     );
 }
-export default NewNote;
+export default EditNote;
