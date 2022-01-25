@@ -8,16 +8,30 @@ import jwtDecode from 'jwt-decode';
 import OptionsMenu from '../Components/OptionsMenu';
 
 interface EditNoteProps {
-    history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void}
+    history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
+    match: {params: {noteId: string, userId: string}};
 }
 
-const EditNote : React.FC<EditNoteProps> = ({history}) => {
+const EditNote : React.FC<EditNoteProps> = ({history, match}) => {
     const [user, setUser] = useState<{_id?: string, firstName?: string}>({});
     const [title, setTitle] = useState('');
     const [noteContent, setNoteContent] = useState('');
     const [dateCreated, setDateCreated] = useState('');
     const [selectedColor, setSelectedColor] = useState<string>('#3269ff');
     useEffect(() => {
+        const fetchNote = async () => {
+            const apiEndpoint = `http://localhost:4000/api/v1/notes/${match.params.userId}/${match.params.noteId}`;
+            try {
+                const {data} = await axios.get(apiEndpoint);
+                setTitle(data.title);
+                setNoteContent(data.noteContent);
+                setSelectedColor(data.selectedColor);
+
+            } catch (error) {
+                alert("An error occured");
+                history.push('/dashboard');
+            }
+        }
         const date = new Date();
         if (!dateCreated) {
             setDateCreated(`${date.toLocaleString('en-us', {  weekday: 'long' }).slice(0, 3)} ${date.toLocaleString('en-us', {  month: 'long' }).slice(0, 3)} ${date.getDate()}, ${date.getHours()}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`);
@@ -29,6 +43,7 @@ const EditNote : React.FC<EditNoteProps> = ({history}) => {
             } else{
                 const user = jwtDecode(token) as {};
                 setUser(user);
+                fetchNote();
                 console.log(user);
             }
         } catch(error: any) {
@@ -50,9 +65,9 @@ const EditNote : React.FC<EditNoteProps> = ({history}) => {
     const handleSubmit = async () => {
         if (title && noteContent) {
             const payload = {title, noteContent, dateCreated, selectedColor};
-            const apiEndpoint = `http://localhost:4000/api/v1/notes/${user._id}`;
+            const apiEndpoint = `http://localhost:4000/api/v1/notes/${match.params.userId}/${match.params.noteId}`;
             try {
-                const result = await axios.post(apiEndpoint, payload);
+                const result = await axios.patch(apiEndpoint, payload);
                 console.log(result);
                 history.push('/dashboard');
             } catch (error) {
@@ -63,7 +78,7 @@ const EditNote : React.FC<EditNoteProps> = ({history}) => {
         }
     }
     const onDiscardNoteButtonClick = () => {
-        if (window.confirm('Are you sure you want to discard this note?')) {
+        if (window.confirm('Are you sure you want to discard your changes?')) {
             history.replace('/dashboard');
         }
     }

@@ -34,7 +34,7 @@ const NoteOptions : React.FC<NoteOptionsProps> = ({noteOptionsIsShowing, setNote
         }
     }
     const onEditButtonClick = () => {
-        history.push('/editNote');
+        history.push(`/editNote/${userId}/${currentNoteId}`);
     }
     return (
         <>

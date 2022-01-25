@@ -13,7 +13,7 @@ const App : React.FC = () => {
   return (
     <>
       <Switch>
-        <Route path="/editNote" component={EditNote} />
+        <Route path="/editNote/:userId/:noteId" component={EditNote} />
         <Route path="/signUp" component={SignUp} />
         <Route path="/signIn" component={SignIn} />
         <Route path="/welcome" component={WelcomePage} />
