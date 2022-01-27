@@ -36,6 +36,9 @@ const NoteOptions : React.FC<NoteOptionsProps> = ({noteOptionsIsShowing, setNote
     const onEditButtonClick = () => {
         history.push(`/editNote/${userId}/${currentNoteId}`);
     }
+    const onViewNoteButtonClick = () => {
+        history.push(`/viewNote/${userId}/${currentNoteId}`);
+    }
     return (
         <>
             <div onClick={() => setNoteOptionsIsShowing(false)} className={noteOptionsIsShowing ? closeNoteOptionsClasses : closeNoteOptionsClasses + ' invisible'}></div>
@@ -49,7 +52,7 @@ const NoteOptions : React.FC<NoteOptionsProps> = ({noteOptionsIsShowing, setNote
                     <img className="mx-[20px] w-[30px]" src={whiteTrashIcon}/>
                     <p className="text-[#86888C]">Delete Note</p>
                 </button>
-                <button className="flex mb-[20px]">
+                <button className="flex mb-[20px]" onClick={onViewNoteButtonClick}>
                     <img className="mx-[20px] w-[30px]" src={viewIcon}/>
                     <p className="text-[#86888C]">View Note</p>
                 </button>

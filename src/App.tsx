@@ -9,11 +9,13 @@ import WelcomePage from './Pages/WelcomePage';
 import Dashboard from './Pages/Dashboard';
 import NewNote from './Pages/NewNote';
 import EditNote from './Pages/EditNote';
+import ViewNote from './Pages/ViewNote';
 const App : React.FC = () => {
   return (
     <>
       <Switch>
         <Route path="/editNote/:userId/:noteId" component={EditNote} />
+        <Route path="/viewNote/:userId/:noteId" component={ViewNote} />
         <Route path="/signUp" component={SignUp} />
         <Route path="/signIn" component={SignIn} />
         <Route path="/welcome" component={WelcomePage} />
