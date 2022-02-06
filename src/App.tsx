@@ -10,6 +10,7 @@ import Dashboard from './Pages/Dashboard';
 import NewNote from './Pages/NewNote';
 import EditNote from './Pages/EditNote';
 import ViewNote from './Pages/ViewNote';
+import DesktopDashboard from './Pages/DesktopDashboard';
 const App : React.FC = () => {
   return (
     <>
@@ -21,6 +22,7 @@ const App : React.FC = () => {
         <Route path="/welcome" component={WelcomePage} />
         <Route path="/home" component={Home} />
         <Route path="/dashboard" component={Dashboard} />
+        <Route path="/desktopDashboard" component={DesktopDashboard} />
         <Route path="/newNote" component={NewNote} />
       </Switch>
     </>
