@@ -23,7 +23,7 @@ const Note : React.FC<NoteProps> = ({_id,userId, color, title, noteContent, date
         history.push(`/viewNote/${userId}/${_id}`)
     }
     return (
-        <div className="transition-all w-[100%] mx-auto mb-[12px] max-w-[200px] p-[18px]  dark:bg-[#151722] rounded-[25px] mt-[10px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)]">
+        <div className="transition-all w-[100%] mx-auto mb-[12px] max-w-[200px] p-[18px] bg-white dark:bg-[#151722] rounded-[25px] mt-[10px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)]">
             <header className="px-18px flex justify-between items-center mb-[8px]">
                 <div className={'w-[12px] h-[12px] rounded-full bg-[#3A81C2]'} style={color ? {backgroundColor: color} : {}}></div>
                 <button className="flex" onClick ={onNoteOptionsButtonClick}>

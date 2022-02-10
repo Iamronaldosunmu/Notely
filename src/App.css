@@ -5,7 +5,7 @@
 .darkModeButton.active div {
   transform: translateX(43px);
 }
-.darkModeButton div .darkModeIcon{
+.darkModeButton div .darkModeIcon {
   display: none;
 }
 .darkModeButton.active div .darkModeIcon {
@@ -18,10 +18,10 @@
   fill: white;
 }
 html.dark .searchIcon {
-  fill: #5C426C;
+  fill: #5c426c;
 }
 .contentButton.selected p {
-  color: #E1917E;
+  color: #e1917e;
 }
 .contentButton div {
   width: 105px;
@@ -30,7 +30,7 @@ html.dark .searchIcon {
   background-color: transparent;
 }
 .contentButton.selected div {
-  background-color: #E1917E;
+  background-color: #e1917e;
 }
 .addButton {
   box-shadow: 0px 4px 31px 10px rgba(0, 0, 0, 0.25);
@@ -42,7 +42,7 @@ html.dark .searchIcon {
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 9;
-  -webkit-box-orient: vertical; 
+  -webkit-box-orient: vertical;
 }
 .noteTextArea {
   height: calc(100vh - 200px);
@@ -90,7 +90,7 @@ html.dark .searchIcon {
   background-color: rgba(0, 0, 0, 0.9);
 }
 .dongle {
-  background-color: rgba(50, 53, 60, 0.7)
+  background-color: rgba(50, 53, 60, 0.7);
 }
 .noteOptionsContainer {
   transition: all 0.3s ease-in-out;
@@ -98,7 +98,7 @@ html.dark .searchIcon {
 .noteOptionsContainer.invisible {
   transform: translateY(230px);
 }
-.closeNoteOptions{
+.closeNoteOptions {
   transition: all 0.3s ease-in-out;
 }
 .closeNoteOptions.invisible {
@@ -130,4 +130,18 @@ html.dark .searchIcon {
   transform: translateY(0);
   opacity: 1;
   z-index: 20;
+}
+.desktopNavButton {
+  transition: all 0.4s;
+}
+
+.desktopNavText {
+  transition: all 0.4s;
+}
+.desktopNavIcon {
+  fill: #48485d;
+  transition: all 0.4s;
+}
+.desktopNavIcon.selected {
+  fill: white;
 }
