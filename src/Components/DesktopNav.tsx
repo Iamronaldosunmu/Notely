@@ -5,7 +5,10 @@ import settingsIcon from '../images/settingsIcon.svg';
 import addIcon from '../images/addIcon.svg';
 import DesktopNavItem from './DesktopNavItem';
 
-const DesktopNav : React.FC = () => {
+interface DesktopNavProps {
+    history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
+}
+const DesktopNav : React.FC<DesktopNavProps> = ({history}) => {
     const [selectedButton, setSelectedButton] = useState<string>("All Notes");
 
     return (
@@ -14,7 +17,9 @@ const DesktopNav : React.FC = () => {
             <DesktopNavItem Label="All Notes" setSelectedButton={setSelectedButton} selected={selectedButton == "All Notes"}/>
             <DesktopNavItem Label="All Folders" setSelectedButton={setSelectedButton} selected={selectedButton == "All Folders"}/>
             <DesktopNavItem Label="Settings" setSelectedButton={setSelectedButton} selected={selectedButton == "Settings"}/>
-            <button className="absolute w-[84px] h-[84px] rounded-full bg-[white] dark:bg-[#1E1D2C] flex items-center justify-center bottom-[28px] left-[28px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)] scale-[0.8]" >
+            <button 
+                className="absolute w-[84px] h-[84px] rounded-full bg-[white] dark:bg-[#1E1D2C] flex items-center justify-center bottom-[28px] left-[28px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)] scale-[0.8]" 
+                onClick={() => history.push('/desktopDashboard/newNote')}>
                     <img alt="icon" src={addIcon}/>
                 </button>
         </section>

@@ -3,12 +3,12 @@ import DesktopDashboardContent from '../Components/DesktopDashboardContent';
 import DesktopNav from '../Components/DesktopNav';
 
 interface DesktopDashboardProps {
-    history: {push : (routeName: string) => void,  replace : (routeName: string) => void}
+    history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void}
 }
 const DesktopDashboard : React.FC<DesktopDashboardProps> = ({history}) => {
     return (
         <div className="h-screen w-screen grid grid-cols-[195px_auto]">
-            <DesktopNav />
+            <DesktopNav history={history} />
             <DesktopDashboardContent history={history} />
         </div>
     );

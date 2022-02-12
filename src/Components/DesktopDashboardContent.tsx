@@ -12,9 +12,13 @@ import addIcon from '../images/addIcon.svg';
 import Note from '../Components/Note';
 import axios from 'axios';
 import NoteOptions from '../Components/NoteOptions';
+import NewNote from '../Pages/NewNote';
+import {Route, Switch} from 'react-router-dom';
+import Paragraph from './Paragraph';
+import NewDesktopNote from './newDesktopNote';
 
 interface DesktopDashboardContentProps {
-    history: {push : (routeName: string) => void,  replace : (routeName: string) => void}
+    history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void}
 }
 
 interface Note {
@@ -46,7 +50,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
         }
     }
     const onNewNoteButtonClick = () => {
-        history.push('/newNote');
+        history.push('/desktopDashboard/newNote');
     }
     const removeNote = (id: string) => {
         const newArray = filteredNotes.filter(note => note._id !== id);
@@ -148,8 +152,12 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                     </section>
                     </div>
                     <div className='pb-[50px]'>
-                        <div className='transition-all dark:bg-[#151722] bg-white rounded-[30px] w-[90%] h-full mx-auto flex items-center justify-center'>
-                            <p className="dark:text-white"> Your notes will appear here</p>
+                        <div className='transition-all dark:bg-[#151722] bg-white rounded-[30px] w-[90%] h-full mx-auto '>
+                            <Switch>
+                                <Route path="/desktopDashboard" component={Paragraph} exact/>
+                                <Route path="/desktopDashboard/newNote" component={NewDesktopNote} exact/>
+                            </Switch>
+                            {/* <NewNote history={history}/> */}
                         </div>
 
                     </div>
