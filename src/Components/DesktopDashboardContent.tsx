@@ -159,7 +159,6 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                             </Switch>
                             {/* <NewNote history={history}/> */}
                         </div>
-
                     </div>
                 </section>
             </div>
