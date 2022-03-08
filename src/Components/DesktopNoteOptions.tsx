@@ -1,19 +1,35 @@
 import React from 'react';
 import whiteTrashIcon from '../images/whiteTrashIcon.svg';
 import shareIcon from '../images/icons8-share.svg';
+import axios from 'axios';
 
 interface DesktopNoteOptionsProps {
     removeNote : (id: string) => void;
     userId: string;
     noteId: string;
+    isShowing: boolean;
 }
 
-const DesktopNoteOptions : React.FC<DesktopNoteOptionsProps> = ({removeNote, userId, noteId}) => {
-    const onDeleteButtonClick = () => {
-
+const DesktopNoteOptions : React.FC<DesktopNoteOptionsProps> = ({removeNote, userId, noteId, isShowing}) => {
+    const visibleClasses = 'transition-all absolute w-[140px] h-[90px] bg-white dark:bg-[#151726] top-[40px] right-[18px] rounded-[15px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.3)] desktopOptions';
+    const hiddenClasses = visibleClasses + ' hiddenDesktopOptions'
+    const onDeleteButtonClick = async () => {
+        const apiEndpoint = `http://localhost:4000/api/v1/notes/${userId}/${noteId}`;
+        if (window.confirm("Are you sure you want to delete this note?")) {
+            try {
+                const {data} = await axios.delete(apiEndpoint);
+                console.log(data);
+                removeNote(noteId);
+                
+            } catch (error) {
+                console.log(error);
+                alert("Note could not be deleted successfully");
+            }
+        }
     };
     return (
-        <div className='transition-all absolute w-[140px] h-[90px] bg-white dark:bg-[#151726] top-[40px] right-[18px] rounded-[15px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.3)]'>
+        <>
+        <div className={isShowing ? visibleClasses : hiddenClasses}>
             <button className="flex mb-[10px] mt-[20px] w-full" onClick={onDeleteButtonClick}>
                 <img className="mx-[11px] w-[16px]" src={whiteTrashIcon}/>
                 <p className="text-[#86888C] text-[15px] relative bottom-1">Delete Note</p>
@@ -23,6 +39,8 @@ const DesktopNoteOptions : React.FC<DesktopNoteOptionsProps> = ({removeNote, use
                 <p className="text-[#86888C] text-[15px] relative bottom-1">Share Note</p>
             </button>
         </div>
+        <div></div>
+        </>
     );
 }
 
