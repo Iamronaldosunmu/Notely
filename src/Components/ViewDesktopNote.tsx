@@ -6,22 +6,23 @@ import whiteBackIcon from '../images/whiteBackIcon.svg';
 import whiteTickIcon from '../images/whiteTickIcon.svg';
 import blackBackIcon from '../images/blackBackIcon.svg';
 import blackTickIcon from '../images/blackTickIcon.svg';
-
-interface ViewNoteProps {
+import RouteComponentProps from 'react-router-dom';
+interface ViewDesktopNoteProps {
     history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
-    match: {params: {noteId: string, userId: string}};
+    match: {params: {noteId: string, userId: string}, url: string};
 }
 
-const ViewNote : React.FC<ViewNoteProps> = ({history, match}) => {
+const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({history, match}) => {
     const [user, setUser] = useState<{_id?: string, firstName?: string}>({});
     const [title, setTitle] = useState('');
     const [noteContent, setNoteContent] = useState('');
     const [dateCreated, setDateCreated] = useState('');
     const [selectedColor, setSelectedColor] = useState<string>('#3269ff');
     useEffect(() => {
+        console.log(match.url)
         const fetchNote = async () => {
             const apiEndpoint = `http://localhost:4000/api/v1/notes/${match.params.userId}/${match.params.noteId}`;
-            console.log(match.params)
+            console.log(apiEndpoint);
             try {
                 const {data} = await axios.get(apiEndpoint);
                 setTitle(data.title);
@@ -33,11 +34,12 @@ const ViewNote : React.FC<ViewNoteProps> = ({history, match}) => {
                 alert("An error occured");
                 history.push('/dashboard');
             }
+            console.log(apiEndpoint);
         }
-        // const date = new Date();
-        // if (!dateCreated) {
-        //     setDateCreated(`${date.toLocaleString('en-us', {  weekday: 'long' }).slice(0, 3)} ${date.toLocaleString('en-us', {  month: 'long' }).slice(0, 3)} ${date.getDate()}, ${date.getHours()}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`);
-        // }
+        const date = new Date();
+        if (!dateCreated) {
+            setDateCreated(`${date.toLocaleString('en-us', {  weekday: 'long' }).slice(0, 3)} ${date.toLocaleString('en-us', {  month: 'long' }).slice(0, 3)} ${date.getDate()}, ${date.getHours()}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`);
+        }
         try {
             const token = localStorage.getItem('token');
             if (!token) {
@@ -55,7 +57,7 @@ const ViewNote : React.FC<ViewNoteProps> = ({history, match}) => {
 
             }
         }
-    }, [])
+    }, [match.params])
     const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const input = e.currentTarget.value;
         setTitle(input);
@@ -65,27 +67,28 @@ const ViewNote : React.FC<ViewNoteProps> = ({history, match}) => {
         setNoteContent(input);
     }
     const handleSubmit = async () => {
-        history.push(`/editNote/${match.params.userId}/${match.params.noteId}`);
+        history.push(`../../../desktopDashboard/editNote/${match.params.userId}/${match.params.noteId}`);
     }
     const onDiscardNoteButtonClick = () => {
-        history.replace('/dashboard');
+        history.replace('/desktopDashboard');
     }
     return (
-        <div className="dark:bg-[#0E121A] h-screen w-screen transition-all overflow-y-auto">
-            <div className="flex justify-between px-[20px] pt-[15px] mb-[25px]">
+        <div className="dark:bg-[#0E121A] h-full w-full transition-all overflow-hidden pb-[20px]">
+            <div className="dark:bg-[#151722] pt-[10px] rounded-[30px] ">
+            <div className="flex justify-between px-[30px] pt-[15px] mb-[15px]">
                 <button onClick={onDiscardNoteButtonClick}>
                     {document.querySelector('html')?.classList.contains('dark') ? <img className="h-[28px]" src={whiteBackIcon} alt="back Icon"/> : <img className="h-[28px]" src={blackBackIcon} alt="back Icon"/>}                    
                 </button>
-                <button className="dark:text-white text-[28px] font-bold" onClick={handleSubmit}>
+                <button className="dark:text-white text-[21px] font-bold" onClick={handleSubmit}>
                     Edit
                 </button>
             </div>
-            <div className="dark:bg-[#151722] mx-[20px] pt-[20px] rounded-[30px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)]">
-                <p className="text-[31px] dark:text-white font-bold bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px]">{title}</p>
-                <p className="px-[20px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words</p>
-                <p className="text-[20px] dark:text-white bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full viewNoteTextArea">{noteContent}</p>
+                <p className="text-[30px] dark:text-white font-bold bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px]">{title}</p>
+                <p className="px-[30px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words</p>
+                <p className="text-[20px] dark:text-white bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopViewNoteArea overflow-y-auto">{noteContent}</p>
             </div>
         </div>
     );
-}
-export default ViewNote;
+};
+
+export default ViewDesktopNote;

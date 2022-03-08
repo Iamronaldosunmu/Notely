@@ -18,7 +18,7 @@ const DesktopNav : React.FC<DesktopNavProps> = ({history}) => {
             <DesktopNavItem Label="All Folders" setSelectedButton={setSelectedButton} selected={selectedButton == "All Folders"}/>
             <DesktopNavItem Label="Settings" setSelectedButton={setSelectedButton} selected={selectedButton == "Settings"}/>
             <button 
-                className="absolute w-[84px] h-[84px] rounded-full bg-[white] dark:bg-[#1E1D2C] flex items-center justify-center bottom-[28px] left-[28px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)] scale-[0.8]" 
+                className="absolute w-[84px] h-[84px] rounded-full bg-[white] dark:bg-[#1E1D2C] flex items-center justify-center bottom-[28px] left-[28px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)] scale-[0.8] focus:outline-[0]" 
                 onClick={() => history.push('/desktopDashboard/newNote')}>
                     <img alt="icon" src={addIcon}/>
                 </button>

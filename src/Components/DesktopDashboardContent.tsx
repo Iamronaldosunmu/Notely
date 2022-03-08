@@ -9,16 +9,20 @@ import jwtDecode from 'jwt-decode';
 import ContentButton from '../Components/ContentButton';
 import noNotesImage from '../images/noNotes.svg';
 import addIcon from '../images/addIcon.svg';
-import Note from '../Components/Note';
+import DesktopNote from '../Components/DesktopNote';
 import axios from 'axios';
 import NoteOptions from '../Components/NoteOptions';
 import NewNote from '../Pages/NewNote';
 import {Route, Switch} from 'react-router-dom';
 import Paragraph from './Paragraph';
 import NewDesktopNote from './newDesktopNote';
+import ViewDesktopNote from './ViewDesktopNote';
+import EditDesktopNote from './EditDesktopNote';
 
 interface DesktopDashboardContentProps {
-    history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void}
+    history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
+    match: {params: {noteId: string, userId: string}, url: string};
+
 }
 
 interface Note {
@@ -32,7 +36,7 @@ interface Note {
     imageUrl?: string;
 }
 
-const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({history}) => {
+const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({history, match}) => {
     const [notes, setNotes] = useState<Note[]>([]);
     const [currentNoteId, setCurrentNoteId] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
@@ -64,7 +68,6 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                 const {data} = await axios.get(apiEndpoint);
                 setNotes(data);
                 setFilteredNotes(data.reverse());
-                console.log(data)
             } catch (error) {
                 
             }finally {
@@ -127,25 +130,26 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                             </div>
                     </div>
                 </section>
-                <section className="pl-[45px] pr-[40px] grid grid-cols-[35%_auto] gap-[40px] mt-[28px]">
+                <section className="pl-[25px] pr-[40px] grid grid-cols-[35%_auto] gap-[20px] mt-[28px] h-[calc(100vh-120px)]">
                     <div>
-                        <div className="w-[calc(100% - 56px)] bg-[white] dark:bg-[#1E1D2C] h-[54px] rounded-[15px] px-[18px] flex items-center searchInputGroup">
+                        <div className="w-[calc(100% - 56px)] bg-[white] dark:bg-[#1E1D2C] h-[54px] rounded-[15px] mx-[25px] px-[18px] flex items-center searchInputGroup">
                             <img alt="icon" className="w-[30px] h-[30px] mr-[17px] fill-[white]" src={searchIcon} />
                             <input className="transition-all w-full h-[39px] bg-transparent focus:outline-[0] text-[22px] text-[#5c426c] dark:text-[#48485D] placeholder:text-[grey] dark:placeholder:text-[#48485D] font-bold" placeholder="Search your notes" onChange={onSearchChange} value={searchValue}/>
                         </div>
                         {loading && <Loader />}
-                        <section className="pt-[30px] grid grid-cols-2  gap-[15px] pb-[20px]">
+                        {/* TODO: Fix the problem of the note shadows being truncated by hiding the overflow of the container */}
+                        <section className="pt-[30px] grid grid-cols-2  gap-[15px] pb-[20px] max-h-[calc(100vh-175px)] px-[25px] overflow-y-hidden">
                         <div className="flex flex-col">
                             {filteredNotes.map(note => {
                                 if (filteredNotes.indexOf(note) % 2 === 0){
-                                    return note.imageUrl ? <Note history={history} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note history={history} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/>
+                                    return note.imageUrl ? <DesktopNote removeNote={removeNote} onDesktop={true} history={history} match={match} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <DesktopNote removeNote={removeNote} onDesktop={true} history={history} match={match} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/>
                                 }
                             })}
                         </div>
                         <div className="flex flex-col">
                             {filteredNotes.map(note => {
                                 if (filteredNotes.indexOf(note) % 2 === 1){
-                                    return note.imageUrl ? <Note history={history} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note history={history} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/>
+                                    return note.imageUrl ? <DesktopNote removeNote={removeNote} onDesktop={true} history={history} match={match} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <DesktopNote removeNote={removeNote} onDesktop={true} history={history} match={match} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/>
                                 }
                             })}
                         </div>
@@ -155,7 +159,9 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                         <div className='transition-all dark:bg-[#151722] bg-white rounded-[30px] w-[90%] h-full mx-auto '>
                             <Switch>
                                 <Route path="/desktopDashboard" component={Paragraph} exact/>
-                                <Route path="/desktopDashboard/newNote" component={NewDesktopNote} exact/>
+                                <Route path="/desktopDashboard/newNote" render={() => <NewDesktopNote notes={filteredNotes} setNotes={setFilteredNotes} history={history}/>} exact/>
+                                <Route path="/desktopDashboard/viewNote/:userId/:noteId" component={ViewDesktopNote} exact/>
+                                <Route path="/desktopDashboard/editNote/:userId/:noteId" render={() => <EditDesktopNote notes={filteredNotes} setNotes={setFilteredNotes} historyObject={history}/>} exact/>
                             </Switch>
                             {/* <NewNote history={history}/> */}
                         </div>

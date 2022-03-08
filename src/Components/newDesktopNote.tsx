@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Dispatch, SetStateAction} from 'react';
 import whiteBackIcon from '../images/whiteBackIcon.svg';
 import whiteTickIcon from '../images/whiteTickIcon.svg';
 import blackBackIcon from '../images/blackBackIcon.svg';
@@ -6,10 +6,23 @@ import blackTickIcon from '../images/blackTickIcon.svg';
 import jwtDecode from 'jwt-decode';
 
 import axios from 'axios';
-interface NewDesktopNote {
-    history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void}
+interface Note {
+    _id: string;
+    userId: string;
+    _v?: number;
+    selectedColor: string;
+    title: string;
+    noteContent: string;
+    dateCreated: string;
+    imageUrl?: string;
 }
-const NewDesktopNote : React.FC<NewDesktopNote> = ({history}) => {
+
+interface NewDesktopNote {
+    history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void}; 
+    notes: Note[];
+    setNotes: Dispatch<SetStateAction<Note[]>>;
+}
+const NewDesktopNote : React.FC<NewDesktopNote> = ({history, notes, setNotes}) => {
     useEffect(() => {
         const date = new Date();
         if (!dateCreated) {
@@ -49,8 +62,11 @@ const NewDesktopNote : React.FC<NewDesktopNote> = ({history}) => {
             const apiEndpoint = `http://localhost:4000/api/v1/notes/${user._id}`;
             try {
                 const result = await axios.post(apiEndpoint, payload);
-                console.log(result);
-                history.push('/desktopDashboard');
+                const desktopNotes = [...notes];
+                desktopNotes.unshift(result.data);
+                setNotes(desktopNotes);
+                history.push('/desktopDashboard')
+                // window.location.replace('/desktopDashboard');
             } catch (error) {
                 console.log(error);
             }
@@ -77,7 +93,7 @@ const NewDesktopNote : React.FC<NewDesktopNote> = ({history}) => {
                     {document.querySelector('html')?.classList.contains('dark') ? <img className="h-[28px] w-[35px]" src={whiteTickIcon} alt="tick Icon"/> : <img className="h-[28px] w-[35px]" src={blackTickIcon} alt="tick Icon"/>}                                       
                 </button>
             </div>
-            <input className="text-[30px] dark:text-white font-bold bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px]" placeholder="Add a title..." value={title} onChange={onTitleChange}/>
+            <input className="text-[30px] dark:text-white font-bold bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] w-full max-w-[100%] mb-[5px]" placeholder="Add a title..." value={title} onChange={onTitleChange}/>
             <p className="px-[30px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words</p>
             <textarea className="text-[20px] dark:text-white bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopNoteTextArea" placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>
         </div>

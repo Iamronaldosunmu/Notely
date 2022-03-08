@@ -53,6 +53,12 @@ html.dark .searchIcon {
 .viewNoteTextArea {
   height: calc(100vh - 230px);
 }
+.desktopViewNoteArea {
+  height: calc(100vh - 361px);
+}
+.desktopEditNoteArea {
+  height: calc(100vh - 416px);
+}
 .cover {
   object-fit: cover;
 }
@@ -84,7 +90,7 @@ html.dark .searchIcon {
   display: none;
 }
 .optionsContainer {
-  transition: all 0.4s;
+  transition: transform 0.4s, background-color 0.15s;
 }
 .optionsContainer.expanded {
   transform: translateY(-110px);
