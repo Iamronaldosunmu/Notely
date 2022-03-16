@@ -84,7 +84,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                 const user = jwtDecode(token) as {_id: string, firstName: string};
                 setUser(user);
                 fetchAllNotes(user);
-                console.log(user);
+                // console.log(user);
             }
         } catch(error: any) {
             if (error.message) {
@@ -96,7 +96,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
         
         
     }, [])
-    const darkModeButtonClasses = "w-[93px] h-[45px] rounded-[22.5px] bg-[#BFBFBF] dark:bg-[#000000] mr-[50px] darkModeButton ";
+    const darkModeButtonClasses = "w-[93px] h-[45px] rounded-[22.5px] bg-[#BFBFBF] dark:bg-[#000000] mr-[50px] darkModeButton focus:outline-[0]";
     const onSearchChange = (e : ChangeEvent<HTMLInputElement>) => {
         const input = e.currentTarget.value;
         setSearchValue(input);
@@ -138,7 +138,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                         </div>
                         {loading && <Loader />}
                         {/* TODO: Fix the problem of the note shadows being truncated by hiding the overflow of the container */}
-                        <section className="pt-[30px] grid grid-cols-2  gap-[15px] pb-[20px] max-h-[calc(100vh-175px)] px-[25px] overflow-y-hidden">
+                        <section className="mt-[30px] grid grid-cols-2  gap-[15px] pb-[20px] h-[calc(100vh-240px)] px-[25px] pr-[15px] overflow-y-auto rounded-b-[15px] desktopNoteSection">
                         <div className="flex flex-col">
                             {filteredNotes.map(note => {
                                 if (filteredNotes.indexOf(note) % 2 === 0){
@@ -155,8 +155,8 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                         </div>
                     </section>
                     </div>
-                    <div className='pb-[50px]'>
-                        <div className='transition-all dark:bg-[#151722] bg-white rounded-[30px] w-[90%] h-full mx-auto '>
+                    <div className='pb-[37px]'>
+                        <div className='transition-all dark:bg-[#151722] bg-white rounded-[30px] w-[95%] h-full mx-auto '>
                             <Switch>
                                 <Route path="/desktopDashboard" component={Paragraph} exact/>
                                 <Route path="/desktopDashboard/newNote" render={() => <NewDesktopNote notes={filteredNotes} setNotes={setFilteredNotes} history={history}/>} exact/>

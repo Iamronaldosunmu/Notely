@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap");
+.latoFamily {
+  font-family: "Lato", sans-serif;
+}
 .darkModeButton div {
   position: relative;
   transition: all 0.4s;
@@ -54,7 +58,7 @@ html.dark .searchIcon {
   height: calc(100vh - 230px);
 }
 .desktopViewNoteArea {
-  height: calc(100vh - 361px);
+  height: calc(100vh - 349px);
 }
 .desktopEditNoteArea {
   height: calc(100vh - 416px);
@@ -153,4 +157,55 @@ html.dark .searchIcon {
 }
 .desktopNavIcon.selected {
   fill: white;
+}
+/* Styles for the desktop options container */
+.desktopOptions {
+  opacity: 1;
+  transition: all 0.2s;
+}
+.hiddenDesktopOptions {
+  opacity: 0;
+  transform: scale(0.75);
+  z-index: -1;
+}
+/* Styles to change the width of the desktop Notes section container */
+.desktopNoteSection::-webkit-scrollbar,
+html.dark .desktopViewNoteScrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+.desktopViewNoteScrollbar::-webkit-scrollbar {
+  width: 20px;
+}
+.desktopNoteSection::-webkit-scrollbar-track,
+.desktopViewNoteScrollbar::-webkit-scrollbar-track {
+  background: rgb(255, 255, 255);
+  border-radius: 8px;
+}
+html.dark .desktopNoteSection::-webkit-scrollbar-track,
+html.dark .desktopViewNoteScrollbar::-webkit-scrollbar-track {
+  background: rgb(21 23 34); /* color of the tracking area */
+}
+
+.desktopNoteSection::-webkit-scrollbar-thumb,
+.desktopViewNoteScrollbar::-webkit-scrollbar-thumb {
+  border-radius: 20px; /* roundness of the scroll thumb */
+  border: 0px solid white;
+  background-color: darkgrey;
+}
+.desktopNoteSection::-webkit-scrollbar-thumb {
+  border: 3px solid white;
+  background-color: lightgrey;
+}
+.desktopViewNoteScrollbar::-webkit-scrollbar-thumb {
+  border: 8px solid white;
+}
+
+html.dark .desktopNoteSection::-webkit-scrollbar-thumb,
+html.dark .desktopViewNoteScrollbar::-webkit-scrollbar-thumb {
+  border: 3px solid rgb(21 23 34); /* creates padding around scroll thumb */
+  background-color: darkgrey; /* color of the scroll thumb */
+}
+/* Styles for the logo font */
+.logo {
+  font-family: "Lato", sans-serif;
 }

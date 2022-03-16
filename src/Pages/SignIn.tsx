@@ -5,6 +5,7 @@ import Book from '../images/notebook-iso-color.png';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Joi from 'joi';
+import {motion} from 'framer-motion';
 
 interface SignInProps {
     history: {push : (routeName: string) => void};
@@ -50,17 +51,17 @@ const SignIn : React.FC <SignInProps> = ({history}) => {
         // Make the position of the aside to be fixed to the left so that even if the form is larger than the screenheight, it won't be affected by scrolling
         // Or set height of the grid to be 100vh and set the overflow of the grid to hidden, but enable vertical scrolling in the main container (container for the form)
         <div className="w-full max-h-screen lg:overflow-hidden lg:grid lg:grid-cols-[60vw_40vw]">
-            <aside className="hidden items-center justify-center bg-[#8329BE] h-screen rounded-tr-[100px] rounded-br-[100px] lg:flex">
-                <img className="max-w-[607px]" src={Book} alt="purple book"/>
-            </aside>
+            <motion.aside initial={{x: '-100%'}} animate={{x: 0}} transition={{duration: 0.8}} exit={{x: '-100%', transition: {delay: 1.1, duration: 0.8}}} className="hidden items-center justify-center bg-[#8329BE] h-screen rounded-tr-[100px] rounded-br-[100px] lg:flex">
+                <motion.img initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 0.8, duration: 0.4}} exit={{opacity: 0, transition: {delay: 0.7, duration: 0.4}}} className="max-w-[607px]" src={Book} alt="purple book"/>
+            </motion.aside>
             <main className="h-screen flex items-center justify-center">
                 <form className="mx-auto max-w-[500px] flex flex-col w-full px-[30px]" onSubmit={handleSubmit}>
-                    <h1 className="font-black text-[48px] font-['Lato'] mb-[15px]">Sign In</h1>
+                    <motion.h1 initial={{y: 80, opacity: 0}} animate={{y: 0, opacity: 1}} transition={{duration: 0.7, delay: 1.4, }} exit={{y: 80, opacity: 0, transition: {delay: 0, duration: 0.7}}} className="font-black text-[48px] font-['Lato'] mb-[15px]">Sign In</motion.h1>
                     <InputGroup small={true} id="email" placeholder="Enter your email address" label="Email address" value={email} onChange={onEmailChange}/>
                     <InputGroup small={true} id="password" placeholder="Enter your password" label="Password" type="password" value={password} onChange={onPasswordChange}/>
                     {errors && <p className="text-center py-[10px] font-bold rounded-[10px] text-[#ff0033]">{errors}</p>}
                     <SubmitButton small={true} text="Sign In"/>
-                    <p className="text-center text-[18px] sm:text-[23px] mt-[25px]">Don't have an account? <span className="font-bold"><Link to="/signUp">Sign Up</Link></span></p>
+                    <motion.p initial={{y: 80, opacity: 0}} animate={{y: 0, opacity: 1}} transition={{duration: 0.7, delay: 1.4, }} exit={{y: 80, opacity: 0, transition: {delay: 0, duration: 0.7}}} className="text-center text-[18px] sm:text-[23px] mt-[25px]">Don't have an account? <span className="font-bold"><Link to="/signUp">Sign Up</Link></span></motion.p>
                 </form>
             </main>
         </div>

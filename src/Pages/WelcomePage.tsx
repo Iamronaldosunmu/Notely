@@ -6,6 +6,9 @@ interface WelcomeProps {
     history: {push: (routeName: string) => void}
 }
 const Welcome  : React.FC<WelcomeProps> = ({history}) => {
+    const getDeviceDashboardRoute = () => {
+        return window.innerWidth >= 1024 ? '/desktopDashboard' : 'dashboard';
+    }
     const [user, setUser] = useState<{_id?: string, firstName?: string}>({});
     useEffect(() =>{
         try {
@@ -17,7 +20,7 @@ const Welcome  : React.FC<WelcomeProps> = ({history}) => {
                 const user = jwtDecode(token) as {};
                 setUser(user);
                 setTimeout(() => {
-                    history.push('/dashboard')
+                    history.push(getDeviceDashboardRoute())
                 }, 3500)
             }
         } catch (error: any) {

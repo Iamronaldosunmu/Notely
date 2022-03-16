@@ -19,10 +19,10 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({history, match}) => {
     const [dateCreated, setDateCreated] = useState('');
     const [selectedColor, setSelectedColor] = useState<string>('#3269ff');
     useEffect(() => {
-        console.log(match.url)
+        // console.log(match.url)
         const fetchNote = async () => {
             const apiEndpoint = `http://localhost:4000/api/v1/notes/${match.params.userId}/${match.params.noteId}`;
-            console.log(apiEndpoint);
+            // console.log(apiEndpoint);
             try {
                 const {data} = await axios.get(apiEndpoint);
                 setTitle(data.title);
@@ -34,7 +34,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({history, match}) => {
                 alert("An error occured");
                 history.push('/dashboard');
             }
-            console.log(apiEndpoint);
+            // console.log(apiEndpoint);
         }
         const date = new Date();
         if (!dateCreated) {
@@ -48,7 +48,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({history, match}) => {
                 const user = jwtDecode(token) as {};
                 setUser(user);
                 fetchNote();
-                console.log(user);
+                // console.log(user);
             }
         } catch(error: any) {
             if (error.message) {
@@ -85,7 +85,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({history, match}) => {
             </div>
                 <p className="text-[30px] dark:text-white font-bold bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px]">{title}</p>
                 <p className="px-[30px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words</p>
-                <p className="text-[20px] dark:text-white bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopViewNoteArea overflow-y-auto">{noteContent}</p>
+                <p className="text-[20px] dark:text-white bg-transparent px-[30px] pr-[15px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopViewNoteArea overflow-y-auto desktopViewNoteScrollbar">{noteContent}</p>
             </div>
         </div>
     );

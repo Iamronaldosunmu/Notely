@@ -121,7 +121,7 @@ const EditDesktopNote : React.FC<EditDesktopNoteProps> = ({notes, setNotes, hist
             </div>
             <input className="text-[30px] dark:text-white font-bold bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px]" placeholder="Add a title..." value={title} onChange={onTitleChange}/>
             <p className="px-[30px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words</p>
-            <textarea className="text-[19px] dark:text-white bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopEditNoteArea mb-[75px]" placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>
+            <textarea className="text-[19px] dark:text-white bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopEditNoteArea mb-[75px] desktopViewNoteScrollbar" placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>
             <DesktopOptionsMenu onDiscardButtonClick={onDiscardNoteButtonClick} selectedColor={selectedColor} setSelectedColor={setSelectedColor} history={historyObject}/>
             </div>
         </div>

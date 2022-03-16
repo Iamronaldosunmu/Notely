@@ -5,6 +5,7 @@ import SubmitButton from '../Components/SubmitButton';
 import { Link } from 'react-router-dom';
 import axios, {Axios, AxiosError} from 'axios';
 import Joi from 'joi';
+import {motion} from 'framer-motion';
 
 interface SignUpProps {
     history: {push : (routeName: string) => void};
@@ -67,20 +68,24 @@ const SignUp : React.FC <SignUpProps> = (props) => {
 
     return (
         <div className="w-full max-h-screen lg:overflow-hidden lg:grid lg:grid-cols-[40vw_60vw]">
-            <aside className="hidden items-center justify-center bg-[#FF9900] h-screen rounded-tr-[100px] rounded-br-[100px] lg:flex">
-                <img className="max-w-[580px]" src={Pencil} alt="purple book"/>
-            </aside>
+            <motion.aside initial={{x: '-100%'}} animate={{x: 0}} transition={{duration: 0.8}} exit={{x: '-100%', transition: {delay: 1.1, duration: 0.8}}} className="hidden items-center justify-center bg-[#FF9900] h-screen rounded-tr-[100px] rounded-br-[100px] lg:flex">
+                <motion.img initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 0.8, duration: 0.4}} exit={{opacity: 0, transition: {delay: 0.7, duration: 0.4}}} className="max-w-[580px]" src={Pencil} alt="purple book"/>
+            </motion.aside>
             <main className="h-screen overflow-y-auto lg:flex items-center justify-center">
-                <form className="mx-auto max-w-[750px] flex flex-col w-full px-[30px] py-[40px] lg:py-[0px] lg:max-w-[750px]" onSubmit={handleSubmit}>
-                    <h1 className="font-black text-[48px] font-['Lato'] mb-[15px] lg:mb-[10px]">Sign Up</h1>
+                <motion.form animate={{
+                    transition: {
+                        staggerChildren: .1
+                    }
+                }} className="mx-auto max-w-[750px] flex flex-col w-full px-[30px] py-[40px] lg:py-[0px] lg:max-w-[750px]" onSubmit={handleSubmit}>
+                    <motion.h1 initial={{y: 80, opacity: 0}} animate={{y: 0, opacity: 1}} transition={{duration: 0.7, delay: 1.4, }} exit={{y: 80, opacity: 0, transition: {delay: 0, duration: 0.7}}} className="font-black text-[48px] font-['Lato'] mb-[15px] lg:mb-[10px]">Sign Up</motion.h1>
                     <InputGroup id="firstName" placeholder="Enter your first name" label="First Name" small={true} value={firstName} onChange={onFirstNameChange}/>
                     <InputGroup id="email" placeholder="Enter your email address" label="Email address" small={true} value={email} onChange={onEmailChange}/>
                     <InputGroup id="password" placeholder="Enter your password" label="Password" type="password" small={true} value={password} onChange={onPasswordChange}/>
                     <InputGroup id="ConfirmPassword" placeholder="Enter your password again" label="Confirm Password" type="password" small={true} value={confirmPassword} onChange={onConfirmPasswordChange}/>
                     {errors && <p className="text-center font-bold py-[10px] rounded-[10px] text-[#ff0033]">{errors}</p>}
                     <SubmitButton text="Sign Up" bgColor="bg-[#FF9900]" small={true}/>
-                    <p className="text-center text-[18px] mt-[15px]">Don't have an account? <span className="font-bold"><Link to="/signIn">Sign in</Link></span></p>
-                </form>
+                    <motion.p initial={{y: 80, opacity: 0}} animate={{y: 0, opacity: 1}} transition={{duration: 0.7, delay: 1.4, }} exit={{y: 80, opacity: 0, transition: {delay: 0, duration: 0.7}}} className="text-center text-[18px] mt-[15px]">Don't have an account? <span className="font-bold"><Link to="/signIn">Sign in</Link></span></motion.p>
+                </motion.form>
             </main>
         </div>
         );
