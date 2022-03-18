@@ -58,15 +58,17 @@ html.dark .searchIcon {
   height: calc(100vh - 230px);
 }
 .desktopViewNoteArea {
-  height: calc(100vh - 349px);
+  height: calc(100vh - 328px);
 }
 .desktopEditNoteArea {
-  height: calc(100vh - 416px);
+  height: calc(100vh - 341px);
 }
 .cover {
   object-fit: cover;
 }
-
+.desktopTextArea {
+  resize: none;
+}
 .loadingCircle {
   animation: bounce 1s ease-in-out infinite;
 }

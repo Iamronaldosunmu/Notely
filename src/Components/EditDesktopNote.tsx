@@ -33,12 +33,14 @@ interface matchProps {
 
 const EditDesktopNote : React.FC<EditDesktopNoteProps> = ({notes, setNotes, historyObject}) => {
     const history = useHistory();
+    const textareaClasses = "text-[19px] dark:text-white bg-transparent px-[30px] pb-[60px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopViewNoteScrollbar h-[calc(100%-200px)] desktopTextArea";
     const match : matchProps = useParams();
     const [user, setUser] = useState<{_id?: string, firstName?: string}>({});
     const [title, setTitle] = useState('');
     const [noteContent, setNoteContent] = useState('');
     const [dateCreated, setDateCreated] = useState('');
     const [selectedColor, setSelectedColor] = useState<string>('#3269ff');
+    const [imageUrl, setImageUrl] = useState<string>('');
     useEffect(() => {
         // console.log(history);
         console.log(match);
@@ -49,6 +51,7 @@ const EditDesktopNote : React.FC<EditDesktopNoteProps> = ({notes, setNotes, hist
                 setTitle(data.title);
                 setNoteContent(data.noteContent);
                 setSelectedColor(data.selectedColor);
+                if (data.imageUrl) setImageUrl(data.imageUrl)
 
             } catch (error) {
                 alert("An error occured");
@@ -119,10 +122,17 @@ const EditDesktopNote : React.FC<EditDesktopNoteProps> = ({notes, setNotes, hist
                     {document.querySelector('html')?.classList.contains('dark') ? <img className="h-[28px] w-[35px]" src={whiteTickIcon} alt="tick Icon"/> : <img className="h-[28px] w-[35px]" src={blackTickIcon} alt="tick Icon"/>}                                       
                 </button>
             </div>
-            <input className="text-[30px] dark:text-white font-bold bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px]" placeholder="Add a title..." value={title} onChange={onTitleChange}/>
+            <input className="text-[30px] dark:text-white font-bold bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px] w-full" placeholder="Add a title..." value={title} onChange={onTitleChange}/>
             <p className="px-[30px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words</p>
-            <textarea className="text-[19px] dark:text-white bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopEditNoteArea mb-[75px] desktopViewNoteScrollbar" placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>
-            <DesktopOptionsMenu onDiscardButtonClick={onDiscardNoteButtonClick} selectedColor={selectedColor} setSelectedColor={setSelectedColor} history={historyObject}/>
+            <div className="relative text-[19px] dark:text-white bg-transparent placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopEditNoteArea desktopViewNoteScrollbar flex flex-col">
+                {imageUrl &&  
+                 <figure className='absolute top-0 w-full flex items-center px-[30px] justify-start h-[150px] mb-[15px]'>
+                    <img src={imageUrl} className='h-full max-w-[90%] rounded-[20px]'/>
+                 </figure>
+                }
+                <textarea className={imageUrl ? textareaClasses + ' mt-[165px]' : textareaClasses + ' h-[calc(100%-55px)]'} placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>
+                <DesktopOptionsMenu onDiscardButtonClick={onDiscardNoteButtonClick} selectedColor={selectedColor} setSelectedColor={setSelectedColor} history={historyObject} noteId={match.noteId} setImageUrl={setImageUrl}/>
+            </div>
             </div>
         </div>
     );

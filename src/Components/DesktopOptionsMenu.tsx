@@ -10,16 +10,18 @@ import axios from 'axios';
 interface DesktopOptionsMenuProps {
     selectedColor: string;
     setSelectedColor: Dispatch<SetStateAction<string>>;
+    setImageUrl: Dispatch<SetStateAction<string>>;
     history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
     onDiscardButtonClick: () => void;
+    noteId: string;
 }
 
-const DesktopOptionsMenu : React.FC<DesktopOptionsMenuProps> = ({selectedColor, setSelectedColor, history, onDiscardButtonClick}) => {
+const DesktopOptionsMenu : React.FC<DesktopOptionsMenuProps> = ({selectedColor, setSelectedColor, history, onDiscardButtonClick, noteId, setImageUrl}) => {
     const [isCollapsed, setIsCollapsed] = useState(true);
-    const optionsContainerClasses = "absolute w-full bottom-[-115px] p-[10px] pl-[15px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)] bg-white dark:bg-[#151722] rounded-t-[25px] optionsContainer";
+    const optionsContainerClasses = "absolute w-full bottom-[-139px] p-[10px] pl-[15px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)] bg-white dark:bg-[#151722] rounded-t-[25px] optionsContainer";
     const fileInput = useRef<HTMLInputElement>(null);
     const uploadButton = useRef<HTMLButtonElement>(null);
-    const [fileSelected, setFileSelected] = React.useState<string | Blob>('');
+    const [fileSelected, setFileSelected] = React.useState<string | Blob | File>();
     useLayoutEffect(()=> {
         const handleUploadButtonClick = () => {
             if (null !== fileInput.current)
@@ -27,6 +29,7 @@ const DesktopOptionsMenu : React.FC<DesktopOptionsMenuProps> = ({selectedColor, 
         }
 
         uploadButton.current?.addEventListener('click', handleUploadButtonClick);
+        fileInput.current?.addEventListener('change', ()=> console.log('The file has been changed'));
 
  
     })
@@ -39,13 +42,16 @@ const DesktopOptionsMenu : React.FC<DesktopOptionsMenuProps> = ({selectedColor, 
 
         }
     };
-    const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const fileList = e.target.files;
-        console.log(fileList)
-        if (!fileList) return;
-        setFileSelected(e.target.files[0]);
-        console.log(fileSelected);
-        uploadFile();
+    const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files){
+            let file = e.target.files[0];
+            let formData = new FormData;
+            formData.append('image', e.target.files[0]);
+            formData.append('noteId', noteId);
+            const result = await axios.post('http://localhost:4000/api/v1/image', formData);
+            console.log(result.data);
+            setImageUrl(result.data.secure_url)
+        }
     }
     return (
         <div className={isCollapsed ? optionsContainerClasses : optionsContainerClasses + ' expanded'} >
