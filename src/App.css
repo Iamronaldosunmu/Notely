@@ -58,7 +58,7 @@ html.dark .searchIcon {
   height: calc(100vh - 230px);
 }
 .desktopViewNoteArea {
-  height: calc(100vh - 328px);
+  height: calc(100vh - 348px);
 }
 .desktopEditNoteArea {
   height: calc(100vh - 341px);

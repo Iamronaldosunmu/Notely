@@ -18,6 +18,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({history, match}) => {
     const [noteContent, setNoteContent] = useState('');
     const [dateCreated, setDateCreated] = useState('');
     const [selectedColor, setSelectedColor] = useState<string>('#3269ff');
+    const [imageUrl, setImageUrl] = useState<string>('');
     useEffect(() => {
         // console.log(match.url)
         const fetchNote = async () => {
@@ -29,7 +30,9 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({history, match}) => {
                 setNoteContent(data.noteContent);
                 setSelectedColor(data.selectedColor);
                 setDateCreated(data.dateCreated);
-
+                if (data.imageUrl) {
+                    setImageUrl(data.imageUrl)
+                }
             } catch (error) {
                 alert("An error occured");
                 history.push('/dashboard');
@@ -72,9 +75,10 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({history, match}) => {
     const onDiscardNoteButtonClick = () => {
         history.replace('/desktopDashboard');
     }
+    
     return (
-        <div className="dark:bg-[#0E121A] h-full w-full transition-all overflow-hidden pb-[20px]">
-            <div className="dark:bg-[#151722] pt-[10px] rounded-[30px] ">
+        <div className="dark:bg-[#0E121A] bg-[#f2f2f2] h-full w-full transition-all overflow-hidden pb-[20px]">
+            <div className="dark:bg-[#151722] bg-white pt-[10px] rounded-[30px]  pb-[20px]">
             <div className="flex justify-between px-[30px] pt-[15px] mb-[15px]">
                 <button onClick={onDiscardNoteButtonClick}>
                     {document.querySelector('html')?.classList.contains('dark') ? <img className="h-[28px]" src={whiteBackIcon} alt="back Icon"/> : <img className="h-[28px]" src={blackBackIcon} alt="back Icon"/>}                    
@@ -85,7 +89,16 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({history, match}) => {
             </div>
                 <p className="text-[30px] dark:text-white font-bold bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px]">{title}</p>
                 <p className="px-[30px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words</p>
-                <p className="text-[20px] dark:text-white bg-transparent px-[30px] pr-[15px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopViewNoteArea overflow-y-auto desktopViewNoteScrollbar">{noteContent}</p>
+                <p className="text-[20px] dark:text-white bg-transparent px-[30px] pr-[15px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopViewNoteArea overflow-y-auto desktopViewNoteScrollbar">
+                    {imageUrl && 
+                        <figure className='w-full flex items-center justify-start h-[150px] mb-[15px]'>
+                            <img src={imageUrl} className='h-full max-w-[90%] rounded-[20px]' />
+                        </figure>
+                    }
+                    <p>
+                    {noteContent}
+                    </p>
+                </p>
             </div>
         </div>
     );

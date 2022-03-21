@@ -96,7 +96,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
         
         
     }, [])
-    const darkModeButtonClasses = "w-[93px] h-[45px] rounded-[22.5px] bg-[#BFBFBF] dark:bg-[#000000] mr-[50px] darkModeButton focus:outline-[0]";
+    const darkModeButtonClasses = "w-[93px] h-[45px] rounded-[22.5px] bg-[#BFBFBF] dark:bg-[#000000] mr-[50px] darkModeButton focus:outline-[0] ";
     const onSearchChange = (e : ChangeEvent<HTMLInputElement>) => {
         const input = e.currentTarget.value;
         setSearchValue(input);
