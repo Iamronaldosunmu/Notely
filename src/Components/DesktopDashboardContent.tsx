@@ -18,6 +18,7 @@ import Paragraph from './Paragraph';
 import NewDesktopNote from './newDesktopNote';
 import ViewDesktopNote from './ViewDesktopNote';
 import EditDesktopNote from './EditDesktopNote';
+import {motion} from 'framer-motion';
 
 interface DesktopDashboardContentProps {
     history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
@@ -114,7 +115,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
         <div className='transition-all dark:bg-[#0E121A] bg-[#f2f2f2] w-full h-full overflow-hidden'>
             <div className='max-w-[1400px] mx-auto'>
                 <section className="w-full pl-[45px] pr-[60px] flex justify-between ">
-                    <h1 className='mt-[25px] text-[32px] dark:text-white font-bold'>Hi Ronald<span className='text-[45px]'>👋</span></h1>
+                    <h1 className='mt-[25px] text-[32px] dark:text-white font-bold flex'><span className='relative top-[13px]'>Hi Ronald</span><motion.div style={{originY: 0.9, originX: 0.9}} animate={{rotate: [40, -45, 0], y: [0, -10, 0]}} transition={{duration: 1.3}} className='text-[45px] relative '>👋</motion.div></h1>
                     <div className='flex flex-row items-center mt-[24px]'>
                     <button className={isDarkTheme? darkModeButtonClasses : darkModeButtonClasses + 'active'} onClick={onDarkModeButtonClick}>
                                 <div className="w-[35px] h-[35px] bg-[white] rounded-full ml-[7.5px] flex items-center justify-center">
