@@ -4,8 +4,11 @@ import whiteTickIcon from '../images/whiteTickIcon.svg';
 import blackBackIcon from '../images/blackBackIcon.svg';
 import blackTickIcon from '../images/blackTickIcon.svg';
 import jwtDecode from 'jwt-decode';
+import {useHistory, useParams} from 'react-router-dom';
 
 import axios from 'axios';
+import DesktopOptionsMenu from './DesktopOptionsMenu';
+import { match } from 'assert';
 interface Note {
     _id: string;
     userId: string;
@@ -18,11 +21,17 @@ interface Note {
 }
 
 interface NewDesktopNote {
-    history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void}; 
+    historyObject: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void}; 
     notes: Note[];
     setNotes: Dispatch<SetStateAction<Note[]>>;
 }
-const NewDesktopNote : React.FC<NewDesktopNote> = ({history, notes, setNotes}) => {
+interface matchProps {
+    userId: string;
+    noteId: string;
+}
+
+
+const NewDesktopNote : React.FC<NewDesktopNote> = ({historyObject, notes, setNotes}) => {
     useEffect(() => {
         const date = new Date();
         if (!dateCreated) {
@@ -45,11 +54,16 @@ const NewDesktopNote : React.FC<NewDesktopNote> = ({history, notes, setNotes}) =
             }
         }
     }, [])
+    const match : matchProps = useParams();
+    const history = useHistory();
     const [user, setUser] = useState<{_id?: string, firstName?: string}>({});
     const [title, setTitle] = useState('');
     const [noteContent, setNoteContent] = useState('');
     const [dateCreated, setDateCreated] = useState('');
     const [selectedColor, setSelectedColor] = useState<string>('#3269ff');
+    const [imageUrl, setImageUrl] = useState<string>('');
+    const [imageCloudinaryId, setImageCloudinaryId] = useState<string>('');
+    const textareaClasses = "text-[19px] dark:text-white bg-transparent px-[30px] pb-[60px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopViewNoteScrollbar h-[calc(100%-200px)] desktopTextArea";
     const onDiscardNoteButtonClick = () => {
         if (window.confirm('Are you sure you want to discard this note?')) {
             history.replace('/desktopDashboard');
@@ -57,7 +71,7 @@ const NewDesktopNote : React.FC<NewDesktopNote> = ({history, notes, setNotes}) =
     }
     const handleSubmit = async () => {
         if (title && noteContent) {
-            const payload = {title, noteContent, dateCreated, selectedColor};
+            const payload = {title, noteContent, dateCreated, selectedColor, imageUrl, imageCloudinaryId};
             console.log(payload);
             const apiEndpoint = `http://localhost:4000/api/v1/notes/${user._id}`;
             try {
@@ -83,7 +97,7 @@ const NewDesktopNote : React.FC<NewDesktopNote> = ({history, notes, setNotes}) =
         setNoteContent(input);
     }
     return (
-        <div className='h-full'>
+        <div className='relative h-full w-full transition-all overflow-hidden'>
             <div className="flex justify-between px-[30px] pt-[20px] mb-[15px]">
                 <button onClick={onDiscardNoteButtonClick}>
                     {document.querySelector('html')?.classList.contains('dark') ? <img className="h-[28px]" src={whiteBackIcon} alt="back Icon"/> : <img className="h-[28px]" src={blackBackIcon} alt="back Icon"/>}                    
@@ -95,7 +109,15 @@ const NewDesktopNote : React.FC<NewDesktopNote> = ({history, notes, setNotes}) =
             </div>
             <input className="text-[30px] dark:text-white font-bold bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] w-full max-w-[100%] mb-[5px]" placeholder="Add a title..." value={title} onChange={onTitleChange}/>
             <p className="px-[30px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words</p>
-            <textarea className="text-[20px] dark:text-white bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopNoteTextArea" placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>
+            <div className="relative text-[19px] dark:text-white bg-transparent placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopEditNoteArea desktopViewNoteScrollbar flex flex-col">
+                {imageUrl &&  
+                    <figure className='absolute top-0 w-full flex items-center px-[30px] justify-start h-[150px] mb-[15px]'>
+                        <img src={imageUrl} className='h-full max-w-[90%] rounded-[20px]'/>
+                    </figure>
+                    }
+                <textarea className={imageUrl ? textareaClasses + ' mt-[165px]' : textareaClasses + ' h-[calc(100%-55px)]'} placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>
+                <DesktopOptionsMenu onDiscardButtonClick={onDiscardNoteButtonClick} selectedColor={selectedColor} setSelectedColor={setSelectedColor} history={historyObject} noteId={match.noteId} setImageUrl={setImageUrl} newNote={true} setImageCloudinaryId={setImageCloudinaryId}/>
+            </div>
         </div>
     )
 };

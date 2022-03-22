@@ -35,6 +35,7 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
     const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
     const [selectedContentButton, setSelectedContentButton] = useState<string>("All notes")
     const [user, setUser] = useState<{_id?: string, firstName?: string}>({_id: '', firstName: ''});
+    const [avatarUrl, setAvatarUrl] = useState<string>('');
     const darkModeButtonClasses = "w-[93px] h-[45px] rounded-[22.5px] bg-[#BFBFBF] dark:bg-[#000000] mr-[15px] darkModeButton ";
     const onDarkModeButtonClick = () => {
         setIsDarkTheme(!isDarkTheme);
@@ -61,6 +62,7 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
     const removeNote = (id: string) => {
         const newArray = filteredNotes.filter(note => note._id !== id);
         setFilteredNotes(newArray);
+        setNotes(newArray);
     }
     useEffect(() => {
         const fetchAllNotes = async (userObject: {_id: string, firstName: string}) => {
@@ -112,7 +114,8 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
                             </div>
                         </button>
                         <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
-                            <img alt="icon" className="w-full h-full" src={profilePic}/>
+                            {avatarUrl && <img alt="icon" className="w-full h-full" src={profilePic}/>}
+                            {!avatarUrl && <div className='w-full h-full bg-[#8d6e63] flex items-center justify-center text-[27px] text-white font-semibold'><span>{user.firstName?.slice(0,1).toUpperCase()}</span></div>}
                         </div>
                     </div>
                 </section>

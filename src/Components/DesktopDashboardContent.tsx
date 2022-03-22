@@ -47,6 +47,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
     const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
     const [selectedContentButton, setSelectedContentButton] = useState<string>("All notes")
     const [user, setUser] = useState<{_id?: string, firstName?: string}>({_id: '', firstName: ''});
+    const [avatarUrl, setAvatarUrl] = useState<string>('');
     const onDarkModeButtonClick = () => {
         setIsDarkTheme(!isDarkTheme);
         const htmlElement = document.querySelector('html');
@@ -60,6 +61,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
     const removeNote = (id: string) => {
         const newArray = filteredNotes.filter(note => note._id !== id);
         setFilteredNotes(newArray);
+        setNotes(newArray);
     }
     useEffect(() => {
         const fetchAllNotes = async (userObject: {_id: string, firstName: string}) => {
@@ -110,12 +112,18 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
             setFilteredNotes(filtered)
         }
     }
+    const logout = () => {
+        if (window.confirm("Are you sure you want to logout?")) {
+            localStorage.removeItem('token');
+            history.replace('/signIn');
+        }
+    }
 
     return (
         <div className='transition-all dark:bg-[#0E121A] bg-[#f2f2f2] w-full h-full overflow-hidden'>
             <div className='max-w-[1400px] mx-auto'>
                 <section className="w-full pl-[45px] pr-[60px] flex justify-between ">
-                    <h1 className='mt-[25px] text-[32px] dark:text-white font-bold flex'><span className='relative top-[13px]'>Hi Ronald</span><motion.div style={{originY: 0.9, originX: 0.9}} animate={{rotate: [40, -45, 0], y: [0, -10, 0]}} transition={{duration: 1.3}} className='text-[45px] relative '>👋</motion.div></h1>
+                    <h1 className='mt-[25px] text-[32px] dark:text-white font-bold flex'><span className='relative top-[13px]'>Hi {user.firstName}</span><motion.div style={{originY: 0.9, originX: 0.9}} animate={{rotate: [40, -45, 0], y: [0, -10, 0]}} transition={{duration: 1.3}} className='text-[45px] relative '>👋</motion.div></h1>
                     <div className='flex flex-row items-center mt-[24px]'>
                     <button className={isDarkTheme? darkModeButtonClasses : darkModeButtonClasses + 'active'} onClick={onDarkModeButtonClick}>
                                 <div className="w-[35px] h-[35px] bg-[white] rounded-full ml-[7.5px] flex items-center justify-center">
@@ -124,9 +132,10 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                                 </div>
                             </button>
                             <div className="w-[50px] h-[50px] mr-[50px] rounded-full overflow-hidden">
-                                <img alt="icon" className="w-full h-full" src={profilePic}/>
+                                {avatarUrl && <img alt="icon" className="w-full h-full" src={profilePic}/>}
+                                {!avatarUrl && <div className='w-full h-full bg-[#8d6e63] flex items-center justify-center text-[27px] text-white font-semibold'><span>{user.firstName?.slice(0,1).toUpperCase()}</span></div>}
                             </div>
-                            <div className="w-[34px] h-[39px] p-[4px] rounded-full overflow-hidden">
+                            <div className="w-[34px] h-[39px] p-[4px] rounded-full overflow-hidden" onClick={logout}>
                                 <img alt="icon" className="w-full h-full" src={logoutIcon}/>
                             </div>
                     </div>
@@ -139,7 +148,11 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                         </div>
                         {loading && <Loader />}
                         {/* TODO: Fix the problem of the note shadows being truncated by hiding the overflow of the container */}
-                        <section className="mt-[30px] grid grid-cols-2  gap-[15px] pb-[20px] h-[calc(100vh-240px)] px-[25px] pr-[15px] overflow-y-auto rounded-b-[15px] desktopNoteSection">
+                        <section className="relative mt-[30px] grid grid-cols-2  gap-[15px] pb-[20px] h-[calc(100vh-240px)] px-[25px] pr-[15px] overflow-y-auto rounded-b-[15px] desktopNoteSection">
+                        {(!loading && !notes.length) && <section className="flex flex-col items-center absolute top-0 left-[calc(50%-125px)]">
+                            <img alt="icon" src={noNotesImage} className="max-w-[250px] mt-[30px]" />
+                            <p className="text-[18px] mt-[20px] font-bold dark:text-white">Create your first note</p>
+                        </section>}
                         <div className="flex flex-col">
                             {filteredNotes.map(note => {
                                 if (filteredNotes.indexOf(note) % 2 === 0){
@@ -160,7 +173,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                         <div className='transition-all dark:bg-[#151722] bg-white rounded-[30px] w-[95%] h-full mx-auto '>
                             <Switch>
                                 <Route path="/desktopDashboard" component={Paragraph} exact/>
-                                <Route path="/desktopDashboard/newNote" render={() => <NewDesktopNote notes={filteredNotes} setNotes={setFilteredNotes} history={history}/>} exact/>
+                                <Route path="/desktopDashboard/newNote" render={() => <NewDesktopNote notes={filteredNotes} setNotes={setFilteredNotes} historyObject={history}/>} exact/>
                                 <Route path="/desktopDashboard/viewNote/:userId/:noteId" component={ViewDesktopNote} exact/>
                                 <Route path="/desktopDashboard/editNote/:userId/:noteId" render={() => <EditDesktopNote notes={filteredNotes} setNotes={setFilteredNotes} historyObject={history}/>} exact/>
                             </Switch>

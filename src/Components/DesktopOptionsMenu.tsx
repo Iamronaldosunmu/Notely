@@ -14,15 +14,17 @@ interface DesktopOptionsMenuProps {
     history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
     onDiscardButtonClick: () => void;
     noteId: string;
+    newNote?: boolean;
+    setImageCloudinaryId?: Dispatch<SetStateAction<string>>;
 }
 
-const DesktopOptionsMenu : React.FC<DesktopOptionsMenuProps> = ({selectedColor, setSelectedColor, history, onDiscardButtonClick, noteId, setImageUrl}) => {
+const DesktopOptionsMenu : React.FC<DesktopOptionsMenuProps> = ({selectedColor, setSelectedColor, history, onDiscardButtonClick, noteId, setImageUrl, newNote, setImageCloudinaryId}) => {
     const [isCollapsed, setIsCollapsed] = useState(true);
     const optionsContainerClasses = "absolute w-full bottom-[-139px] p-[10px] pl-[15px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)] bg-white dark:bg-[#151722] rounded-t-[25px] optionsContainer";
     const [fileSelected, setFileSelected] = React.useState<string | Blob | File>();
 
     const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files){
+        if (!newNote && e.target.files){
             let file = e.target.files[0];
             let formData = new FormData;
             formData.append('image', e.target.files[0]);
@@ -30,6 +32,15 @@ const DesktopOptionsMenu : React.FC<DesktopOptionsMenuProps> = ({selectedColor, 
             const result = await axios.post('http://localhost:4000/api/v1/image', formData);
             console.log(result.data);
             setImageUrl(result.data.secure_url)
+        }
+        else if (newNote && e.target.files) {
+            let file = e.target.files[0];
+            let formData = new FormData;
+            formData.append('image', e.target.files[0]);
+            const result = await axios.post('http://localhost:4000/api/v1/image/newImage', formData);
+            console.log(result.data);
+            setImageUrl(result.data.secure_url);
+            if (setImageCloudinaryId) setImageCloudinaryId(result.data.public_id)
         }
     }
     return (
