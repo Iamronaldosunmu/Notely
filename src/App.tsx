@@ -18,21 +18,23 @@ const App : React.FC = () => {
   const location = useLocation();
   return (
     <>
-    <AnimatePresence exitBeforeEnter>
-        <Switch location={location} key={location.key}>
-          <Route path="/editNote/:userId/:noteId" component={EditNote} />
-          <Route path="/viewNote/:userId/:noteId" component={ViewNote} />
-          <Route path="/signUp" component={SignUp} />
-          <Route path="/viewImage" component={ViewDesktopImage} />
-          <Route path="/signIn" component={SignIn} />
-          <Route path="/welcome" component={WelcomePage} />
-          <Route path="/home" component={Home} />
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/desktopDashboard" component={DesktopDashboard} />
-          <Route path="/newNote" component={NewNote} />
-          <Route path="/" component={LoadingScreen} />
-        </Switch>
-    </AnimatePresence>
+      <AnimateSharedLayout>
+        <AnimatePresence exitBeforeEnter>
+            <Switch location={location} key={location.pathname}>
+              <Route path="/editNote/:userId/:noteId" component={EditNote} />
+              <Route path="/viewNote/:userId/:noteId" component={ViewNote} />
+              <Route path="/signUp" component={SignUp} />
+              <Route path="/viewImage" component={ViewDesktopImage} />
+              <Route path="/signIn" component={SignIn} />
+              <Route path="/welcome" component={WelcomePage} />
+              <Route path="/home" component={Home} />
+              <Route path="/dashboard" component={Dashboard} />
+              <Route path="/desktopDashboard" component={DesktopDashboard} />
+              <Route path="/newNote" component={NewNote} />
+              <Route path="/" component={LoadingScreen} />
+            </Switch>
+        </AnimatePresence>
+      </AnimateSharedLayout>
     </>
   );
 }

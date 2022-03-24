@@ -28,19 +28,20 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({historyObject: histor
     const [selectedColor, setSelectedColor] = useState<string>('#3269ff');
     const [imageUrl, setImageUrl] = useState<string>('');
     useEffect(() => {
-        // console.log(match.url)
+        let isActive = true;
         const fetchNote = async () => {
             const apiEndpoint = `http://localhost:4000/api/v1/notes/${match.userId}/${match.noteId}`;
-            // console.log(apiEndpoint);
             try {
                 const {data} = await axios.get(apiEndpoint);
-                setTitle(data.title);
-                setNoteContent(data.noteContent);
-                setSelectedColor(data.selectedColor);
-                setDateCreated(data.dateCreated);
-                if (data.imageUrl) {
-                    setImageUrl(data.imageUrl);
-                    setCurrentImageUrl(data.imageUrl);
+                if (isActive){
+                    setTitle(data.title);
+                    setNoteContent(data.noteContent);
+                    setSelectedColor(data.selectedColor);
+                    setDateCreated(data.dateCreated);
+                    if (data.imageUrl) {
+                        setImageUrl(data.imageUrl);
+                        setCurrentImageUrl(data.imageUrl);
+                    }
                 }
             } catch (error) {
                 alert("An error occured");
@@ -49,7 +50,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({historyObject: histor
             // console.log(apiEndpoint);
         }
         const date = new Date();
-        if (!dateCreated) {
+        if (!dateCreated && isActive) {
             setDateCreated(`${date.toLocaleString('en-us', {  weekday: 'long' }).slice(0, 3)} ${date.toLocaleString('en-us', {  month: 'long' }).slice(0, 3)} ${date.getDate()}, ${date.getHours()}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`);
         }
         try {
@@ -58,7 +59,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({historyObject: histor
                 history.push('/signIn');
             } else{
                 const user = jwtDecode(token) as {};
-                setUser(user);
+                if (isActive) setUser(user);
                 fetchNote();
                 // console.log(user);
             }
@@ -69,6 +70,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({historyObject: histor
 
             }
         }
+        return () => {isActive = false}
     }, [match])
     const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const input = e.currentTarget.value;
