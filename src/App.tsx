@@ -19,8 +19,7 @@ const App : React.FC = () => {
   return (
     <>
     <AnimatePresence exitBeforeEnter>
-      <AnimateSharedLayout >
-        <Switch location={location} key={location.pathname}>
+        <Switch location={location} key={location.key}>
           <Route path="/editNote/:userId/:noteId" component={EditNote} />
           <Route path="/viewNote/:userId/:noteId" component={ViewNote} />
           <Route path="/signUp" component={SignUp} />
@@ -33,7 +32,6 @@ const App : React.FC = () => {
           <Route path="/newNote" component={NewNote} />
           <Route path="/" component={LoadingScreen} />
         </Switch>
-      </AnimateSharedLayout>
     </AnimatePresence>
     </>
   );

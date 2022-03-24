@@ -51,6 +51,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
     const [user, setUser] = useState<{_id?: string, firstName?: string}>({_id: '', firstName: ''});
     const [avatarUrl, setAvatarUrl] = useState<string>('');
     const [viewImageIsShowing, setViewImageIsShowing] = useState<boolean>(false);
+    const [currentImageUrl, setCurrentImageUrl] = useState<string>('');
     const onDarkModeButtonClick = () => {
         setIsDarkTheme(!isDarkTheme);
         const htmlElement = document.querySelector('html');
@@ -178,7 +179,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                             <Switch>
                                 <Route path="/desktopDashboard" component={Paragraph} exact/>
                                 <Route path="/desktopDashboard/newNote" render={() => <NewDesktopNote notes={filteredNotes} setNotes={setFilteredNotes} historyObject={history}/>} exact/>
-                                <Route path="/desktopDashboard/viewNote/:userId/:noteId" render={() => <ViewDesktopNote historyObject={history} setViewImageIsShowing={setViewImageIsShowing}/>}   exact/>
+                                <Route path="/desktopDashboard/viewNote/:userId/:noteId" render={() => <ViewDesktopNote historyObject={history} setViewImageIsShowing={setViewImageIsShowing} setCurrentImageUrl={setCurrentImageUrl}/>}   exact/>
                                 <Route path="/desktopDashboard/editNote/:userId/:noteId" render={() => <EditDesktopNote notes={filteredNotes} setNotes={setFilteredNotes} historyObject={history}/>} exact/>
                             </Switch>
                             {/* <NewNote history={history}/> */}
@@ -187,7 +188,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                 </section>
             </div>
         </div>
-        {viewImageIsShowing && <ViewDesktopImage setViewImageIsShowing={setViewImageIsShowing}/>}
+        {viewImageIsShowing && <ViewDesktopImage setViewImageIsShowing={setViewImageIsShowing} imageUrl={currentImageUrl}/>}
     </>
     );
 }

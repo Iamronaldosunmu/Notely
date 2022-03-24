@@ -5,14 +5,15 @@ import {motion} from 'framer-motion'
 
 interface ViewDesktopImageProps {
     setViewImageIsShowing : Dispatch<SetStateAction<boolean>>;
+    imageUrl: string;
 }
 
-const ViewDesktopImage : React.FC<ViewDesktopImageProps> = ({setViewImageIsShowing}) => {
+const ViewDesktopImage : React.FC<ViewDesktopImageProps> = ({setViewImageIsShowing, imageUrl}) => {
     const history = useHistory();
     return (
         <>
             <motion.figure className='w-screen h-screen flex items-center justify-center bg-gray-900 absolute'>
-                <motion.img layoutId={"1"} className='w-[60%] max-h-[70%] rounded-[30px]' src="https://res.cloudinary.com/ronaldosunmu/image/upload/v1648073551/gnesjwis9mpuzstjcdrf.jpg"/>
+                <motion.img layoutId={"1"} className='w-[60%] max-h-[70%] rounded-[30px]' src={imageUrl}/>
             </motion.figure>
             <button onClick={() => setViewImageIsShowing(false)} className='transition-all absolute right-0 top-0 w-[80px] h-[80px] bg-opacity-10 hover:bg-slate-800'>
                 <img src={xsymbol} className="scale-50"/>

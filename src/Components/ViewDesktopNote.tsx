@@ -12,13 +12,14 @@ import {motion} from 'framer-motion';
 interface ViewDesktopNoteProps {
     historyObject: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
     setViewImageIsShowing: Dispatch<SetStateAction<boolean>>;
+    setCurrentImageUrl: Dispatch<SetStateAction<string>>;
 }
 interface matchProps {
     userId: string;
     noteId: string;
 }
 
-const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({historyObject: history, setViewImageIsShowing}) => {
+const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({historyObject: history, setViewImageIsShowing, setCurrentImageUrl}) => {
     const match : matchProps = useParams();
     const [user, setUser] = useState<{_id?: string, firstName?: string}>({});
     const [title, setTitle] = useState('');
@@ -38,7 +39,8 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({historyObject: histor
                 setSelectedColor(data.selectedColor);
                 setDateCreated(data.dateCreated);
                 if (data.imageUrl) {
-                    setImageUrl(data.imageUrl)
+                    setImageUrl(data.imageUrl);
+                    setCurrentImageUrl(data.imageUrl);
                 }
             } catch (error) {
                 alert("An error occured");
@@ -84,7 +86,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({historyObject: histor
     }
     
     return (
-        <div className="dark:bg-[#0E121A] bg-[#f2f2f2] h-full w-full transition-all overflow-hidden pb-[20px]">
+        <div className="dark:bg-[#0E121A] bg-[#f2f2f2] h-full w-full transition-all  pb-[20px]">
             <div className="dark:bg-[#151722] bg-white pt-[10px] rounded-[30px]  pb-[20px]">
             <div className="flex justify-between px-[30px] pt-[15px] mb-[15px]">
                 <button onClick={onDiscardNoteButtonClick}>
@@ -96,7 +98,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({historyObject: histor
             </div>
                 <p className="text-[30px] dark:text-white font-bold bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px]">{title}</p>
                 <p className="px-[30px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words</p>
-                <p className="text-[20px] dark:text-white bg-transparent px-[30px] pr-[15px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopViewNoteArea overflow-y-auto desktopViewNoteScrollbar">
+                <div className="text-[20px] dark:text-white bg-transparent px-[30px] pr-[15px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopViewNoteArea  desktopViewNoteScrollbar">
                     {imageUrl && 
                         <figure className='w-full flex items-center justify-start h-[150px] mb-[15px]'>
                             <motion.img layoutId={"1"} onClick={() => setViewImageIsShowing(true)} src={imageUrl} className='h-full max-w-[90%] rounded-[20px]' />
@@ -105,7 +107,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({historyObject: histor
                     <p>
                     {noteContent}
                     </p>
-                </p>
+                </div>
             </div>
         </div>
     );
