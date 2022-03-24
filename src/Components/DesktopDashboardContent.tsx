@@ -19,6 +19,8 @@ import NewDesktopNote from './newDesktopNote';
 import ViewDesktopNote from './ViewDesktopNote';
 import EditDesktopNote from './EditDesktopNote';
 import {motion} from 'framer-motion';
+import ViewDesktopImage from './ViewDesktopImage';
+
 
 interface DesktopDashboardContentProps {
     history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
@@ -48,6 +50,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
     const [selectedContentButton, setSelectedContentButton] = useState<string>("All notes")
     const [user, setUser] = useState<{_id?: string, firstName?: string}>({_id: '', firstName: ''});
     const [avatarUrl, setAvatarUrl] = useState<string>('');
+    const [viewImageIsShowing, setViewImageIsShowing] = useState<boolean>(false);
     const onDarkModeButtonClick = () => {
         setIsDarkTheme(!isDarkTheme);
         const htmlElement = document.querySelector('html');
@@ -120,6 +123,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
     }
 
     return (
+    <>
         <div className='transition-all dark:bg-[#0E121A] bg-[#f2f2f2] w-full h-full overflow-hidden'>
             <div className='max-w-[1400px] mx-auto'>
                 <section className="w-full pl-[45px] pr-[60px] flex justify-between ">
@@ -174,7 +178,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                             <Switch>
                                 <Route path="/desktopDashboard" component={Paragraph} exact/>
                                 <Route path="/desktopDashboard/newNote" render={() => <NewDesktopNote notes={filteredNotes} setNotes={setFilteredNotes} historyObject={history}/>} exact/>
-                                <Route path="/desktopDashboard/viewNote/:userId/:noteId" component={ViewDesktopNote} exact/>
+                                <Route path="/desktopDashboard/viewNote/:userId/:noteId" render={() => <ViewDesktopNote historyObject={history} setViewImageIsShowing={setViewImageIsShowing}/>}   exact/>
                                 <Route path="/desktopDashboard/editNote/:userId/:noteId" render={() => <EditDesktopNote notes={filteredNotes} setNotes={setFilteredNotes} historyObject={history}/>} exact/>
                             </Switch>
                             {/* <NewNote history={history}/> */}
@@ -183,6 +187,8 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                 </section>
             </div>
         </div>
+        {viewImageIsShowing && <ViewDesktopImage setViewImageIsShowing={setViewImageIsShowing}/>}
+    </>
     );
 }
 

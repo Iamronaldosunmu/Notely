@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Dispatch, SetStateAction} from 'react';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 import OptionsMenu from '../Components/OptionsMenu';
@@ -6,13 +6,20 @@ import whiteBackIcon from '../images/whiteBackIcon.svg';
 import whiteTickIcon from '../images/whiteTickIcon.svg';
 import blackBackIcon from '../images/blackBackIcon.svg';
 import blackTickIcon from '../images/blackTickIcon.svg';
-import RouteComponentProps from 'react-router-dom';
+import RouteComponentProps, { useParams } from 'react-router-dom';
+import {motion} from 'framer-motion';
+
 interface ViewDesktopNoteProps {
-    history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
-    match: {params: {noteId: string, userId: string}, url: string};
+    historyObject: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
+    setViewImageIsShowing: Dispatch<SetStateAction<boolean>>;
+}
+interface matchProps {
+    userId: string;
+    noteId: string;
 }
 
-const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({history, match}) => {
+const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({historyObject: history, setViewImageIsShowing}) => {
+    const match : matchProps = useParams();
     const [user, setUser] = useState<{_id?: string, firstName?: string}>({});
     const [title, setTitle] = useState('');
     const [noteContent, setNoteContent] = useState('');
@@ -22,7 +29,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({history, match}) => {
     useEffect(() => {
         // console.log(match.url)
         const fetchNote = async () => {
-            const apiEndpoint = `http://localhost:4000/api/v1/notes/${match.params.userId}/${match.params.noteId}`;
+            const apiEndpoint = `http://localhost:4000/api/v1/notes/${match.userId}/${match.noteId}`;
             // console.log(apiEndpoint);
             try {
                 const {data} = await axios.get(apiEndpoint);
@@ -60,7 +67,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({history, match}) => {
 
             }
         }
-    }, [match.params])
+    }, [match])
     const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const input = e.currentTarget.value;
         setTitle(input);
@@ -70,7 +77,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({history, match}) => {
         setNoteContent(input);
     }
     const handleSubmit = async () => {
-        history.push(`../../../desktopDashboard/editNote/${match.params.userId}/${match.params.noteId}`);
+        history.push(`../../../desktopDashboard/editNote/${match.userId}/${match.noteId}`);
     }
     const onDiscardNoteButtonClick = () => {
         history.replace('/desktopDashboard');
@@ -92,7 +99,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({history, match}) => {
                 <p className="text-[20px] dark:text-white bg-transparent px-[30px] pr-[15px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopViewNoteArea overflow-y-auto desktopViewNoteScrollbar">
                     {imageUrl && 
                         <figure className='w-full flex items-center justify-start h-[150px] mb-[15px]'>
-                            <img src={imageUrl} className='h-full max-w-[90%] rounded-[20px]' />
+                            <motion.img layoutId={"1"} onClick={() => setViewImageIsShowing(true)} src={imageUrl} className='h-full max-w-[90%] rounded-[20px]' />
                         </figure>
                     }
                     <p>
