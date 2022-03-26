@@ -1,4 +1,4 @@
-import React, {useEffect, useState, ChangeEvent} from 'react';
+import React, {useEffect, useState, ChangeEvent, Dispatch, SetStateAction} from 'react';
 import darkIcon from '../images/DarkModeSvg.svg';
 import lightIcon from '../images/SunSvg.svg';
 import profilePic from '../images/ronaldprofilepic1.png';
@@ -25,7 +25,8 @@ import ViewDesktopImage from './ViewDesktopImage';
 interface DesktopDashboardContentProps {
     history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
     match: {params: {noteId: string, userId: string}, url: string};
-
+    setIsFirstTime: Dispatch<SetStateAction<boolean>>;
+    isFirstTime: boolean;
 }
 
 interface Note {
@@ -128,29 +129,29 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
         <div className='transition-all dark:bg-[#0E121A] bg-[#f2f2f2] w-full h-full overflow-hidden'>
             <div className='max-w-[1400px] mx-auto'>
                 <section className="w-full pl-[45px] pr-[60px] flex justify-between ">
-                    <h1 className='mt-[25px] text-[32px] dark:text-white font-bold flex'><span className='relative top-[13px]'>Hi {user.firstName}</span><motion.div style={{originY: 0.9, originX: 0.9}} animate={{rotate: [40, -45, 0], y: [0, -10, 0]}} transition={{duration: 1.3}} className='text-[45px] relative '>👋</motion.div></h1>
+                    <motion.h1 animate={{opacity: 1, transition: {delay: 0.4, duration: 0.3}}} initial={{opacity: 0}} className='transition-all mt-[25px] text-[32px] dark:text-white font-bold flex'><span className='relative top-[13px]'>Hi {user.firstName}</span><motion.div style={{originY: 0.9, originX: 0.9}} animate={{rotate: [0, -45, 0], y: [0, -10, 0]}} transition={{duration: 1.3, delay: 1.4}} className='text-[45px] relative '>👋</motion.div></motion.h1>
                     <div className='flex flex-row items-center mt-[24px]'>
-                    <button className={isDarkTheme? darkModeButtonClasses : darkModeButtonClasses + 'active'} onClick={onDarkModeButtonClick}>
-                                <div className="w-[35px] h-[35px] bg-[white] rounded-full ml-[7.5px] flex items-center justify-center">
+                    <motion.button animate={{opacity: 1, transition: {delay: 0.5, duration: 0.3}}} initial={{opacity: 0}} className={isDarkTheme? darkModeButtonClasses : darkModeButtonClasses + 'active'} onClick={onDarkModeButtonClick}>
+                                <div  className="w-[35px] h-[35px] bg-[white] rounded-full ml-[7.5px] flex items-center justify-center">
                                     <img alt="icon" className="darkModeIcon" src={darkIcon} />
                                     <img alt="icon" className="lightModeIcon" src={lightIcon} />
                                 </div>
-                            </button>
-                            <div className="w-[50px] h-[50px] mr-[50px] rounded-full overflow-hidden">
+                            </motion.button>
+                            <motion.div animate={{opacity: 1, transition: {delay: 0.6, duration: 0.3}}} initial={{opacity: 0}} className="w-[50px] h-[50px] mr-[50px] rounded-full overflow-hidden cursor-pointer">
                                 {avatarUrl && <img alt="icon" className="w-full h-full" src={profilePic}/>}
                                 {!avatarUrl && <div className='w-full h-full bg-[#8d6e63] flex items-center justify-center text-[27px] text-white font-semibold'><span>{user.firstName?.slice(0,1).toUpperCase()}</span></div>}
-                            </div>
-                            <div className="w-[34px] h-[39px] p-[4px] rounded-full overflow-hidden" onClick={logout}>
+                            </motion.div>
+                            <motion.div animate={{opacity: 1, transition: {delay: 0.7, duration: 0.3}}} initial={{opacity: 0}} className="w-[34px] h-[39px] p-[4px] rounded-full overflow-hidden cursor-pointer" onClick={logout}>
                                 <img alt="icon" className="w-full h-full" src={logoutIcon}/>
-                            </div>
+                            </motion.div>
                     </div>
                 </section>
                 <section className="pl-[25px] pr-[40px] grid grid-cols-[35%_auto] gap-[20px] mt-[28px] h-[calc(100vh-120px)]">
                     <div>
-                        <div className="w-[calc(100% - 56px)] bg-[white] dark:bg-[#1E1D2C] h-[54px] rounded-[15px] mx-[25px] px-[18px] flex items-center searchInputGroup">
+                        <motion.div initial={{opacity: 0}} animate={{opacity: 1, transition: {delay: 2.3, duration: 0.3}}} className="w-[calc(100% - 56px)] bg-[white] dark:bg-[#1E1D2C] h-[54px] rounded-[15px] mx-[25px] px-[18px] flex items-center searchInputGroup">
                             <img alt="icon" className="w-[30px] h-[30px] mr-[17px] fill-[white]" src={searchIcon} />
                             <input className="transition-all w-full h-[39px] bg-transparent focus:outline-[0] text-[22px] text-[#5c426c] dark:text-[#48485D] placeholder:text-[grey] dark:placeholder:text-[#48485D] font-bold" placeholder="Search your notes" onChange={onSearchChange} value={searchValue}/>
-                        </div>
+                        </motion.div>
                         {loading && <Loader />}
                         {/* TODO: Fix the problem of the note shadows being truncated by hiding the overflow of the container */}
                         <section className="relative mt-[30px] grid grid-cols-2  gap-[15px] pb-[20px] h-[calc(100vh-240px)] px-[25px] pr-[15px] overflow-y-auto rounded-b-[15px] desktopNoteSection">
@@ -175,7 +176,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                     </section>
                     </div>
                     <div className='pb-[37px]'>
-                        <div className='transition-all dark:bg-[#151722] bg-white rounded-[30px] w-[95%] h-full mx-auto '>
+                        <motion.div initial={{scale: 0.8, opacity: 0}} animate={{scale: 1, opacity: 1, transition: {delay: 3.5, duration: 0.1}}} className='transition-all dark:bg-[#151722] bg-white rounded-[30px] w-[95%] h-full mx-auto '>
                             <Switch>
                                 <Route path="/desktopDashboard" component={Paragraph} exact/>
                                 <Route path="/desktopDashboard/newNote" render={() => <NewDesktopNote notes={filteredNotes} setNotes={setFilteredNotes} historyObject={history}/>} exact/>
@@ -183,7 +184,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                                 <Route path="/desktopDashboard/editNote/:userId/:noteId" render={() => <EditDesktopNote notes={filteredNotes} setNotes={setFilteredNotes} historyObject={history}/>} exact/>
                             </Switch>
                             {/* <NewNote history={history}/> */}
-                        </div>
+                        </motion.div>
                     </div>
                 </section>
             </div>

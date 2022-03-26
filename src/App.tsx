@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {Route, Switch, useLocation} from 'react-router-dom';
@@ -18,7 +18,7 @@ const App : React.FC = () => {
   const location = useLocation();
   return (
     <>
-      <AnimateSharedLayout>
+
         <AnimatePresence exitBeforeEnter>
             <Switch location={location} key={location.pathname}>
               <Route path="/editNote/:userId/:noteId" component={EditNote} />
@@ -34,7 +34,6 @@ const App : React.FC = () => {
               <Route path="/" component={LoadingScreen} />
             </Switch>
         </AnimatePresence>
-      </AnimateSharedLayout>
     </>
   );
 }

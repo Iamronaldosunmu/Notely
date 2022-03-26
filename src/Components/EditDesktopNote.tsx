@@ -7,6 +7,7 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import DesktopOptionsMenu from '../Components/DesktopOptionsMenu';
 import {useHistory, useParams} from 'react-router-dom';
+import {motion} from 'framer-motion';
 
 interface Note {
     _id: string;
@@ -51,7 +52,7 @@ const EditDesktopNote : React.FC<EditDesktopNoteProps> = ({notes, setNotes, hist
                 setTitle(data.title);
                 setNoteContent(data.noteContent);
                 setSelectedColor(data.selectedColor);
-                if (data.imageUrl) setImageUrl(data.imageUrl)
+                // if (data.imageUrl) setImageUrl(data.imageUrl)
 
             } catch (error) {
                 alert("An error occured");
