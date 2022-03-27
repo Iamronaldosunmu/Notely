@@ -10,7 +10,9 @@ interface DesktopDashboardProps {
 
 const DesktopDashboard : React.FC<DesktopDashboardProps> = ({history, match}) => {
     const [isFirstTime, setIsFirstTime] = useState<boolean>(true)
-    
+    useEffect(() => {
+        setTimeout(() => setIsFirstTime(false), 1000)
+    }, [])
     return (
         <div className="h-screen w-screen grid grid-cols-[195px_auto]">
             <DesktopNav history={history} isFirstTime={isFirstTime} setIsFirstTime={setIsFirstTime}/>
