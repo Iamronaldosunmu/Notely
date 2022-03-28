@@ -9,10 +9,8 @@ import {useHistory} from 'react-router-dom';
 
 interface DesktopNavProps {
     isFirstTime: boolean;
-    setIsFirstTime: Dispatch<SetStateAction<boolean>>;
-    setNumberOfRenders: Dispatch<SetStateAction<number>>;
 }
-const DesktopNav : React.FC<DesktopNavProps> = ({isFirstTime, setIsFirstTime, setNumberOfRenders}) => {
+const DesktopNav : React.FC<DesktopNavProps> = ({isFirstTime}) => {
     const history = useHistory();
     const [selectedButton, setSelectedButton] = useState<string>("All Notes");
     const parentVariant = {
@@ -31,11 +29,7 @@ const DesktopNav : React.FC<DesktopNavProps> = ({isFirstTime, setIsFirstTime, se
             <DesktopNavItem Label="Settings" isFirstTime={isFirstTime} setSelectedButton={setSelectedButton} selected={selectedButton == "Settings"}/>
             <motion.button initial={isFirstTime ? {opacity: 0} : {opacity: 1}} animate={{opacity: 1, transition: {duration: 0.3, delay: 3}}}
                 className="absolute w-[84px] h-[84px] rounded-full bg-[white] dark:bg-[#1E1D2C] flex items-center justify-center bottom-[28px] left-[28px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)] scale-[0.8] focus:outline-[0]" 
-                onClick={() => {
-                    setNumberOfRenders(2)
-                    history.push('/desktopDashboard/newNote');
-                    
-                    }}>
+                onClick={() => history.push('/desktopDashboard/newNote')}>
                     <img alt="icon" src={addIcon}/>
             </motion.button>
         </motion.section>

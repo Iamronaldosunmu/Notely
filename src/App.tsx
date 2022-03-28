@@ -20,7 +20,6 @@ const App : React.FC = () => {
   const isFirstTime = numberOfRenders === 1;
   return (
     <>
-
         <AnimatePresence exitBeforeEnter>
             <Switch location={location} key={location.pathname}>
               <Route path="/editNote/:userId/:noteId" component={EditNote} />
@@ -31,7 +30,7 @@ const App : React.FC = () => {
               <Route path="/welcome" component={WelcomePage} />
               <Route path="/home" component={Home} />
               <Route path="/dashboard" component={Dashboard} />
-              <Route path="/desktopDashboard" render={() => <DesktopDashboard/>} />
+              <Route path="/desktopDashboard" render={() => <DesktopDashboard setNumberOfRenders={setNumberOfRenders} isFirstTime={isFirstTime}/>} />
               <Route path="/newNote" component={NewNote} />
               <Route path="/" component={LoadingScreen} />
             </Switch>

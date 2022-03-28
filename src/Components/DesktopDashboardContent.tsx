@@ -24,9 +24,8 @@ import {useHistory} from 'react-router-dom';
 
 
 interface DesktopDashboardContentProps {
-    match: {params: {noteId: string, userId: string}, url: string};
-    setIsFirstTime: Dispatch<SetStateAction<boolean>>;
     isFirstTime: boolean;
+    setNumberOfRenders: Dispatch<SetStateAction<number>>;
 }
 
 interface Note {
@@ -40,7 +39,7 @@ interface Note {
     imageUrl?: string;
 }
 
-const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({match, isFirstTime, setIsFirstTime}) => {
+const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({isFirstTime}) => {
     const history = useHistory()
     const [notes, setNotes] = useState<Note[]>([]);
     const [currentNoteId, setCurrentNoteId] = useState<string>('');
@@ -177,7 +176,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({match
                     </motion.section>
                     </div>
                     <div className='pb-[37px]'>
-                        <motion.div initial={isFirstTime ? {scale: 0.8, opacity: 0} : {scale: 1, opacity: 1}} animate={{scale: 1, opacity: 1, transition: {delay: 3.5, duration: 0.1}}} className='transition-all dark:bg-[#151722] bg-white rounded-[30px] w-[95%] h-full mx-auto '>
+                        <motion.div initial={isFirstTime ? {scale: 0.8, opacity: 0} : {scale: 1, opacity: 1}} animate={{scale: 1, opacity: 1, transition: {delay: 3.5, duration: 0.1}}} className='transition-all dark:bg-[#151722] bg-white rounded-[30px] w-[95%]  h-[calc(100vh-161px)] mx-auto '>
                             <Switch>
                                 <Route path="/desktopDashboard" component={Paragraph} exact/>
                                 <Route path="/desktopDashboard/newNote" render={() => <NewDesktopNote notes={filteredNotes} setNotes={setFilteredNotes}/>} exact/>

@@ -3,19 +3,19 @@ import DesktopDashboardContent from '../Components/DesktopDashboardContent';
 import DesktopNav from '../Components/DesktopNav';
 
 interface DesktopDashboardProps {
-    match: {params: {noteId: string, userId: string}, url: string};
-
+    setNumberOfRenders: Dispatch<SetStateAction<number>>;
+    isFirstTime: boolean;
 }
 
-const DesktopDashboard : React.FC<DesktopDashboardProps> = ({match}) => {
+const DesktopDashboard : React.FC<DesktopDashboardProps> = ({setNumberOfRenders, isFirstTime}) => {
     const [a, setIsFirstTime] = useState<boolean>(true)
-    const [numberOfRenders, setNumberOfRenders] = useState<number>(1);
-    const isFirstTime = numberOfRenders === 1;
-
+    useEffect(()=> {
+        setNumberOfRenders(2);
+    }, [])
     return (
         <div className="h-screen w-screen grid grid-cols-[195px_auto]">
-            <DesktopNav isFirstTime={isFirstTime} setNumberOfRenders={setNumberOfRenders} setIsFirstTime={setIsFirstTime}/>
-            <DesktopDashboardContent match={match} isFirstTime={isFirstTime} setIsFirstTime={setIsFirstTime}/>
+            <DesktopNav isFirstTime={isFirstTime}  />
+            <DesktopDashboardContent isFirstTime={isFirstTime} setNumberOfRenders={setNumberOfRenders}/>
         </div>
     );
 };

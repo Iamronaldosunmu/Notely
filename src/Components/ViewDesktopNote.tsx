@@ -90,17 +90,25 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({ setViewImageIsShowin
     return (
         <div className="dark:bg-[#0E121A] bg-[#f2f2f2] h-full w-full transition-all  pb-[20px]">
             <div className="dark:bg-[#151722] bg-white pt-[10px] rounded-[30px]  pb-[20px]">
-            <div className="flex justify-between px-[30px] pt-[15px] mb-[15px]">
+            <motion.div initial={{opacity: 0}} animate={{opacity: 1, transition: {duration: 0.15}}} exit={{opacity: 0, transition: {duration: 0.15}}} className="flex justify-between px-[30px] pt-[15px] mb-[15px]">
                 <button onClick={onDiscardNoteButtonClick}>
                     {document.querySelector('html')?.classList.contains('dark') ? <img className="h-[28px]" src={whiteBackIcon} alt="back Icon"/> : <img className="h-[28px]" src={blackBackIcon} alt="back Icon"/>}                    
                 </button>
                 <button className="dark:text-white text-[21px] font-bold" onClick={handleSubmit}>
                     Edit
                 </button>
-            </div>
-                <p className="text-[30px] dark:text-white font-bold bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px]">{title}</p>
-                <p className="px-[30px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words</p>
-                <div className="text-[20px] dark:text-white bg-transparent px-[30px] pr-[15px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopViewNoteArea  desktopViewNoteScrollbar">
+            </motion.div>
+                <motion.p 
+                    initial={{opacity: 0}} animate={{opacity: 1, transition: {duration: 0.15}}} exit={{opacity: 0, transition: {duration: 0.15}}}
+                    className="text-[30px] dark:text-white font-bold bg-transparent px-[30px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px]">{title}
+                </motion.p>
+                <motion.p 
+                    initial={{opacity: 0}} animate={{opacity: 1, transition: {duration: 0.15}}} exit={{opacity: 0, transition: {duration: 0.15}}}
+                    className="px-[30px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words
+                </motion.p>
+                <motion.div 
+                initial={{opacity: 0}} animate={{opacity: 1, transition: {duration: 0.15}}} exit={{opacity: 0, transition: {duration: 0.15}}}
+                className="text-[20px] dark:text-white bg-transparent px-[30px] pr-[15px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopViewNoteArea  desktopViewNoteScrollbar">
                     {imageUrl && 
                         <figure className='w-full flex items-center justify-start h-[150px] mb-[15px]'>
                             <motion.img layoutId={"1"} onClick={() => setViewImageIsShowing(true)} src={imageUrl} className='h-full max-w-[90%] object-contain rounded-[20px]' />
@@ -109,7 +117,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({ setViewImageIsShowin
                     <p>
                     {noteContent}
                     </p>
-                </div>
+                </motion.div>
             </div>
         </div>
     );
