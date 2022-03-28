@@ -8,9 +8,9 @@ import blackBackIcon from '../images/blackBackIcon.svg';
 import blackTickIcon from '../images/blackTickIcon.svg';
 import RouteComponentProps, { useParams } from 'react-router-dom';
 import {motion} from 'framer-motion';
+import {useHistory} from 'react-router-dom';
 
 interface ViewDesktopNoteProps {
-    historyObject: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
     setViewImageIsShowing: Dispatch<SetStateAction<boolean>>;
     setCurrentImageUrl: Dispatch<SetStateAction<string>>;
 }
@@ -19,7 +19,8 @@ interface matchProps {
     noteId: string;
 }
 
-const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({historyObject: history, setViewImageIsShowing, setCurrentImageUrl}) => {
+const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({ setViewImageIsShowing, setCurrentImageUrl}) => {
+    const history = useHistory()
     const match : matchProps = useParams();
     const [user, setUser] = useState<{_id?: string, firstName?: string}>({});
     const [title, setTitle] = useState('');

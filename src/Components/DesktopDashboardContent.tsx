@@ -20,10 +20,10 @@ import ViewDesktopNote from './ViewDesktopNote';
 import EditDesktopNote from './EditDesktopNote';
 import {motion} from 'framer-motion';
 import ViewDesktopImage from './ViewDesktopImage';
+import {useHistory} from 'react-router-dom';
 
 
 interface DesktopDashboardContentProps {
-    history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
     match: {params: {noteId: string, userId: string}, url: string};
     setIsFirstTime: Dispatch<SetStateAction<boolean>>;
     isFirstTime: boolean;
@@ -40,7 +40,8 @@ interface Note {
     imageUrl?: string;
 }
 
-const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({history, match, isFirstTime, setIsFirstTime}) => {
+const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({match, isFirstTime, setIsFirstTime}) => {
+    const history = useHistory()
     const [notes, setNotes] = useState<Note[]>([]);
     const [currentNoteId, setCurrentNoteId] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
@@ -162,14 +163,14 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                         <div className="flex flex-col">
                             {filteredNotes.map(note => {
                                 if (filteredNotes.indexOf(note) % 2 === 0){
-                                    return note.imageUrl ? <DesktopNote removeNote={removeNote} onDesktop={true} history={history} match={match} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <DesktopNote removeNote={removeNote} onDesktop={true} history={history} match={match} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/>
+                                    return note.imageUrl ? <DesktopNote removeNote={removeNote} onDesktop={true}  setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <DesktopNote removeNote={removeNote} onDesktop={true}  setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/>
                                 }
                             })}
                         </div>
                         <div className="flex flex-col">
                             {filteredNotes.map(note => {
                                 if (filteredNotes.indexOf(note) % 2 === 1){
-                                    return note.imageUrl ? <DesktopNote removeNote={removeNote} onDesktop={true} history={history} match={match} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <DesktopNote removeNote={removeNote} onDesktop={true} history={history} match={match} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/>
+                                    return note.imageUrl ? <DesktopNote removeNote={removeNote} onDesktop={true}  setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <DesktopNote removeNote={removeNote} onDesktop={true}  setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/>
                                 }
                             })}
                         </div>
@@ -179,11 +180,11 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({histo
                         <motion.div initial={isFirstTime ? {scale: 0.8, opacity: 0} : {scale: 1, opacity: 1}} animate={{scale: 1, opacity: 1, transition: {delay: 3.5, duration: 0.1}}} className='transition-all dark:bg-[#151722] bg-white rounded-[30px] w-[95%] h-full mx-auto '>
                             <Switch>
                                 <Route path="/desktopDashboard" component={Paragraph} exact/>
-                                <Route path="/desktopDashboard/newNote" render={() => <NewDesktopNote notes={filteredNotes} setNotes={setFilteredNotes} historyObject={history}/>} exact/>
-                                <Route path="/desktopDashboard/viewNote/:userId/:noteId" render={() => <ViewDesktopNote historyObject={history} setViewImageIsShowing={setViewImageIsShowing} setCurrentImageUrl={setCurrentImageUrl}/>}   exact/>
-                                <Route path="/desktopDashboard/editNote/:userId/:noteId" render={() => <EditDesktopNote notes={filteredNotes} setNotes={setFilteredNotes} historyObject={history}/>} exact/>
+                                <Route path="/desktopDashboard/newNote" render={() => <NewDesktopNote notes={filteredNotes} setNotes={setFilteredNotes}/>} exact/>
+                                <Route path="/desktopDashboard/viewNote/:userId/:noteId" render={() => <ViewDesktopNote setViewImageIsShowing={setViewImageIsShowing} setCurrentImageUrl={setCurrentImageUrl}/>}   exact/>
+                                <Route path="/desktopDashboard/editNote/:userId/:noteId" render={() => <EditDesktopNote notes={filteredNotes} setNotes={setFilteredNotes}/>} exact/>
                             </Switch>
-                            {/* <NewNote history={history}/> */}
+                            {/* <NewNote  /> */}
                         </motion.div>
                     </div>
                 </section>

@@ -11,14 +11,13 @@ interface DesktopOptionsMenuProps {
     selectedColor: string;
     setSelectedColor: Dispatch<SetStateAction<string>>;
     setImageUrl: Dispatch<SetStateAction<string>>;
-    history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
     onDiscardButtonClick: () => void;
     noteId: string;
     newNote?: boolean;
     setImageCloudinaryId?: Dispatch<SetStateAction<string>>;
 }
 
-const DesktopOptionsMenu : React.FC<DesktopOptionsMenuProps> = ({selectedColor, setSelectedColor, history, onDiscardButtonClick, noteId, setImageUrl, newNote, setImageCloudinaryId}) => {
+const DesktopOptionsMenu : React.FC<DesktopOptionsMenuProps> = ({selectedColor, setSelectedColor, onDiscardButtonClick, noteId, setImageUrl, newNote, setImageCloudinaryId}) => {
     const [isCollapsed, setIsCollapsed] = useState(true);
     const optionsContainerClasses = "absolute w-full bottom-[-139px] p-[10px] pl-[15px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)] bg-white dark:bg-[#151722] rounded-t-[25px] optionsContainer";
     const [fileSelected, setFileSelected] = React.useState<string | Blob | File>();

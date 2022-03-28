@@ -16,6 +16,8 @@ import LoadingScreen from './Pages/LoadingScreen';
 import ViewDesktopImage from './Components/ViewDesktopImage';
 const App : React.FC = () => {
   const location = useLocation();
+  const [numberOfRenders, setNumberOfRenders] = useState<number>(1);
+  const isFirstTime = numberOfRenders === 1;
   return (
     <>
 
@@ -29,7 +31,7 @@ const App : React.FC = () => {
               <Route path="/welcome" component={WelcomePage} />
               <Route path="/home" component={Home} />
               <Route path="/dashboard" component={Dashboard} />
-              <Route path="/desktopDashboard" component={DesktopDashboard} />
+              <Route path="/desktopDashboard" render={() => <DesktopDashboard/>} />
               <Route path="/newNote" component={NewNote} />
               <Route path="/" component={LoadingScreen} />
             </Switch>

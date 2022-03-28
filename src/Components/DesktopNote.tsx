@@ -1,5 +1,6 @@
 import React, {Dispatch, SetStateAction, useState} from 'react';
 import DesktopNoteOptions from './DesktopNoteOptions';
+import {useHistory} from 'react-router-dom';
 
 interface DesktopNoteProps {
     _id: string;
@@ -11,14 +12,13 @@ interface DesktopNoteProps {
     imageUrl?: string;
     setNoteOptionsIsShowing: Dispatch<SetStateAction<boolean>>;
     setCurrentNoteId: Dispatch<SetStateAction<string>>;
-    history: {push : (routeName: string) => void,  replace : (routeName: string) => void};
     onDesktop?: boolean;
-    match?: {params: {noteId: string, userId: string}, url: string};
     removeNote: (id: string) => void;
 }
 
 
-const DesktopNote : React.FC<DesktopNoteProps> = ({_id,userId, color, title, noteContent, dateCreated, imageUrl, setNoteOptionsIsShowing, setCurrentNoteId, history, onDesktop, match, removeNote}) => {
+const DesktopNote : React.FC<DesktopNoteProps> = ({_id,userId, color, title, noteContent, dateCreated, imageUrl, setNoteOptionsIsShowing, setCurrentNoteId, onDesktop, removeNote}) => {
+    const history = useHistory()
     const colorString = `bg-[${color}]`;
     const [desktopNoteOptionsIsShowing, setDesktopNoteOptionsIsShowing] = useState(false);
     const onNoteOptionsButtonClick = () => {

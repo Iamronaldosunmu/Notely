@@ -21,7 +21,6 @@ interface Note {
 }
 
 interface EditDesktopNoteProps {
-    historyObject: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
     // match: {params: {noteId: string, userId: string}};
     notes: Note[];
     setNotes: Dispatch<SetStateAction<Note[]>>;
@@ -32,7 +31,7 @@ interface matchProps {
 }
 
 
-const EditDesktopNote : React.FC<EditDesktopNoteProps> = ({notes, setNotes, historyObject}) => {
+const EditDesktopNote : React.FC<EditDesktopNoteProps> = ({notes, setNotes}) => {
     const history = useHistory();
     const textareaClasses = "text-[19px] dark:text-white bg-transparent px-[30px] pb-[60px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopViewNoteScrollbar h-[calc(100%-200px)] desktopTextArea";
     const match : matchProps = useParams();
@@ -132,7 +131,7 @@ const EditDesktopNote : React.FC<EditDesktopNoteProps> = ({notes, setNotes, hist
                  </figure>
                 }
                 <textarea className={imageUrl ? textareaClasses + ' mt-[165px]' : textareaClasses + ' h-[calc(100%-55px)]'} placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>
-                <DesktopOptionsMenu onDiscardButtonClick={onDiscardNoteButtonClick} selectedColor={selectedColor} setSelectedColor={setSelectedColor} history={historyObject} noteId={match.noteId} setImageUrl={setImageUrl}/>
+                <DesktopOptionsMenu onDiscardButtonClick={onDiscardNoteButtonClick} selectedColor={selectedColor} setSelectedColor={setSelectedColor} noteId={match.noteId} setImageUrl={setImageUrl}/>
             </div>
             </div>
         </div>

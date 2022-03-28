@@ -21,7 +21,6 @@ interface Note {
 }
 
 interface NewDesktopNote {
-    historyObject: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void}; 
     notes: Note[];
     setNotes: Dispatch<SetStateAction<Note[]>>;
 }
@@ -31,7 +30,7 @@ interface matchProps {
 }
 
 
-const NewDesktopNote : React.FC<NewDesktopNote> = ({historyObject, notes, setNotes}) => {
+const NewDesktopNote : React.FC<NewDesktopNote> = ({ notes, setNotes}) => {
     useEffect(() => {
         const date = new Date();
         if (!dateCreated) {
@@ -116,7 +115,7 @@ const NewDesktopNote : React.FC<NewDesktopNote> = ({historyObject, notes, setNot
                     </figure>
                     }
                 <textarea className={imageUrl ? textareaClasses + ' mt-[165px]' : textareaClasses + ' h-[calc(100%-55px)]'} placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>
-                <DesktopOptionsMenu onDiscardButtonClick={onDiscardNoteButtonClick} selectedColor={selectedColor} setSelectedColor={setSelectedColor} history={historyObject} noteId={match.noteId} setImageUrl={setImageUrl} newNote={true} setImageCloudinaryId={setImageCloudinaryId}/>
+                <DesktopOptionsMenu onDiscardButtonClick={onDiscardNoteButtonClick} selectedColor={selectedColor} setSelectedColor={setSelectedColor} noteId={match.noteId} setImageUrl={setImageUrl} newNote={true} setImageCloudinaryId={setImageCloudinaryId}/>
             </div>
         </div>
     )
