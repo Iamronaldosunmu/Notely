@@ -11,6 +11,8 @@ import Note from '../Components/Note';
 import axios from 'axios';
 import Loader from '../Components/Loader';
 import NoteOptions from '../Components/NoteOptions';
+import {motion} from 'framer-motion';
+
 interface DashboardProps {
     history: {push : (routeName: string) => void,  replace : (routeName: string) => void}
 }
@@ -105,22 +107,22 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
         <div className="dark:bg-[#0E121A] h-screen w-screen transition-all overflow-y-auto">
             <div className="relative container mx-auto h-full">
                 <section className="flex justify-between pt-[15px]">
-                    <p className="text-[32px] dark:text-white pl-[25px] transition-all"><span className="font-bold">Note</span>ly</p>
+                    <motion.p initial={{opacity: 0}} animate={{opacity: 1, transition: {delay: 0.3, duration: 0.3} }} className="text-[32px] dark:text-white pl-[25px] transition-all"><span className="font-bold">Note</span>ly</motion.p>
                     <div className="flex items-center pr-[25px]">
-                        <button className={isDarkTheme? darkModeButtonClasses : darkModeButtonClasses + 'active'} onClick={onDarkModeButtonClick}>
+                        <motion.button initial={{opacity: 0}} animate={{opacity: 1, transition: {delay: 0.4, duration: 0.3}}} className={isDarkTheme? darkModeButtonClasses : darkModeButtonClasses + 'active'} onClick={onDarkModeButtonClick}>
                             <div className="w-[35px] h-[35px] bg-[white] rounded-full ml-[7.5px] flex items-center justify-center">
                                 <img alt="icon" className="darkModeIcon" src={darkIcon} /> 
                                 <img alt="icon" className="lightModeIcon" src={lightIcon} /> 
                             </div>
-                        </button>
-                        <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
+                        </motion.button>
+                        <motion.div initial={{opacity: 0}} animate={{opacity: 1, transition: {delay: 0.5, duration: 0.3} }} className="w-[50px] h-[50px] rounded-full overflow-hidden">
                             {avatarUrl && <img alt="icon" className="w-full h-full" src={profilePic}/>}
                             {!avatarUrl && <div className='w-full h-full bg-[#8d6e63] flex items-center justify-center text-[27px] text-white font-semibold'><span>{user.firstName?.slice(0,1).toUpperCase()}</span></div>}
-                        </div>
+                        </motion.div>
                     </div>
                 </section>
-                <p className="text-[32px] pl-[25px] dark:text-white transition-all">Hi {user.firstName} <span className="text-[45px]">👋</span></p>
-                <div className="mx-[28px] w-[calc(100% - 56px)] bg-[white] dark:bg-[#1E1D2C] h-[54px] rounded-[15px] mt-[18px] px-[18px] flex items-center searchInputGroup">
+                <motion.p initial={{opacity: 0}} animate={{opacity: 1, transition: {delay: 0.7, duration: 0.3} }} className="text-[32px] pl-[25px] dark:text-white transition-all">Hi {user.firstName} <span className="text-[45px]">👋</span></motion.p>
+                <div className="transition-all mx-[28px] w-[calc(100% - 56px)] bg-[white] dark:bg-[#1E1D2C] h-[54px] rounded-[15px] mt-[18px] px-[18px] flex items-center searchInputGroup">
                     <img alt="icon" className="w-[30px] h-[30px] mr-[17px] fill-[white]" src={searchIcon} />
                     <input className="transition-all w-full h-[39px] bg-transparent focus:outline-[0] text-[22px] text-[#5c426c] dark:text-[#48485D] placeholder:text-[grey] dark:placeholder:text-[#48485D] font-bold" placeholder="Search your notes" onChange={onSearchChange} value={searchValue}/>
                 </div>

@@ -6,16 +6,45 @@ import trashIcon from '../images/icons8-trash.svg';
 import whiteTrashIcon from '../images/whiteTrashIcon.svg';
 import whiteUploadImageIcon from '../images/whiteUploadImageIcon.svg';
 import uploadImageIcon from '../images/upload-image.svg';
+import axios from 'axios';
+
 interface OptionsMenuProps {
     selectedColor: string;
     setSelectedColor: Dispatch<SetStateAction<string>>;
     history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
     onDiscardButtonClick: () => void;
+    newNote?: boolean;
+    setImageUrl: Dispatch<SetStateAction<string>>;
+    noteId: string;
+
+
 }
 
-const OptionsMenu : React.FC<OptionsMenuProps> = ({selectedColor, setSelectedColor, history, onDiscardButtonClick}) => {
+const OptionsMenu : React.FC<OptionsMenuProps> = ({selectedColor, setSelectedColor, history, onDiscardButtonClick, newNote, setImageUrl, noteId}) => {
     const [isCollapsed, setIsCollapsed] = useState(true);
     const optionsContainerClasses = "fixed w-full bottom-[-115px] p-[10px] pl-[15px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)] bg-[#f5ecec00] dark:bg-[#151722] rounded-t-[25px] optionsContainer";
+    
+    const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!newNote && e.target.files){
+            let file = e.target.files[0];
+            let formData = new FormData;
+            formData.append('image', e.target.files[0]);
+            formData.append('noteId', noteId);
+            const result = await axios.post('http://localhost:4000/api/v1/image', formData);
+            console.log(result.data);
+            setImageUrl(result.data.secure_url)
+        }
+        else if (newNote && e.target.files) {
+            let file = e.target.files[0];
+            let formData = new FormData;
+            formData.append('image', e.target.files[0]);
+            const result = await axios.post('http://localhost:4000/api/v1/image/newImage', formData);
+            console.log(result.data);
+            setImageUrl(result.data.secure_url);
+            // if (setImageCloudinaryId) setImageCloudinaryId(result.data.public_id)
+        }
+    }
+
     return (
         <div className={isCollapsed ? optionsContainerClasses : optionsContainerClasses + ' expanded'} >
             <div className=" flex justify-between mb-[10px]">
@@ -42,8 +71,8 @@ const OptionsMenu : React.FC<OptionsMenuProps> = ({selectedColor, setSelectedCol
                 <button className="flex items-center mb-[20px] w-full">
                     {document.querySelector('html')?.classList.contains('dark') ? <img className="mr-[30px] w-[30px] " src={whiteUploadImageIcon}/> : <img className="mr-[30px] w-[30px] " src={uploadImageIcon}/> }
                     
-                    <p className="dark:text-[#86888C] text-[18px] font-bold">Upload an Image</p>
-                    {/* <input type="file" placeholder="" value=""/> */}
+                    <div className="dark:text-[#86888C] text-[18px] font-bold" onClick={() => document.getElementById('getFile')?.click()}>Upload an image</div>
+                    <input type='file' accept=".jpg,.jpeg,.png" id="getFile" name="image" className='hidden' onChange={onFileChange}/>
                 </button>
             </div>
         </div>

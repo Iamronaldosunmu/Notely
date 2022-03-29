@@ -6,21 +6,29 @@ import blackTickIcon from '../images/blackTickIcon.svg';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import OptionsMenu from '../Components/OptionsMenu';
+import { useParams } from 'react-router-dom';
 
 interface EditNoteProps {
     history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
-    match: {params: {noteId: string, userId: string}};
+    match?: {params: {noteId: string, userId: string}};
+}
+interface matchProps {
+    userId: string;
+    noteId: string;
 }
 
-const EditNote : React.FC<EditNoteProps> = ({history, match}) => {
+const EditNote : React.FC<EditNoteProps> = ({history}) => {
+    const match : matchProps = useParams();
     const [user, setUser] = useState<{_id?: string, firstName?: string}>({});
     const [title, setTitle] = useState('');
     const [noteContent, setNoteContent] = useState('');
     const [dateCreated, setDateCreated] = useState('');
     const [selectedColor, setSelectedColor] = useState<string>('#3269ff');
+    const [imageUrl, setImageUrl] = useState<string>('');
+
     useEffect(() => {
         const fetchNote = async () => {
-            const apiEndpoint = `http://localhost:4000/api/v1/notes/${match.params.userId}/${match.params.noteId}`;
+            const apiEndpoint = `http://localhost:4000/api/v1/notes/${match.userId}/${match.noteId}`;
             try {
                 const {data} = await axios.get(apiEndpoint);
                 setTitle(data.title);
@@ -65,7 +73,7 @@ const EditNote : React.FC<EditNoteProps> = ({history, match}) => {
     const handleSubmit = async () => {
         if (title && noteContent) {
             const payload = {title, noteContent, dateCreated, selectedColor};
-            const apiEndpoint = `http://localhost:4000/api/v1/notes/${match.params.userId}/${match.params.noteId}`;
+            const apiEndpoint = `http://localhost:4000/api/v1/notes/${match.userId}/${match.noteId}`;
             try {
                 const result = await axios.patch(apiEndpoint, payload);
                 console.log(result);
@@ -95,7 +103,7 @@ const EditNote : React.FC<EditNoteProps> = ({history, match}) => {
             <input className="text-[34px] dark:text-white font-bold bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px]" placeholder="Add a title..." value={title} onChange={onTitleChange}/>
             <p className="px-[20px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words</p>
             <textarea className="text-[24px] dark:text-white bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full noteTextArea" placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>
-            <OptionsMenu onDiscardButtonClick={onDiscardNoteButtonClick} selectedColor={selectedColor} setSelectedColor={setSelectedColor} history={history}/>
+            <OptionsMenu onDiscardButtonClick={onDiscardNoteButtonClick} selectedColor={selectedColor} setSelectedColor={setSelectedColor} history={history} noteId={match.noteId} setImageUrl={setImageUrl}/>
         </div>
     );
 }
