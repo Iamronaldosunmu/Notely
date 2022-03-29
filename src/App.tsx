@@ -40,3 +40,4 @@ const App : React.FC = () => {
 }
 
 export default App;
+// TODO: Fix the DestopNotesComponent fetching data every single time a route is changed

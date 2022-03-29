@@ -24,6 +24,8 @@ interface EditDesktopNoteProps {
     // match: {params: {noteId: string, userId: string}};
     notes: Note[];
     setNotes: Dispatch<SetStateAction<Note[]>>;
+    setCurrentImageUrl: Dispatch<SetStateAction<string>>;
+    setViewImageIsShowing: Dispatch<SetStateAction<boolean>>;
 }
 interface matchProps {
     userId: string;
@@ -31,7 +33,7 @@ interface matchProps {
 }
 
 
-const EditDesktopNote : React.FC<EditDesktopNoteProps> = ({notes, setNotes}) => {
+const EditDesktopNote : React.FC<EditDesktopNoteProps> = ({notes, setNotes, setViewImageIsShowing, setCurrentImageUrl}) => {
     const history = useHistory();
     const textareaClasses = "text-[19px] dark:text-white bg-transparent px-[30px] pb-[60px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopViewNoteScrollbar h-[calc(100%-200px)] desktopTextArea";
     const match : matchProps = useParams();
@@ -51,7 +53,8 @@ const EditDesktopNote : React.FC<EditDesktopNoteProps> = ({notes, setNotes}) => 
                 setTitle(data.title);
                 setNoteContent(data.noteContent);
                 setSelectedColor(data.selectedColor);
-                if (data.imageUrl) setImageUrl(data.imageUrl)
+                setImageUrl(data.imageUrl || '');
+                setCurrentImageUrl(data.imageUrl || '');
 
             } catch (error) {
                 alert("An error occured");
@@ -137,7 +140,7 @@ const EditDesktopNote : React.FC<EditDesktopNoteProps> = ({notes, setNotes}) => 
                 className="relative text-[19px] dark:text-white bg-transparent placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopEditNoteArea desktopViewNoteScrollbar flex flex-col">
                 {imageUrl &&  
                  <figure className='absolute top-0 w-full flex items-center px-[30px] justify-start h-[150px] mb-[15px]'>
-                    <img src={imageUrl} className='h-full max-w-[90%] rounded-[20px]'/>
+                    <motion.img layoutId={"1"} onClick={() => setViewImageIsShowing(true)} src={imageUrl} className='h-full max-w-[90%] rounded-[20px] cursor-pointer'/>
                  </figure>
                 }
                 <textarea className={imageUrl ? textareaClasses + ' mt-[165px]' : textareaClasses + ' h-[calc(100%-55px)]'} placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>

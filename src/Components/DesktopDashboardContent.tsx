@@ -142,7 +142,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({isFir
                                 {!avatarUrl && <div className='w-full h-full bg-[#8d6e63] flex items-center justify-center text-[27px] text-white font-semibold'><span>{user.firstName?.slice(0,1).toUpperCase()}</span></div>}
                             </motion.div>
                             <motion.div animate={{opacity: 1, transition: {delay: 0.7, duration: 0.3}}} initial={isFirstTime ? {opacity: 0} : {opacity: 1}} className="w-[34px] h-[39px] p-[4px] rounded-full overflow-hidden cursor-pointer" onClick={logout}>
-                                <img alt="icon" className="w-full h-full" src={logoutIcon}/>
+                                <img alt="icon" className="w-full h-full hover:scale-105" src={logoutIcon}/>
                             </motion.div>
                     </div>
                 </section>
@@ -181,7 +181,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({isFir
                                 <Route path="/desktopDashboard" component={Paragraph} exact/>
                                 <Route path="/desktopDashboard/newNote" render={() => <NewDesktopNote notes={filteredNotes} setNotes={setFilteredNotes}/>} exact/>
                                 <Route path="/desktopDashboard/viewNote/:userId/:noteId" render={() => <ViewDesktopNote setViewImageIsShowing={setViewImageIsShowing} setCurrentImageUrl={setCurrentImageUrl}/>}   exact/>
-                                <Route path="/desktopDashboard/editNote/:userId/:noteId" render={() => <EditDesktopNote notes={filteredNotes} setNotes={setFilteredNotes}/>} exact/>
+                                <Route path="/desktopDashboard/editNote/:userId/:noteId" render={() => <EditDesktopNote setViewImageIsShowing={setViewImageIsShowing} setCurrentImageUrl={setCurrentImageUrl} notes={filteredNotes} setNotes={setFilteredNotes}/>} exact/>
                             </Switch>
                             {/* <NewNote  /> */}
                         </motion.div>

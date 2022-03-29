@@ -111,7 +111,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({ setViewImageIsShowin
                 className="text-[20px] dark:text-white bg-transparent px-[30px] pr-[15px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopViewNoteArea  desktopViewNoteScrollbar">
                     {imageUrl && 
                         <figure className='w-full flex items-center justify-start h-[150px] mb-[15px]'>
-                            <motion.img layoutId={"1"} onClick={() => setViewImageIsShowing(true)} src={imageUrl} className='h-full max-w-[90%] object-contain rounded-[20px]' />
+                            <motion.img layoutId={"1"} onClick={() => setViewImageIsShowing(true)} src={imageUrl} className='h-full max-w-[90%] object-contain rounded-[20px] cursor-pointer' />
                         </figure>
                     }
                     <p>

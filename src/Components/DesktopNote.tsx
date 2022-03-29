@@ -42,7 +42,7 @@ const DesktopNote : React.FC<DesktopNoteProps> = ({_id,userId, color, title, not
                     <div className="w-[7px] h-[7px] rounded-full bg-[#77787F]"></div>
                 </button>
             </header>
-            <section  onClick={onNoteClick}>
+            <section className='cursor-pointer' onClick={onNoteClick}>
                 <img className={imageUrl ? "w-full rounded-[15px] max-h-[150px] cover my-[10px]" : "w-full rounded-[25px] max-h-[150px] cover" } src={imageUrl || ''} />
                 <h1 className="tranisition-all text-[20px] dark:text-white font-bold mb-[12px] truncate ...">{title}</h1>
                 <p className="tranisition-all text-[14px] font-light dark:text-[#A1A2A7] mb-[20px] noteContent">{noteContent}</p>
