@@ -6,17 +6,27 @@ import blackTickIcon from '../images/blackTickIcon.svg';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import OptionsMenu from '../Components/OptionsMenu';
+import {useParams} from 'react-router-dom';
 
 interface NewNoteProps {
     history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void}
 }
 
+interface matchProps {
+    userId: string;
+    noteId: string;
+}
+
+
 const NewNote : React.FC<NewNoteProps> = ({history}) => {
+    const match : matchProps= useParams();
     const [user, setUser] = useState<{_id?: string, firstName?: string}>({});
     const [title, setTitle] = useState('');
     const [noteContent, setNoteContent] = useState('');
     const [dateCreated, setDateCreated] = useState('');
     const [selectedColor, setSelectedColor] = useState<string>('#3269ff');
+    const [imageUrl, setImageUrl] = useState<string>('');
+
     useEffect(() => {
         const date = new Date();
         if (!dateCreated) {
@@ -81,7 +91,7 @@ const NewNote : React.FC<NewNoteProps> = ({history}) => {
             <input className="text-[34px] dark:text-white font-bold bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px]" placeholder="Add a title..." value={title} onChange={onTitleChange}/>
             <p className="px-[20px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words</p>
             <textarea className="text-[24px] dark:text-white bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full noteTextArea" placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>
-            <OptionsMenu onDiscardButtonClick={onDiscardNoteButtonClick} selectedColor={selectedColor} setSelectedColor={setSelectedColor} history={history}/>
+            <OptionsMenu onDiscardButtonClick={onDiscardNoteButtonClick} selectedColor={selectedColor} setSelectedColor={setSelectedColor} history={history} setImageUrl={setImageUrl} noteId={match.noteId} newNote={true}/>
         </div>
     );
 }

@@ -41,3 +41,5 @@ const App : React.FC = () => {
 
 export default App;
 // TODO: Fix the DestopNotesComponent fetching data every single time a route is changed
+// TODO: Use the built-in framer-motion whileHover for button transition instead of using the plain css
+// TODO: Fix bugs of the overflow hidden propperties obstructing the image transitions

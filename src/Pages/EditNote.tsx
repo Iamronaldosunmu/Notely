@@ -34,6 +34,7 @@ const EditNote : React.FC<EditNoteProps> = ({history}) => {
                 setTitle(data.title);
                 setNoteContent(data.noteContent);
                 setSelectedColor(data.selectedColor);
+                setImageUrl(data.imageUrl || '');
 
             } catch (error) {
                 alert("An error occured");

@@ -211,6 +211,3 @@ html.dark .desktopViewNoteScrollbar::-webkit-scrollbar-thumb {
 .logo {
   font-family: "Lato", sans-serif;
 }
-.getStartedButton {
-  transition: transform 0.1s;
-}
