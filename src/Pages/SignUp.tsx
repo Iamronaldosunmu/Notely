@@ -27,6 +27,10 @@ const SignUp : React.FC <SignUpProps> = (props) => {
         password: Joi.string().required().min(3).pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).label('Password'), 
         confirmPassword: Joi.string().required().min(3).pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).label('Confirm Password')
     });
+    const toTitleCase = (str: string) => {
+        const lowered = str.toLowerCase();
+        return str[0].toUpperCase() + lowered.slice(1)
+    }
 
     const handleSubmit = async (e: React.FormEvent<any>) => {
         e.preventDefault();
@@ -36,7 +40,7 @@ const SignUp : React.FC <SignUpProps> = (props) => {
         else if (password !== confirmPassword) setErrors("The two passwords do not match");
         else if (!errors && firstName && email && password && confirmPassword) {
             try{
-                const { data: token } = await axios.post('http://localhost:4000/api/v1/users/', {firstName, email, password} );
+                const { data: token } = await axios.post('http://localhost:4000/api/v1/users/', {firstName : toTitleCase(firstName), email, password} );
                 localStorage.setItem('token', token);
                 if (props.history) {
                     props.history.push('/welcome');

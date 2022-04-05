@@ -21,7 +21,7 @@ const DesktopNav : React.FC<DesktopNavProps> = ({isFirstTime}) => {
 
 
     return (
-        <motion.section className="transition-all relative w-[195px] h-screen dark:bg-[#151722] pt-[32px]">
+        <motion.section className="transition-all relative lg:w-[150px] xl:w-[195px] h-screen dark:bg-[#151722] pt-[32px]">
             <motion.h1 animate={{opacity: 1, transition: {delay: 0.3, duration: 0.3}}} initial={isFirstTime ? {opacity: 0} : false} className="transition-all ml-[28px] text-[36px] mb-[33px] dark:text-white "><span className="font-bold">Note</span><span>ly</span></motion.h1>
 
             <DesktopNavItem Label="All Notes" isFirstTime={isFirstTime} setSelectedButton={setSelectedButton} selected={selectedButton == "All Notes"}/>

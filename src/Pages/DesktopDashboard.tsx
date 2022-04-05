@@ -17,11 +17,11 @@ const DesktopDashboard : React.FC<DesktopDashboardProps> = ({setNumberOfRenders,
                 history.push('/dashboard');
             }
         }
-        window.addEventListener('resize',changeToMobileScreen);
+        window.addEventListener('resize', changeToMobileScreen);
         setNumberOfRenders(2);
     }, [])
     return (
-        <div className="h-screen w-screen grid grid-cols-[195px_auto]">
+        <div className="h-screen w-screen grid lg:grid-cols-[150px_auto] xl:grid-cols-[195px_auto]">
             <DesktopNav isFirstTime={isFirstTime}  />
             <DesktopDashboardContent isFirstTime={isFirstTime} setNumberOfRenders={setNumberOfRenders}/>
         </div>

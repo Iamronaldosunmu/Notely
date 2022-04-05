@@ -146,7 +146,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({isFir
                             </motion.div>
                     </div>
                 </section>
-                <section className="pl-[25px] pr-[40px] grid grid-cols-[35%_auto] gap-[20px] mt-[28px] h-[calc(100vh-120px)]">
+                <section className="pl-[25px] pr-[40px] grid lg:grid-cols-[41%_auto] xl:grid-cols-[35%_auto] gap-[20px] mt-[28px] h-[calc(100vh-120px)]">
                     <div>
                         <motion.div initial={isFirstTime ? {opacity: 0} : {opacity: 1}} animate={{opacity: 1, transition: {delay: 2.3, duration: 0.3}}} className="w-[calc(100% - 56px)] bg-[white] dark:bg-[#1E1D2C] h-[54px] rounded-[15px] mx-[25px] px-[18px] flex items-center searchInputGroup">
                             <img alt="icon" className="w-[30px] h-[30px] mr-[17px] fill-[white]" src={searchIcon} />

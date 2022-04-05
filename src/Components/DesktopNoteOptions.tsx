@@ -50,7 +50,7 @@ const DesktopNoteOptions : React.FC<DesktopNoteOptionsProps> = ({removeNote, use
                 <p className="text-[#86888C] text-[15px] relative bottom-1">Share Note</p>
             </button>
         </div>
-        {isShowing && <div className='fixed top-0 bottom-0 right-0 left-0' onClick={() => setIsShowing(false)}></div>}
+        {isShowing && <div className='fixed top-0 bottom-0 right-0 left-0 z-10' onClick={() => setIsShowing(false)}></div>}
         </>
     );
 }
