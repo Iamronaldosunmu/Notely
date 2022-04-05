@@ -56,10 +56,14 @@ const EditDesktopNote : React.FC<EditDesktopNoteProps> = ({notes, setNotes, setV
                 setImageUrl(data.imageUrl || '');
                 setCurrentImageUrl(data.imageUrl || '');
 
-            } catch (error) {
-                alert("An error occured");
-                console.log(error);
-                history.push('/desktopDashboard');
+            } catch (error : any) {
+                if (error.response.status == 404) {
+                    history.replace('/desktopDashboard');
+                }
+                else {
+                    alert("An error occured");
+                    console.log(error);
+                }
             }
         }
         const date = new Date();

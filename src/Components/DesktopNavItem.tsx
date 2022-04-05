@@ -28,16 +28,7 @@ const DesktopNavItem : React.FC<DesktopNavItemProps> = ({Label, selected, setSel
             </motion.button>
         );
     }
-    else if (Label == "All Folders") {
-        return (
-            <motion.button initial={isFirstTime? {opacity: 0, y: 50} : {opacity: 1, y: 0}} animate={{y: 0, opacity: 1, transition: {duration: 0.2, delay: 1.3}}} className={selected ? selectedButton + 'bg-[rgba(92,66,108,0.35)]' : selectedButton} onClick={() => setSelectedButton(Label)}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path className={selected? 'desktopNavIcon selected' : 'desktopNavIcon'} d="M22.9712 5.54997H12.184V3.64937C12.184 3.0812 11.7234 2.62061 11.1553 2.62061H3.36239C2.79422 2.62061 2.33363 3.0812 2.33363 3.64937V5.54997H1.02877C0.460594 5.54997 0 6.01056 0 6.57873V20.3508C0 20.919 0.460594 21.3796 1.02877 21.3796H22.9712C23.5394 21.3796 24 20.919 24 20.3508V6.57873C24 6.01056 23.5394 5.54997 22.9712 5.54997ZM4.39116 4.67814H10.1265V5.54997H4.39116V4.67814ZM21.9425 19.322H2.05753V7.60745H21.9425V19.322Z" />
-                </svg>
-                <p className="text-white ml-[11px] desktopNavText  " style={selected ? {}: {color: '#48485D'} }>{Label}</p>
-            </motion.button>
-        );
-    }
+
     else {
         return (
             <motion.button initial={isFirstTime? {opacity: 0, y: 50} : {opacity: 1, y: 0}} animate={{y: 0, opacity: 1, transition: {duration: 0.2, delay: 1.4}}} className={selected ? selectedButton + 'bg-[rgba(92,66,108,0.35)]' : selectedButton} onClick={() => setSelectedButton(Label)}>

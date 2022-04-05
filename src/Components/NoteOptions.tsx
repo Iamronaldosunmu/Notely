@@ -9,12 +9,13 @@ interface NoteOptionsProps {
     noteOptionsIsShowing : boolean;
     setNoteOptionsIsShowing : Dispatch<SetStateAction<boolean>>;
     currentNoteId: string;
+    currentTitle: string;
     userId: string | undefined;
     removeNote: (id : string) => void;
     history: {push : (routeName: string) => void,  replace : (routeName: string) => void};
 }
 
-const NoteOptions : React.FC<NoteOptionsProps> = ({noteOptionsIsShowing, setNoteOptionsIsShowing, currentNoteId, userId, removeNote, history}) => {
+const NoteOptions : React.FC<NoteOptionsProps> = ({noteOptionsIsShowing, setNoteOptionsIsShowing, currentNoteId, userId, removeNote, history, currentTitle}) => {
     const noteOptionsClasses = "noteOptionsContainer fixed bottom-0 w-full flex flex-col bg-white dark:bg-[#151722] z-20 rounded-t-[35px] p-[15px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)]";
     const closeNoteOptionsClasses = "fixed bottom-0 top-0 right-0 left-0 closeNoteOptions z-10"
     const onDeleteButtonClick = async () => {
@@ -39,6 +40,14 @@ const NoteOptions : React.FC<NoteOptionsProps> = ({noteOptionsIsShowing, setNote
     const onViewNoteButtonClick = () => {
         history.push(`/viewNote/${userId}/${currentNoteId}`);
     }
+    const onShareButtonClick = () => {
+        if (navigator.share) {
+            navigator.share({
+                title: currentTitle, 
+                url: `http://localhost:3000/sharedNote/${currentNoteId}`
+            })
+        }
+    }
     return (
         <>
             <div onClick={() => setNoteOptionsIsShowing(false)} className={noteOptionsIsShowing ? closeNoteOptionsClasses : closeNoteOptionsClasses + ' invisible'}></div>
@@ -56,7 +65,7 @@ const NoteOptions : React.FC<NoteOptionsProps> = ({noteOptionsIsShowing, setNote
                     <img className="mx-[20px] w-[30px]" src={viewIcon}/>
                     <p className="text-[#86888C]">View Note</p>
                 </button>
-                <button className="flex">
+                <button className="flex" onClick={onShareButtonClick}>
                     <img className="mx-[20px] w-[30px]" src={shareIcon}/>
                     <p className="text-[#86888C]">Share Note</p>
                 </button>

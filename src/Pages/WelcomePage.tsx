@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import jwtDecode from 'jwt-decode';
-import welcomeImage from '../images/welcomeImage.svg';
+import welcomeImage from '../images/welcomeImage.png';
 import {motion} from 'framer-motion';
 
 interface WelcomeProps {

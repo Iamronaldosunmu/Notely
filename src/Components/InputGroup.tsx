@@ -10,7 +10,7 @@ interface InputProps {
     value?: string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const inputStyles : string = "placeholder:text-[18px] placeholder:font-['Lato'] placeholder:text-[#B4B4B4] px-[20px] py-[25px] border border-[#B4B4B4] rounded-[12px] focus:outline-black ";
+const inputStyles : string = "placeholder:text-[18px] placeholder:font-['Lato'] placeholder:text-[#B4B4B4] px-[20px] py-[25px] border border-[#B4B4B4] rounded-[12px] focus:outline-none ";
 
 const InputGroup : React.FC<InputProps> = ({id, placeholder, label, type, small, value, onChange}) => {
     return (

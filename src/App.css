@@ -51,6 +51,9 @@ html.dark .searchIcon {
 .noteTextArea {
   height: calc(100vh - 200px);
 }
+.noteTextAreaWithImage {
+  height: calc(100vh - 358px);
+}
 .desktopNoteTextArea {
   height: calc(100% - 180px);
 }

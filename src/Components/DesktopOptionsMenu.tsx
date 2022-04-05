@@ -7,6 +7,8 @@ import whiteTrashIcon from '../images/whiteTrashIcon.svg';
 import whiteUploadImageIcon from '../images/whiteUploadImageIcon.svg';
 import uploadImageIcon from '../images/upload-image.svg';
 import axios from 'axios';
+import { motion } from 'framer-motion';
+
 interface DesktopOptionsMenuProps {
     selectedColor: string;
     setSelectedColor: Dispatch<SetStateAction<string>>;
@@ -43,7 +45,7 @@ const DesktopOptionsMenu : React.FC<DesktopOptionsMenuProps> = ({selectedColor, 
         }
     }
     return (
-        <div className={isCollapsed ? optionsContainerClasses : optionsContainerClasses + ' expanded'} >
+        <motion.div exit={{opacity: 0}} className={isCollapsed ? optionsContainerClasses : optionsContainerClasses + ' expanded'} >
             <div className=" flex justify-between mb-[10px]">
                 <div className="max-w-[calc(100% - 110px)] overflow-hidden rounded-r-[10px]">
                     <div className="whitespace-nowrap overflow-y-auto p-[10px] pr-[0px] rounded-r-[20px] colorCircleContainer">
@@ -72,7 +74,7 @@ const DesktopOptionsMenu : React.FC<DesktopOptionsMenuProps> = ({selectedColor, 
                     <input type='file' accept=".jpg,.jpeg,.png" id="getFile" name="image" className='hidden' onChange={onFileChange}/>
                 </button>
             </div>
-        </div>
+        </motion.div>
     );
 }
 

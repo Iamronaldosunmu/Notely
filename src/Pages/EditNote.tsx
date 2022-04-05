@@ -7,6 +7,9 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import OptionsMenu from '../Components/OptionsMenu';
 import { useParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import ViewMobileImage from '../Components/ViewMobileImage'
+
 
 interface EditNoteProps {
     history: {push : (routeName: string) => void, goBack : () => {}, replace : (routeName: string) => void};
@@ -25,6 +28,8 @@ const EditNote : React.FC<EditNoteProps> = ({history}) => {
     const [dateCreated, setDateCreated] = useState('');
     const [selectedColor, setSelectedColor] = useState<string>('#3269ff');
     const [imageUrl, setImageUrl] = useState<string>('');
+    const [viewImageIsShowing, setViewImageIsShowing] = useState<boolean>(false);
+    const textAreaClasses = "text-[24px] dark:text-white bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full "
 
     useEffect(() => {
         const fetchNote = async () => {
@@ -91,21 +96,31 @@ const EditNote : React.FC<EditNoteProps> = ({history}) => {
             history.replace('/dashboard');
         }
     }
-    return (
+    return (<>
+        {viewImageIsShowing && <ViewMobileImage setViewImageIsShowing={setViewImageIsShowing} imageUrl={imageUrl}/>}
+
         <div className="dark:bg-[#0E121A] h-screen w-screen transition-all overflow-y-auto">
-            <div className="flex justify-between px-[20px] pt-[15px] mb-[35px]">
+            <motion.div initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}} className="flex justify-between px-[20px] pt-[15px] mb-[35px]">
                 <button onClick={onDiscardNoteButtonClick}>
                     {document.querySelector('html')?.classList.contains('dark') ? <img className="h-[28px]" src={whiteBackIcon} alt="back Icon"/> : <img className="h-[28px]" src={blackBackIcon} alt="back Icon"/>}                    
                 </button>
                 <button onClick={handleSubmit}>
                     {document.querySelector('html')?.classList.contains('dark') ? <img className="h-[28px] w-[35px]" src={whiteTickIcon} alt="tick Icon"/> : <img className="h-[28px] w-[35px]" src={blackTickIcon} alt="tick Icon"/>}                                       
                 </button>
-            </div>
-            <input className="text-[34px] dark:text-white font-bold bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px]" placeholder="Add a title..." value={title} onChange={onTitleChange}/>
-            <p className="px-[20px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words</p>
-            <textarea className="text-[24px] dark:text-white bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full noteTextArea" placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>
+            </motion.div>
+            <motion.input initial={{opacity: 0}}  animate={{opacity: 1}} exit={{opacity: 0}} className="text-[34px] dark:text-white font-bold bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] mb-[5px]" placeholder="Add a title..." value={title} onChange={onTitleChange}/>
+            <motion.p initial={{opacity: 0}}  animate={{opacity: 1}} exit={{opacity: 0}} className="px-[20px] text-[#56595F] font-bold mb-[25px]">{dateCreated} | {noteContent ? noteContent.split(' ').length : 0} words</motion.p>
+            <motion.div initial={{opacity: 0}}  animate={{opacity: 1}} exit={{opacity: 0}}>
+            {imageUrl && 
+                            <figure className='w-full flex items-center justify-start px-[20px] h-[150px] mb-[15px]'>
+                                <motion.img layoutId={"1"} onClick={() => setViewImageIsShowing(true)} src={imageUrl} className='h-full max-w-[90%] object-contain rounded-[20px] cursor-pointer' />
+                            </figure>
+                        }
+            <textarea className={imageUrl ? textAreaClasses + 'noteTextAreaWithImage' : textAreaClasses + 'noteTextArea'} placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>
+            </motion.div>
             <OptionsMenu onDiscardButtonClick={onDiscardNoteButtonClick} selectedColor={selectedColor} setSelectedColor={setSelectedColor} history={history} noteId={match.noteId} setImageUrl={setImageUrl}/>
         </div>
+    </>
     );
 }
 export default EditNote;

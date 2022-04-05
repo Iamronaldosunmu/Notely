@@ -14,6 +14,7 @@ import ViewNote from './Pages/ViewNote';
 import DesktopDashboard from './Pages/DesktopDashboard';
 import LoadingScreen from './Pages/LoadingScreen';
 import ViewDesktopImage from './Components/ViewDesktopImage';
+import SharedNote from './Pages/SharedNote';
 const App : React.FC = () => {
   const location = useLocation();
   const [numberOfRenders, setNumberOfRenders] = useState<number>(1);
@@ -32,6 +33,7 @@ const App : React.FC = () => {
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/desktopDashboard" render={() => <DesktopDashboard setNumberOfRenders={setNumberOfRenders} isFirstTime={isFirstTime}/>} />
               <Route path="/newNote" component={NewNote} />
+              <Route path="/sharedNote/:noteId" component={SharedNote} />
               <Route path="/" component={LoadingScreen} />
             </Switch>
         </AnimatePresence>

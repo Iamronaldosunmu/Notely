@@ -10,16 +10,18 @@ interface NoteProps {
     imageUrl?: string;
     setNoteOptionsIsShowing: Dispatch<SetStateAction<boolean>>;
     setCurrentNoteId: Dispatch<SetStateAction<string>>;
+    setCurrentTitle: Dispatch<SetStateAction<string>>;
     history: {push : (routeName: string) => void,  replace : (routeName: string) => void};
     onDesktop?: boolean;
     match?: {params: {noteId: string, userId: string}, url: string};
 }
 
-const Note : React.FC<NoteProps> = ({_id,userId, color, title, noteContent, dateCreated, imageUrl, setNoteOptionsIsShowing, setCurrentNoteId, history, onDesktop, match}) => {
+const Note : React.FC<NoteProps> = ({_id,userId, color, title, noteContent, dateCreated, imageUrl, setNoteOptionsIsShowing, setCurrentNoteId, setCurrentTitle, history, onDesktop, match}) => {
     const colorString = `bg-[${color}]`;
     const onNoteOptionsButtonClick = () => {
         setNoteOptionsIsShowing(true);
         setCurrentNoteId(_id);
+        setCurrentTitle(title);
     }
     const onNoteClick = () => {
         const viewNoteUrl = onDesktop ? `../../../desktopDashboard/viewNote/${userId}/${_id}` : `/viewNote/${userId}/${_id}`;
@@ -39,7 +41,7 @@ const Note : React.FC<NoteProps> = ({_id,userId, color, title, noteContent, date
             <section  onClick={onNoteClick}>
                 <img className={imageUrl ? "w-full rounded-[15px] max-h-[150px] cover my-[10px]" : "w-full rounded-[25px] max-h-[150px] cover" } src={imageUrl || ''} />
                 <h1 className="tranisition-all text-[20px] dark:text-white font-bold mb-[12px] truncate ...">{title}</h1>
-                <p className="tranisition-all text-[14px] font-light dark:text-[#A1A2A7] mb-[20px] noteContent">{noteContent}</p>
+                <p style={{whiteSpace: "pre-line"}} className="tranisition-all text-[14px] font-light dark:text-[#A1A2A7] mb-[20px] noteContent">{noteContent}</p>
                 <p className="tranisition-all text-[10px] mb-[6px] font-bold dark:text-[white]" >{dateCreated}</p>
             </section>
         </div>

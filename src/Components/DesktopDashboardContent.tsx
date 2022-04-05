@@ -120,7 +120,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({isFir
     const logout = () => {
         if (window.confirm("Are you sure you want to logout?")) {
             localStorage.removeItem('token');
-            history.replace('/signIn');
+            history.replace('/home');
         }
     }
 
@@ -155,10 +155,10 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({isFir
                         {loading && <Loader />}
                         {/* TODO: Fix the problem of the note shadows being truncated by hiding the overflow of the container */}
                         <motion.section initial={isFirstTime? {opacity: 0, y: 50} : {opacity: 1, y: 0}} animate={{opacity: 1, y: 0, transition: {delay: 2.7, duration: 0.2}}} className="relative mt-[30px] grid grid-cols-2  gap-[15px] pb-[20px] h-[calc(100vh-240px)] px-[25px] pr-[15px] overflow-y-auto rounded-b-[15px] desktopNoteSection">
-                        {(!loading && !notes.length) && <section className="flex flex-col items-center absolute top-0 left-[calc(50%-125px)]">
+                        {(!loading && !notes.length) && <motion.section initial={isFirstTime? {opacity: 0, y: 50} : {opacity: 1, y: 0}} animate={{opacity: 1, y: 0, transition: {delay: 2.7, duration: 0.2}}} className="flex flex-col items-center absolute top-0 left-[calc(50%-125px)]">
                             <img alt="icon" src={noNotesImage} className="max-w-[250px] mt-[30px]" />
                             <p className="text-[18px] mt-[20px] font-bold dark:text-white">Create your first note</p>
-                        </section>}
+                        </motion.section>}
                         <div className="flex flex-col">
                             {filteredNotes.map(note => {
                                 if (filteredNotes.indexOf(note) % 2 === 0){

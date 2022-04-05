@@ -66,7 +66,7 @@ const OptionsMenu : React.FC<OptionsMenuProps> = ({selectedColor, setSelectedCol
                 <button className="flex items-center mb-[20px] w-full" onClick={onDiscardButtonClick} >
                     {document.querySelector('html')?.classList.contains('dark') ? <img className="mr-[30px] w-[30px] " src={whiteTrashIcon}/> : <img className="mr-[30px] w-[30px] " src={trashIcon}/> }
 
-                    <p className="dark:text-[#86888C] text-[18px] font-bold">Discard Note</p>
+                    <p className="dark:text-[#86888C] text-[18px] font-bold">Discard Changes</p>
                 </button>
                 <button className="flex items-center mb-[20px] w-full">
                     {document.querySelector('html')?.classList.contains('dark') ? <img className="mr-[30px] w-[30px] " src={whiteUploadImageIcon}/> : <img className="mr-[30px] w-[30px] " src={uploadImageIcon}/> }

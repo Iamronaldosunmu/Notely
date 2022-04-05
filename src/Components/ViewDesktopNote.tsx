@@ -43,9 +43,13 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({ setViewImageIsShowin
                     setCurrentImageUrl(data.imageUrl || '');
                     
                 }
-            } catch (error) {
-                alert("An error occured");
-                history.push('/dashboard');
+            } catch (error : any) {
+                if (error.response.status == 404) {
+                    history.replace('/desktopDashboard');
+                }
+                else {
+                    alert("An error occured");
+                }
             }
             // console.log(apiEndpoint);
         }
@@ -114,7 +118,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({ setViewImageIsShowin
                             <motion.img layoutId={"1"} onClick={() => setViewImageIsShowing(true)} src={imageUrl} className='h-full max-w-[90%] object-contain rounded-[20px] cursor-pointer' />
                         </figure>
                     }
-                    <p>
+                    <p style={{whiteSpace: "pre-line"}}>
                     {noteContent}
                     </p>
                 </motion.div>
