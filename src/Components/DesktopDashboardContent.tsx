@@ -21,11 +21,17 @@ import EditDesktopNote from './EditDesktopNote';
 import {motion} from 'framer-motion';
 import ViewDesktopImage from './ViewDesktopImage';
 import {useHistory} from 'react-router-dom';
+import UploadUserImage from './UploadUserImage';
 
 
 interface DesktopDashboardContentProps {
     isFirstTime: boolean;
     setNumberOfRenders: Dispatch<SetStateAction<number>>;
+    uploadImageIsShowing: boolean;
+    selectedButton: string;
+    setUploadImageIsShowing: Dispatch<SetStateAction<boolean>>; 
+    setSelectedButton: Dispatch<SetStateAction<string>>;
+
 }
 
 interface Note {
@@ -37,9 +43,11 @@ interface Note {
     noteContent: string;
     dateCreated: string;
     imageUrl?: string;
+
+
 }
 
-const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({isFirstTime}) => {
+const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({isFirstTime, uploadImageIsShowing, setUploadImageIsShowing, setSelectedButton, selectedButton}) => {
     const history = useHistory()
     const [notes, setNotes] = useState<Note[]>([]);
     const [currentNoteId, setCurrentNoteId] = useState<string>('');
@@ -49,7 +57,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({isFir
     const [searchValue, setSearchValue] = useState<string>('');
     const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
     const [selectedContentButton, setSelectedContentButton] = useState<string>("All notes")
-    const [user, setUser] = useState<{_id?: string, firstName?: string}>({_id: '', firstName: ''});
+    const [user, setUser] = useState<{_id?: string, firstName?: string, avatarUrl?: string}>({_id: '', firstName: '', avatarUrl: ''});
     const [avatarUrl, setAvatarUrl] = useState<string>('');
     const [viewImageIsShowing, setViewImageIsShowing] = useState<boolean>(false);
     const [currentImageUrl, setCurrentImageUrl] = useState<string>('');
@@ -69,7 +77,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({isFir
         setNotes(newArray);
     }
     useEffect(() => {
-        const fetchAllNotes = async (userObject: {_id: string, firstName: string}) => {
+        const fetchAllNotes = async (userObject: {_id: string, firstName: string, avatarUrl?: string}) => {
             try {
                 setLoading(true);
                 const apiEndpoint = `http://localhost:4000/api/v1/notes/${userObject._id}`;
@@ -89,7 +97,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({isFir
             if (!token) {
                 history.push('/signIn');
             } else{
-                const user = jwtDecode(token) as {_id: string, firstName: string};
+                const user = jwtDecode(token) as {_id: string, firstName: string, avatarUrl?: string};
                 setUser(user);
                 fetchAllNotes(user);
                 // console.log(user);
@@ -137,9 +145,9 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({isFir
                                     <img alt="icon" className="lightModeIcon" src={lightIcon} />
                                 </div>
                             </motion.button>
-                            <motion.div animate={{opacity: 1, transition: {delay: 0.6, duration: 0.3}}} initial={isFirstTime ? {opacity: 0} : {opacity: 1}} className="w-[50px] h-[50px] mr-[50px] rounded-full overflow-hidden cursor-pointer">
-                                {avatarUrl && <img alt="icon" className="w-full h-full" src={profilePic}/>}
-                                {!avatarUrl && <div className='w-full h-full bg-[#8d6e63] flex items-center justify-center text-[27px] text-white font-semibold'><span>{user.firstName?.slice(0,1).toUpperCase()}</span></div>}
+                            <motion.div animate={{opacity: 1, transition: {delay: 0.6, duration: 0.3}}} initial={isFirstTime ? {opacity: 0} : {opacity: 1}} className="w-[50px] h-[50px] mr-[50px] rounded-full overflow-hidden cursor-pointer" onClick={() => setUploadImageIsShowing(true)}>
+                                {user.avatarUrl && <img alt="icon" className="w-full h-full" src={user.avatarUrl}/>}
+                                {!user.avatarUrl && <div className='w-full h-full bg-[#8d6e63] flex items-center justify-center text-[27px] text-white font-semibold'><span>{user.firstName?.slice(0,1).toUpperCase()}</span></div>}
                             </motion.div>
                             <motion.div animate={{opacity: 1, transition: {delay: 0.7, duration: 0.3}}} initial={isFirstTime ? {opacity: 0} : {opacity: 1}} className="w-[34px] h-[39px] p-[4px] rounded-full overflow-hidden cursor-pointer" onClick={logout}>
                                 <img alt="icon" className="w-full h-full hover:scale-105" src={logoutIcon}/>
@@ -190,6 +198,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({isFir
             </div>
         </div>
         {viewImageIsShowing && <ViewDesktopImage setViewImageIsShowing={setViewImageIsShowing} imageUrl={currentImageUrl}/>}
+        {uploadImageIsShowing && <UploadUserImage selectedButton={selectedButton} setSelectedButton={setSelectedButton} setUploadImageIsShowing={setUploadImageIsShowing} uploadImageIsShowing={uploadImageIsShowing} user={user} setUser={setUser}/>}
     </>
     );
 }

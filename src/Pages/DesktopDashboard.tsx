@@ -6,10 +6,14 @@ import {useHistory} from 'react-router-dom';
 interface DesktopDashboardProps {
     setNumberOfRenders: Dispatch<SetStateAction<number>>;
     isFirstTime: boolean;
+
 }
 
 const DesktopDashboard : React.FC<DesktopDashboardProps> = ({setNumberOfRenders, isFirstTime}) => {
     const [a, setIsFirstTime] = useState<boolean>(true);
+    const [uploadImageIsShowing, setUploadImageIsShowing] = useState<boolean>(false);
+    const [selectedButton, setSelectedButton] = useState<string>("All Notes");
+
     const history = useHistory();
     useEffect(()=> {
         function changeToMobileScreen() {
@@ -22,8 +26,8 @@ const DesktopDashboard : React.FC<DesktopDashboardProps> = ({setNumberOfRenders,
     }, [])
     return (
         <div className="h-screen w-screen grid lg:grid-cols-[150px_auto] xl:grid-cols-[195px_auto]">
-            <DesktopNav isFirstTime={isFirstTime}  />
-            <DesktopDashboardContent isFirstTime={isFirstTime} setNumberOfRenders={setNumberOfRenders}/>
+            <DesktopNav selectedButton={selectedButton} setSelectedButton={setSelectedButton} isFirstTime={isFirstTime} setUploadImageIsShowing={setUploadImageIsShowing}/>
+            <DesktopDashboardContent selectedButton={selectedButton} setSelectedButton={setSelectedButton} isFirstTime={isFirstTime} setNumberOfRenders={setNumberOfRenders} uploadImageIsShowing={uploadImageIsShowing} setUploadImageIsShowing={setUploadImageIsShowing}/>
         </div>
     );
 };
