@@ -34,8 +34,10 @@ const SignIn : React.FC <SignInProps> = ({history}) => {
                 localStorage.setItem('token', token);
                 history.push('/welcome');
             }catch (error: any) {
-                if (error.response) {
+                if (error.response.status === 400) {
                     setErrors(error.response.data.msg);
+                } else {
+                    alert('Check your internet connection');
                 }
             }
         }
