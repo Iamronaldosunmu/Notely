@@ -37,10 +37,10 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
     const [searchValue, setSearchValue] = useState<string>('');
     const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
     const [selectedContentButton, setSelectedContentButton] = useState<string>("All notes")
-    const [user, setUser] = useState<{_id?: string, firstName?: string}>({_id: '', firstName: ''});
-    const [avatarUrl, setAvatarUrl] = useState<string>('');
+    const [user, setUser] = useState<{_id?: string, firstName?: string, avatarUrl?: string}>({_id: '', firstName: '', avatarUrl: ''});
     const darkModeButtonClasses = "w-[93px] h-[45px] rounded-[22.5px] bg-[#BFBFBF] dark:bg-[#000000] mr-[15px] darkModeButton ";
     const [width, setWidth] = useState<number>(window.innerWidth);
+    const [uploadImageIsShowing, setUploadImageIsShowing] = useState<boolean>(false);
 
     const onDarkModeButtonClick = () => {
         setIsDarkTheme(!isDarkTheme);
@@ -125,8 +125,8 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
                             </div>
                         </motion.button>
                         <motion.div initial={{opacity: 0}} animate={{opacity: 1, transition: {delay: 0.60, duration: 0.3} }} className="w-[50px] h-[50px] rounded-full overflow-hidden">
-                            {avatarUrl && <img alt="icon" className="w-full h-full" src={profilePic}/>}
-                            {!avatarUrl && <div className='w-full h-full bg-[#8d6e63] flex items-center justify-center text-[27px] text-white font-semibold'><span>{user.firstName?.slice(0,1).toUpperCase()}</span></div>}
+                            {user.avatarUrl && <img alt="icon" className="w-full h-full" src={profilePic}/>}
+                            {!user.avatarUrl && <div className='w-full h-full bg-[#8d6e63] flex items-center justify-center text-[27px] text-white font-semibold'><span>{user.firstName?.slice(0,1).toUpperCase()}</span></div>}
                         </motion.div>
                     </div>
                 </section>
@@ -187,6 +187,7 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
                     <img alt="icon" src={addIcon}/>
                 </motion.button>
                 <NoteOptions history={history} removeNote={removeNote} userId={user._id} currentNoteId={currentNoteId} noteOptionsIsShowing={noteOptionsIsShowing} setNoteOptionsIsShowing={setNoteOptionsIsShowing} currentTitle={currentTitle}/>
+
         </div>
     );
 }
