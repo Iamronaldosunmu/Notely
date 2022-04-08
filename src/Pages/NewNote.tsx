@@ -65,7 +65,7 @@ const NewNote : React.FC<NewNoteProps> = ({history}) => {
     const handleSubmit = async () => {
         if (title && noteContent) {
             const payload = {title, noteContent, dateCreated, selectedColor, imageUrl};
-            const apiEndpoint = `http://localhost:4000/api/v1/notes/${user._id}`;
+            const apiEndpoint = `https://notelyapp1.herokuapp.com/api/v1/notes/${user._id}`;
             try {
                 const result = await axios.post(apiEndpoint, payload);
                 console.log(result);

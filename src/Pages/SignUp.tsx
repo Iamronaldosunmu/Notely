@@ -3,7 +3,7 @@ import Pencil from '../images/pencil-iso-color.png';
 import InputGroup from '../Components/InputGroup';
 import SubmitButton from '../Components/SubmitButton';
 import { Link } from 'react-router-dom';
-import axios, {Axios, AxiosError} from 'axios';
+import axios from 'axios';
 import Joi from 'joi';
 import {motion} from 'framer-motion';
 
@@ -35,12 +35,12 @@ const SignUp : React.FC <SignUpProps> = (props) => {
     const handleSubmit = async (e: React.FormEvent<any>) => {
         e.preventDefault();
         const {error} = schema.validate({firstName, email, password, confirmPassword});
-        if (prev !== email && errors == "You already have an account, Login") setErrors('');
+        if (prev !== email && errors === "You already have an account, Login") setErrors('');
         if (error) setErrors(error.details[0].message);
         else if (password !== confirmPassword) setErrors("The two passwords do not match");
         else if (!errors && firstName && email && password && confirmPassword) {
             try{
-                const { data: token } = await axios.post('http://localhost:4000/api/v1/users/', {firstName : toTitleCase(firstName), email, password} );
+                const { data: token } = await axios.post('https://notelyapp1.herokuapp.com/api/v1/users/', {firstName : toTitleCase(firstName), email, password} );
                 localStorage.setItem('token', token);
                 if (props.history) {
                     props.history.push('/welcome');

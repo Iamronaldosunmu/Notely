@@ -47,7 +47,7 @@ const EditDesktopNote : React.FC<EditDesktopNoteProps> = ({notes, setNotes, setV
         // console.log(history);
         console.log(match);
         const fetchNote = async () => {
-            const apiEndpoint = `http://localhost:4000/api/v1/notes/${match.userId}/${match.noteId}`;
+            const apiEndpoint = `https://notelyapp1.herokuapp.com/api/v1/notes/${match.userId}/${match.noteId}`;
             try {
                 const {data} = await axios.get(apiEndpoint);
                 setTitle(data.title);
@@ -57,7 +57,7 @@ const EditDesktopNote : React.FC<EditDesktopNoteProps> = ({notes, setNotes, setV
                 setCurrentImageUrl(data.imageUrl || '');
 
             } catch (error : any) {
-                if (error.response.status == 404) {
+                if (error.response.status === 404) {
                     history.replace('/desktopDashboard');
                 }
                 else {
@@ -99,10 +99,10 @@ const EditDesktopNote : React.FC<EditDesktopNoteProps> = ({notes, setNotes, setV
     const handleSubmit = async () => {
         if (title && noteContent) {
             const payload = {title, noteContent, dateCreated, selectedColor};
-            const apiEndpoint = `http://localhost:4000/api/v1/notes/${match.userId}/${match.noteId}`;
+            const apiEndpoint = `https://notelyapp1.herokuapp.com/api/v1/notes/${match.userId}/${match.noteId}`;
             try {
                 const {data : noteEdited} = await axios.patch(apiEndpoint, payload);
-                const notesExcludingEditedNote = notes.filter(note => note._id != noteEdited._id);
+                const notesExcludingEditedNote = notes.filter(note => note._id !== noteEdited._id);
                 const newNotes = [ noteEdited, ...notesExcludingEditedNote]
                 setNotes(newNotes)
                 history.push('/desktopDashboard');

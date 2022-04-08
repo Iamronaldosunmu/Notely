@@ -17,10 +17,10 @@ const UploadUserImage : React.FC<UploadUserImageProps> = ({setUploadImageIsShowi
     const exit = {y: 100, opacity: 0};
     const onFileChange = async (e : React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && user._id) {
-            let formData = new FormData;
+            let formData = new FormData();
             formData.append('image', e.target.files[0]);
             formData.append('userId', user._id );
-            const result = await axios.post('http://localhost:4000/api/v1/image/userImage', formData);
+            const result = await axios.post('https://notelyapp1.herokuapp.com/api/v1/image/userImage', formData);
             console.log(result.data);
             setUser({_id: user._id, firstName: user.firstName, avatarUrl: result.data.secure_url});
         }
@@ -45,7 +45,7 @@ const UploadUserImage : React.FC<UploadUserImageProps> = ({setUploadImageIsShowi
                     }
                     {user.avatarUrl && 
                         <div className="w-[180px] h-[180px] mt-[40px] rounded-[30px] bg-[#8D6E6E] flex items-center justify-center text-8xl text-white overflow-hidden">
-                            <img className="w-full h-full" src={user.avatarUrl} />
+                            <img alt="profile pic" className="w-full h-full" src={user.avatarUrl} />
                         </div>
 
                     }

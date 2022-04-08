@@ -30,7 +30,7 @@ const SignIn : React.FC <SignInProps> = ({history}) => {
             // If no error, make async post request
             // While the request is being made, display a loader in the submit button
             try {
-                const {data: token} = await axios.post('http://localhost:4000/api/v1/login', {email, password});
+                const {data: token} = await axios.post('https://notelyapp1.herokuapp.com/api/v1/login', {email, password});
                 localStorage.setItem('token', token);
                 history.push('/welcome');
             }catch (error: any) {

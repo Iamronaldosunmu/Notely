@@ -1,11 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
-import OptionsMenu from '../Components/OptionsMenu';
 import whiteBackIcon from '../images/whiteBackIcon.svg';
-import whiteTickIcon from '../images/whiteTickIcon.svg';
 import blackBackIcon from '../images/blackBackIcon.svg';
-import blackTickIcon from '../images/blackTickIcon.svg';
 import {motion} from 'framer-motion';
 import ViewMobileImage from '../Components/ViewMobileImage'
 
@@ -24,7 +21,7 @@ const ViewNote : React.FC<ViewNoteProps> = ({history, match}) => {
     const [viewImageIsShowing, setViewImageIsShowing] = useState<boolean>(false);
     useEffect(() => {
         const fetchNote = async () => {
-            const apiEndpoint = `http://localhost:4000/api/v1/notes/${match.params.userId}/${match.params.noteId}`;
+            const apiEndpoint = `https://notelyapp1.herokuapp.com/api/v1/notes/${match.params.userId}/${match.params.noteId}`;
             console.log(match.params)
             try {
                 const {data} = await axios.get(apiEndpoint);

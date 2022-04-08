@@ -1,12 +1,9 @@
 import React, {useState, useEffect, Dispatch, SetStateAction} from 'react';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
-import OptionsMenu from '../Components/OptionsMenu';
 import whiteBackIcon from '../images/whiteBackIcon.svg';
-import whiteTickIcon from '../images/whiteTickIcon.svg';
 import blackBackIcon from '../images/blackBackIcon.svg';
-import blackTickIcon from '../images/blackTickIcon.svg';
-import RouteComponentProps, { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {motion} from 'framer-motion';
 import {useHistory} from 'react-router-dom';
 
@@ -31,7 +28,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({ setViewImageIsShowin
     useEffect(() => {
         let isActive = true;
         const fetchNote = async () => {
-            const apiEndpoint = `http://localhost:4000/api/v1/notes/${match.userId}/${match.noteId}`;
+            const apiEndpoint = `https://notelyapp1.herokuapp.com/api/v1/notes/${match.userId}/${match.noteId}`;
             try {
                 const {data} = await axios.get(apiEndpoint);
                 if (isActive){
@@ -44,7 +41,7 @@ const ViewDesktopNote : React.FC<ViewDesktopNoteProps> = ({ setViewImageIsShowin
                     
                 }
             } catch (error : any) {
-                if (error.response.status == 404) {
+                if (error.response.status === 404) {
                     history.replace('/desktopDashboard');
                 }
                 else {

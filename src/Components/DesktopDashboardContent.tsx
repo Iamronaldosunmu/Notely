@@ -1,18 +1,13 @@
 import React, {useEffect, useState, ChangeEvent, Dispatch, SetStateAction} from 'react';
 import darkIcon from '../images/DarkModeSvg.svg';
 import lightIcon from '../images/SunSvg.svg';
-import profilePic from '../images/ronaldprofilepic1.png';
 import logoutIcon from '../images/logoutIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import Loader from './Loader';
 import jwtDecode from 'jwt-decode';
-import ContentButton from '../Components/ContentButton';
 import noNotesImage from '../images/noNotes.svg';
-import addIcon from '../images/addIcon.svg';
 import DesktopNote from '../Components/DesktopNote';
 import axios from 'axios';
-import NoteOptions from '../Components/NoteOptions';
-import NewNote from '../Pages/NewNote';
 import {Route, Switch} from 'react-router-dom';
 import Paragraph from './Paragraph';
 import NewDesktopNote from './newDesktopNote';
@@ -56,9 +51,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({isFir
     const [filteredNotes, setFilteredNotes] = useState(notes);
     const [searchValue, setSearchValue] = useState<string>('');
     const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
-    const [selectedContentButton, setSelectedContentButton] = useState<string>("All notes")
     const [user, setUser] = useState<{_id?: string, firstName?: string, avatarUrl?: string}>({_id: '', firstName: '', avatarUrl: ''});
-    const [avatarUrl, setAvatarUrl] = useState<string>('');
     const [viewImageIsShowing, setViewImageIsShowing] = useState<boolean>(false);
     const [currentImageUrl, setCurrentImageUrl] = useState<string>('');
     const onDarkModeButtonClick = () => {
@@ -67,9 +60,6 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({isFir
         if (htmlElement){
             htmlElement.classList.toggle('dark');
         }
-    }
-    const onNewNoteButtonClick = () => {
-        history.push('/desktopDashboard/newNote');
     }
     const removeNote = (id: string) => {
         const newArray = filteredNotes.filter(note => note._id !== id);
@@ -80,7 +70,7 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({isFir
         const fetchAllNotes = async (userObject: {_id: string, firstName: string, avatarUrl?: string}) => {
             try {
                 setLoading(true);
-                const apiEndpoint = `http://localhost:4000/api/v1/notes/${userObject._id}`;
+                const apiEndpoint = `https://notelyapp1.herokuapp.com/api/v1/notes/${userObject._id}`;
                 const {data} = await axios.get(apiEndpoint);
                 setNotes(data);
                 setFilteredNotes(data.reverse());
@@ -171,14 +161,14 @@ const DesktopDashboardContent : React.FC<DesktopDashboardContentProps> = ({isFir
                             {filteredNotes.map(note => {
                                 if (filteredNotes.indexOf(note) % 2 === 0){
                                     return note.imageUrl ? <DesktopNote removeNote={removeNote} onDesktop={true}  setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <DesktopNote removeNote={removeNote} onDesktop={true}  setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/>
-                                }
+                                } else return null
                             })}
                         </div>
                         <div className="flex flex-col">
                             {filteredNotes.map(note => {
                                 if (filteredNotes.indexOf(note) % 2 === 1){
                                     return note.imageUrl ? <DesktopNote removeNote={removeNote} onDesktop={true}  setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <DesktopNote removeNote={removeNote} onDesktop={true}  setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/>
-                                }
+                                } else return null
                             })}
                         </div>
                     </motion.section>

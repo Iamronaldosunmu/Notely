@@ -9,7 +9,6 @@ import {motion} from 'framer-motion';
 
 import axios from 'axios';
 import DesktopOptionsMenu from './DesktopOptionsMenu';
-import { match } from 'assert';
 interface Note {
     _id: string;
     userId: string;
@@ -21,7 +20,7 @@ interface Note {
     imageUrl?: string;
 }
 
-interface NewDesktopNote {
+interface NewDesktopNoteProps {
     notes: Note[];
     setNotes: Dispatch<SetStateAction<Note[]>>;
 }
@@ -31,7 +30,7 @@ interface matchProps {
 }
 
 
-const NewDesktopNote : React.FC<NewDesktopNote> = ({notes, setNotes}) => {
+const NewDesktopNote : React.FC<NewDesktopNoteProps> = ({notes, setNotes}) => {
     useEffect(() => {
         const date = new Date();
         if (!dateCreated) {
@@ -73,7 +72,7 @@ const NewDesktopNote : React.FC<NewDesktopNote> = ({notes, setNotes}) => {
         if (title && noteContent) {
             const payload = {title, noteContent, dateCreated, selectedColor, imageUrl, imageCloudinaryId};
             console.log(payload);
-            const apiEndpoint = `http://localhost:4000/api/v1/notes/${user._id}`;
+            const apiEndpoint = `https://notelyapp1.herokuapp.com/api/v1/notes/${user._id}`;
             try {
                 const result = await axios.post(apiEndpoint, payload);
                 const desktopNotes = [...notes];
@@ -123,7 +122,7 @@ const NewDesktopNote : React.FC<NewDesktopNote> = ({notes, setNotes}) => {
                 className="relative text-[19px] dark:text-white bg-transparent placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full desktopEditNoteArea desktopViewNoteScrollbar flex flex-col">
                 {imageUrl &&  
                     <figure className='absolute top-0 w-full flex items-center px-[30px] justify-start h-[150px] mb-[15px]'>
-                        <img src={imageUrl} className='h-full max-w-[90%] rounded-[20px]'/>
+                        <img src={imageUrl} alt="Note figure" className='h-full max-w-[90%] rounded-[20px]'/>
                     </figure>
                     }
                 <textarea className={imageUrl ? textareaClasses + ' mt-[165px]' : textareaClasses + ' h-[calc(100%-55px)]'} placeholder="Type something..." value={noteContent} onChange={onNoteContentChange}/>

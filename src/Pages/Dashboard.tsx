@@ -4,7 +4,6 @@ import darkIcon from '../images/DarkModeSvg.svg';
 import lightIcon from '../images/SunSvg.svg';
 import jwtDecode from 'jwt-decode';
 import searchIcon from '../images/searchIcon.svg';
-import ContentButton from '../Components/ContentButton';
 import noNotesImage from '../images/noNotes.svg';
 import addIcon from '../images/addIcon.svg';
 import Note from '../Components/Note';
@@ -16,7 +15,7 @@ import {motion} from 'framer-motion';
 interface DashboardProps {
     history: {push : (routeName: string) => void,  replace : (routeName: string) => void}
 }
-interface Note {
+interface NoteProps {
     _id: string;
     userId: string;
     _v?: number;
@@ -28,7 +27,7 @@ interface Note {
 }
 
 const Dashboard : React.FC<DashboardProps> = ({history}) => {
-    const [notes, setNotes] = useState<Note[]>([]);
+    const [notes, setNotes] = useState<NoteProps[]>([]);
     const [currentNoteId, setCurrentNoteId] = useState<string>('');
     const [currentTitle, setCurrentTitle] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
@@ -36,11 +35,8 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
     const [filteredNotes, setFilteredNotes] = useState(notes);
     const [searchValue, setSearchValue] = useState<string>('');
     const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
-    const [selectedContentButton, setSelectedContentButton] = useState<string>("All notes")
     const [user, setUser] = useState<{_id?: string, firstName?: string, avatarUrl?: string}>({_id: '', firstName: '', avatarUrl: ''});
     const darkModeButtonClasses = "w-[93px] h-[45px] rounded-[22.5px] bg-[#BFBFBF] dark:bg-[#000000] mr-[15px] darkModeButton ";
-    const [width, setWidth] = useState<number>(window.innerWidth);
-    const [uploadImageIsShowing, setUploadImageIsShowing] = useState<boolean>(false);
 
     const onDarkModeButtonClick = () => {
         setIsDarkTheme(!isDarkTheme);
@@ -79,7 +75,7 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
         const fetchAllNotes = async (userObject: {_id: string, firstName: string}) => {
             try {
                 setLoading(true);
-                const apiEndpoint = `http://localhost:4000/api/v1/notes/${userObject._id}`;
+                const apiEndpoint = `https://notelyapp1.herokuapp.com/api/v1/notes/${userObject._id}`;
                 const {data} = await axios.get(apiEndpoint);
                 setNotes(data);
                 setFilteredNotes(data.reverse());
@@ -148,14 +144,14 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
                         {filteredNotes.map(note => {
                             if (filteredNotes.indexOf(note) % 2 === 0){
                                 return note.imageUrl ? <Note setCurrentTitle={setCurrentTitle} history={history} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note setCurrentTitle={setCurrentTitle} history={history} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> 
-                            }
+                            } else return null
                         })}
                     </div>
                     <div className="flex flex-col">
                         {filteredNotes.map(note => {
                             if (filteredNotes.indexOf(note) % 2 === 1){
                                 return note.imageUrl ? <Note setCurrentTitle={setCurrentTitle} history={history} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note setCurrentTitle={setCurrentTitle} history={history} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> 
-                            }
+                            } else return null
                         })}
                     </div>
                 </motion.section>
@@ -164,21 +160,21 @@ const Dashboard : React.FC<DashboardProps> = ({history}) => {
                         {filteredNotes.map(note => {
                             if (filteredNotes.indexOf(note) % 3 === 0){
                                 return note.imageUrl ? <Note setCurrentTitle={setCurrentTitle} history={history} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note setCurrentTitle={setCurrentTitle} history={history} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> 
-                            }
+                            } else return null
                         })}
                     </div>
                     <div className="flex flex-col">
                         {filteredNotes.map(note => {
                             if (filteredNotes.indexOf(note) % 3 === 1){
                                 return note.imageUrl ? <Note setCurrentTitle={setCurrentTitle} history={history} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} imageUrl={note.imageUrl} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> : <Note setCurrentTitle={setCurrentTitle} history={history} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId}/> 
-                            }
+                            } else return null
                         })}
                     </div>
                     <div className="flex flex-col">
                         {filteredNotes.map(note => {
                             if (filteredNotes.indexOf(note) % 3 === 2){
                                 return <Note setCurrentTitle={setCurrentTitle} history={history} setCurrentNoteId={setCurrentNoteId} setNoteOptionsIsShowing={setNoteOptionsIsShowing} color={note.selectedColor} title={note.title} noteContent={note.noteContent} dateCreated={note.dateCreated} key={filteredNotes.indexOf(note)} _id={note._id} userId={note.userId} imageUrl={note.imageUrl ? note.imageUrl : ''}/> 
-                            }
+                            } else return null
                         })}
                     </div>
                 </motion.section> </>}
