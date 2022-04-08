@@ -10,7 +10,6 @@ interface DesktopDashboardProps {
 }
 
 const DesktopDashboard : React.FC<DesktopDashboardProps> = ({setNumberOfRenders, isFirstTime}) => {
-    const [a, setIsFirstTime] = useState<boolean>(true);
     const [uploadImageIsShowing, setUploadImageIsShowing] = useState<boolean>(false);
     const [selectedButton, setSelectedButton] = useState<string>("All Notes");
 

@@ -59,14 +59,6 @@ const ViewNote : React.FC<ViewNoteProps> = ({history, match}) => {
             }
         }
     }, [])
-    const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const input = e.currentTarget.value;
-        setTitle(input);
-    }
-    const onNoteContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const input = e.currentTarget.value;
-        setNoteContent(input);
-    }
     const handleSubmit = async () => {
         history.push(`/editNote/${match.params.userId}/${match.params.noteId}`);
     }

@@ -60,9 +60,9 @@ const Home : React.FC<HomeProps> = ({history}) => {
             </div>
             <div className={mobileNavIsShowing ? "fixed lg:hidden top-0 bottom-0 right-0 left-0 closeMobileNav showing" : "lg:hidden top-0 bottom-0 right-0 left-0" } onClick={() => setMobileNavIsShowing(false)}></div>
             <div className={mobileNavIsShowing ?"fixed lg:hidden w-[300px] mx-auto h-[400px] top-0 right-0 left-0 bottom-0 my-auto rounded-[55px] shadow-[0_4px_64px_20px_rgba(0,0,0,0.16)] py-[70px] pl-[80px] bg-[#5352ED] flex flex-col justify-between mobileNavPopUp visible" : "fixed lg:hidden w-[300px] mx-auto h-[400px] top-0 right-0 left-0 bottom-0 my-auto rounded-[55px] shadow-[0_4px_64px_20px_rgba(0,0,0,0.16)] py-[70px] pl-[80px] bg-[#5352ED] flex flex-col justify-between mobileNavPopUp"}>
-                <MobileNavItem selected={selectedMobileNavItem == "Home"} name="Home" setSelectedMobileNavItem={setSelectedMobileNavItem} onClick={() => setMobileNavIsShowing(false)}/>
-                <MobileNavItem selected={selectedMobileNavItem == "Sign In"} name="Sign In" setSelectedMobileNavItem={setSelectedMobileNavItem} onClick={() => {history.push('/signIn'); setMobileNavIsShowing(false)}}/>
-                <MobileNavItem selected={selectedMobileNavItem == "Sign Up"} name="Sign Up" setSelectedMobileNavItem={setSelectedMobileNavItem} onClick={() => {history.push('/signUp'); setMobileNavIsShowing(false)}}/>
+                <MobileNavItem selected={selectedMobileNavItem === "Home"} name="Home" setSelectedMobileNavItem={setSelectedMobileNavItem} onClick={() => setMobileNavIsShowing(false)}/>
+                <MobileNavItem selected={selectedMobileNavItem === "Sign In"} name="Sign In" setSelectedMobileNavItem={setSelectedMobileNavItem} onClick={() => {history.push('/signIn'); setMobileNavIsShowing(false)}}/>
+                <MobileNavItem selected={selectedMobileNavItem === "Sign Up"} name="Sign Up" setSelectedMobileNavItem={setSelectedMobileNavItem} onClick={() => {history.push('/signUp'); setMobileNavIsShowing(false)}}/>
             </div>
         </motion.div>
     );

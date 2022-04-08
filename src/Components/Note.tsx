@@ -1,5 +1,4 @@
 import React, {Dispatch, SetStateAction} from 'react';
-import {Link} from 'react-router-dom';
 interface NoteProps {
     _id: string;
     userId: string;
@@ -17,7 +16,6 @@ interface NoteProps {
 }
 
 const Note : React.FC<NoteProps> = ({_id,userId, color, title, noteContent, dateCreated, imageUrl, setNoteOptionsIsShowing, setCurrentNoteId, setCurrentTitle, history, onDesktop, match}) => {
-    const colorString = `bg-[${color}]`;
     const onNoteOptionsButtonClick = () => {
         setNoteOptionsIsShowing(true);
         setCurrentNoteId(_id);
@@ -39,7 +37,7 @@ const Note : React.FC<NoteProps> = ({_id,userId, color, title, noteContent, date
                 </button>
             </header>
             <section  onClick={onNoteClick}>
-                <img className={imageUrl ? "w-full rounded-[15px] max-h-[150px] cover my-[10px]" : "w-full rounded-[25px] max-h-[150px] cover" } src={imageUrl || ''} />
+                <img alt="Note figure" className={imageUrl ? "w-full rounded-[15px] max-h-[150px] cover my-[10px]" : "w-full rounded-[25px] max-h-[150px] cover" } src={imageUrl || ''} />
                 <h1 className="tranisition-all text-[20px] dark:text-white font-bold mb-[12px] truncate ...">{title}</h1>
                 <p style={{whiteSpace: "pre-line"}} className="tranisition-all text-[14px] font-light dark:text-[#A1A2A7] mb-[20px] noteContent">{noteContent}</p>
                 <p className="tranisition-all text-[10px] mb-[6px] font-bold dark:text-[white]" >{dateCreated}</p>

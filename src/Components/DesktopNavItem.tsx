@@ -1,7 +1,4 @@
 import React, {Dispatch, SetStateAction} from 'react';
-import noteIcon from '../images/noteIcon.svg';
-import folderIcon from '../images/folderIcon.png';
-import settingsIcon from '../images/settingsIcon.png';
 import { motion } from 'framer-motion';
 
 interface DesktopNavItemProps {
@@ -14,12 +11,7 @@ interface DesktopNavItemProps {
 
 const DesktopNavItem : React.FC<DesktopNavItemProps> = ({Label, selected, setSelectedButton, isFirstTime, setUploadImageIsShowing}) => {
     const selectedButton = "flex items-center ml-[28px] pl-[10px] py-[10px] rounded-[12px] lg:w-[110px] xl:w-[148px] desktopNavButton focus:outline-[0] ";
-    const childVariant = {
-        initial: {y: 100, opacity: 0}, 
-        animate: {y: 0, opacity: 1, transition: {duration: 0.7}},
-        exit: {}
-    }
-    if (Label == "All Notes") {
+    if (Label === "All Notes") {
         return (
             <motion.button initial={isFirstTime? {opacity: 0, y: 50} : {opacity: 1, y: 0}} animate={{y: 0, opacity: 1, transition: {duration: 0.2, delay: 1.2}}} className={selected ? selectedButton + 'bg-[rgba(92,66,108,0.35)]' : selectedButton} onClick={() => setSelectedButton(Label)}>
                 <svg className='xl:hidden' width="14" height="14" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
