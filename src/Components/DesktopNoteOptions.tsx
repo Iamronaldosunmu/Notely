@@ -13,7 +13,7 @@ interface DesktopNoteOptionsProps {
 }
 
 const DesktopNoteOptions : React.FC<DesktopNoteOptionsProps> = ({removeNote, userId, noteId, isShowing, setIsShowing, title}) => {
-    const visibleClasses = 'transition-all absolute w-[140px] h-[90px] bg-white dark:bg-[#151726] top-[40px] right-[18px] rounded-[15px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.3)] desktopOptions z-10';
+    const visibleClasses = 'transition-all absolute w-[140px] h-[90px] bg-white dark:bg-[#151726] top-[40px] right-[18px] rounded-[15px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.3)] desktopOptions z-20';
     const hiddenClasses = visibleClasses + ' hiddenDesktopOptions';
     const onDeleteButtonClick = async () => {
         const apiEndpoint = `https://notelyapp1.herokuapp.com/api/v1/notes/${userId}/${noteId}`;

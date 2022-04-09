@@ -22,7 +22,7 @@ interface OptionsMenuProps {
 
 const OptionsMenu : React.FC<OptionsMenuProps> = ({selectedColor, setSelectedColor, history, onDiscardButtonClick, newNote, setImageUrl, noteId}) => {
     const [isCollapsed, setIsCollapsed] = useState(true);
-    const optionsContainerClasses = "fixed w-full bottom-[-115px] p-[10px] pl-[15px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)] bg-[#f5ecec00] dark:bg-[#151722] rounded-t-[25px] optionsContainer";
+    const optionsContainerClasses = "fixed w-full bottom-[-115px] p-[10px] pl-[15px] shadow-[0_4px_20px_4px_rgba(0,0,0,0.2)] bg-white dark:bg-[#151722] rounded-t-[25px] optionsContainer";
     
     const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!newNote && e.target.files){

@@ -40,7 +40,7 @@ const UploadUserImage : React.FC<UploadUserImageProps> = ({setUploadImageIsShowi
                 <figure className='flex flex-col items-center'>
                     {!user.avatarUrl && 
                         <div className="w-[180px] h-[180px] mt-[40px] rounded-[30px] bg-[#8D6E6E] flex items-center justify-center text-8xl text-white">
-                            R
+                            {user.firstName?.slice(0,1)}
                         </div>
                     }
                     {user.avatarUrl && 
