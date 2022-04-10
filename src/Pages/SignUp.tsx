@@ -23,7 +23,7 @@ const SignUp : React.FC <SignUpProps> = (props) => {
 
     const schema = Joi.object({
         firstName: Joi.string().required().min(3).label("First name"),
-        email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required().min(3).label('Email'), 
+        email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: false } }).required().min(3).label('Email'), 
         password: Joi.string().required().min(3).pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).label('Password'), 
         confirmPassword: Joi.string().required().min(3).pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).label('Confirm Password')
     });
