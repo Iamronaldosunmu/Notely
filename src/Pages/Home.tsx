@@ -35,7 +35,7 @@ const Home : React.FC<HomeProps> = ({history}) => {
 
     }
     return (
-        <motion.div className="bg-[#5352ED] min-h-[100vh] lg:h-[100vh]" exit={{opacity: 0, transition: {duration: 0.6, delay: 0.8}}}>
+        <motion.div className="bg-[#5352ED] min-h-[100vh] lg:min-h-[100vh]" exit={{opacity: 0, transition: {duration: 0.6, delay: 0.8}}}>
             <div className="bg-[#5352ED] min-h-[100vh] container mx-auto">
                 <motion.nav exit={{opacity: 0, y: 80, transition: {duration: 0.6, delay: 0.2}}} className="px-[25px] lg:px-[50px] pt-[15px] flex justify-between items-center">
                     <p className="text-[32px] lg:text-[48px] text-white latoFamily"><span className="font-black">Note</span><span className="">ly</span></p>
