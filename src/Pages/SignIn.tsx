@@ -16,6 +16,7 @@ const SignIn : React.FC <SignInProps> = ({history}) => {
     const [errors, setErrors] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const schema = Joi.object({
         email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required().min(3).label('Email'), 
         password: Joi.string().required().min(3).pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).label('Password')
@@ -30,6 +31,7 @@ const SignIn : React.FC <SignInProps> = ({history}) => {
             // If no error, make async post request
             // While the request is being made, display a loader in the submit button
             try {
+                setIsLoading(true);
                 const {data: token} = await axios.post('https://notelyapp1.herokuapp.com/api/v1/login', {email, password});
                 localStorage.setItem('token', token);
                 history.push('/welcome');
@@ -39,6 +41,8 @@ const SignIn : React.FC <SignInProps> = ({history}) => {
                 } else {
                     alert('Check your internet connection');
                 }
+            } finally {
+                setIsLoading(false);
             }
         }
     };
@@ -61,8 +65,8 @@ const SignIn : React.FC <SignInProps> = ({history}) => {
                     <motion.h1 initial={{y: 80, opacity: 0}} animate={{y: 0, opacity: 1}} transition={{duration: 0.7, delay: 1.4, }} exit={{y: 80, opacity: 0, transition: {delay: 0, duration: 0.7}}} className="font-black text-[48px] font-['Lato'] mb-[15px]">Sign In</motion.h1>
                     <InputGroup small={true} id="email" placeholder="Enter your email address" label="Email address" value={email} onChange={onEmailChange}/>
                     <InputGroup small={true} id="password" placeholder="Enter your password" label="Password" type="password" value={password} onChange={onPasswordChange}/>
-                    {errors && <p className="text-center py-[10px] font-bold rounded-[10px] text-[#ff0033]">{errors}</p>}
-                    <SubmitButton small={true} text="Sign In"/>
+                    {errors && <motion.p exit={{y: 80, opacity: 0, transition: {delay: 0, duration: 0.7}}} className="text-center py-[10px] font-bold rounded-[10px] text-[#ff0033]">{errors}</motion.p>}
+                    <SubmitButton isLoading={isLoading} small={true} text="Sign In"/>
                     <motion.p initial={{y: 80, opacity: 0}} animate={{y: 0, opacity: 1}} transition={{duration: 0.7, delay: 1.4, }} exit={{y: 80, opacity: 0, transition: {delay: 0, duration: 0.7}}} className="text-center text-[18px] sm:text-[23px] mt-[25px]">Don't have an account? <span className="font-bold"><Link to="/signUp">Sign Up</Link></span></motion.p>
                 </form>
             </main>

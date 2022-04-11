@@ -20,6 +20,7 @@ const SignUp : React.FC <SignUpProps> = (props) => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [prev, setPrev] = useState('');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const schema = Joi.object({
         firstName: Joi.string().required().min(3).label("First name"),
@@ -40,6 +41,7 @@ const SignUp : React.FC <SignUpProps> = (props) => {
         else if (password !== confirmPassword) setErrors("The two passwords do not match");
         else if (!errors && firstName && email && password && confirmPassword) {
             try{
+                setIsLoading(true);
                 const { data: token } = await axios.post('https://notelyapp1.herokuapp.com/api/v1/users/', {firstName : toTitleCase(firstName), email, password} );
                 localStorage.setItem('token', token);
                 if (props.history) {
@@ -51,6 +53,8 @@ const SignUp : React.FC <SignUpProps> = (props) => {
                     setErrors(error.response.data.msg);
                     setPrev(email);
                 }
+            } finally {
+                setIsLoading(false);
             }
         }
         else if(errors !== "You already have an account, Login") setErrors('');
@@ -86,8 +90,8 @@ const SignUp : React.FC <SignUpProps> = (props) => {
                     <InputGroup id="email" placeholder="Enter your email address" label="Email address" small={true} value={email} onChange={onEmailChange}/>
                     <InputGroup id="password" placeholder="Enter your password" label="Password" type="password" small={true} value={password} onChange={onPasswordChange}/>
                     <InputGroup id="ConfirmPassword" placeholder="Enter your password again" label="Confirm Password" type="password" small={true} value={confirmPassword} onChange={onConfirmPasswordChange}/>
-                    {errors && <p className="text-center font-bold py-[10px] rounded-[10px] text-[#ff0033]">{errors}</p>}
-                    <SubmitButton text="Sign Up" bgColor="bg-[#FF9900]" small={true}/>
+                    {errors && <motion.p exit={{y: 80, opacity: 0, transition: {delay: 0, duration: 0.7}}} className="text-center font-bold py-[10px] rounded-[10px] text-[#ff0033]">{errors}</motion.p>}
+                    <SubmitButton text="Sign Up" bgColor="bg-[#FF9900]" small={true} isLoading={isLoading}/>
                     <motion.p initial={{y: 80, opacity: 0}} animate={{y: 0, opacity: 1}} transition={{duration: 0.7, delay: 1.4, }} exit={{y: 80, opacity: 0, transition: {delay: 0, duration: 0.7}}} className="text-center text-[18px] mt-[15px]">Don't have an account? <span className="font-bold"><Link to="/signIn">Sign in</Link></span></motion.p>
                 </motion.form>
             </main>
