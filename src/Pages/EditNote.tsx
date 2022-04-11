@@ -29,7 +29,7 @@ const EditNote : React.FC<EditNoteProps> = ({history}) => {
     const [selectedColor, setSelectedColor] = useState<string>('#3269ff');
     const [imageUrl, setImageUrl] = useState<string>('');
     const [viewImageIsShowing, setViewImageIsShowing] = useState<boolean>(false);
-    const textAreaClasses = "text-[24px] dark:text-white bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full pb-[100px] "
+    const textAreaClasses = "text-[24px] dark:text-white bg-transparent px-[20px] placeholder:text-[#56595F] focus:outline-[0] max-w-[100%] w-full pb-[55vh] "
 
     useEffect(() => {
         const fetchNote = async () => {
