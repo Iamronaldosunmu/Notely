@@ -34,7 +34,7 @@ const DesktopNoteOptions : React.FC<DesktopNoteOptionsProps> = ({removeNote, use
         if (navigator.share) {
             navigator.share({
                 title, 
-                url: `http://localhost:3000/sharedNote/${noteId}`
+                url: `https://notelysite.netlify.app/sharedNote/${noteId}`
             })
         }
     }

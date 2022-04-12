@@ -44,7 +44,7 @@ const NoteOptions : React.FC<NoteOptionsProps> = ({noteOptionsIsShowing, setNote
         if (navigator.share) {
             navigator.share({
                 title: currentTitle, 
-                url: `http://localhost:3000/sharedNote/${currentNoteId}`
+                url: `https://notelysite.netlify.app/sharedNote/${currentNoteId}`
             })
         }
     }
